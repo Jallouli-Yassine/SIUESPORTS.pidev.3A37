@@ -3,13 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\Entity\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+#[ORM\InheritanceType("JOINED")]
+#[ORM\DiscriminatorColumn(name:"discriminator", type:"string")]
+#[ORM\DiscriminatorMap(["Gamer" => Gamer::class, "Coach" => Coach::class])]
+class User 
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,14 +34,6 @@ class User
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_naissance = null;
-
-    /**
-     * ManyToMany relation User----Jeux
-     * #[ORM\ManyToMany(targetEntity: Jeux::class, inversedBy: 'users')]
-     * #[ORM\JoinTable(name:'reviewuserjeux')]
-     * private Collection $jeux;
-     */
-
 
     #[ORM\Column]
     private ?float $point = null;
