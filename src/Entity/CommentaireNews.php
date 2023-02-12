@@ -19,6 +19,9 @@ class CommentaireNews
     #[ORM\ManyToOne(inversedBy: 'commentaireNews')]
     private ?News $idNews = null;
 
+    #[ORM\ManyToOne(inversedBy: 'commentaireNews')]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class CommentaireNews
     public function setIdNews(?News $idNews): self
     {
         $this->idNews = $idNews;
+
+        return $this;
+    }
+
+    public function getUser(): ?user
+    {
+        return $this->user;
+    }
+
+    public function setUser(?user $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

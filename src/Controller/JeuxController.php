@@ -18,6 +18,9 @@ class JeuxController extends AbstractController
         $this->managerRegistry = $managerRegistry2;
     }
 
+    /*
+     * fonction d'affichage pour les jeux
+     */
     #[Route('/jeux', name: 'afficher_les_jeux')]
     public function afficherjeux(): Response
     {
