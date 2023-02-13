@@ -15,19 +15,19 @@ class Groupe
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $Nom_groupe = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $image = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $nbr_user = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $nbr_max = null;
 
     #[ORM\OneToMany(mappedBy: 'idGroupe', targetEntity: Post::class)]
@@ -35,6 +35,9 @@ class Groupe
 
     #[ORM\OneToMany(mappedBy: 'idGroupe', targetEntity: MembreGroupe::class)]
     private Collection $membreGroupes;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $idOwner = null;
 
     public function __construct()
     {
@@ -163,6 +166,18 @@ class Groupe
                 $membreGroupe->setIdGroupe(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIdOwner(): ?int
+    {
+        return $this->idOwner;
+    }
+
+    public function setIdOwner(int $idOwner): self
+    {
+        $this->idOwner = $idOwner;
 
         return $this;
     }

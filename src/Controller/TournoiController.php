@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TournoiController extends AbstractController
+class  TournoiController extends AbstractController
 {
     #[Route('/tournoi', name: 'tournoi')]
     public function tournoi(): Response
