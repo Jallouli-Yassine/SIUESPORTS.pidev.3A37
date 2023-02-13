@@ -77,8 +77,9 @@ class GestionEsportController extends BaseController
                             
                         }else{
                             $this->session->set('Coach_id', $coach->getId());
-                            $this->session->migrate(true, $this->sessionLifetime);
-                            return $this->redirect("/acceuil");
+                            $this->session->set('Gamer_tag', $coach->getNom()+$coach->getPrenom());
+                            $this->session->set('Session_time', new DateTime());
+                            return $this->redirect("/profile");
                         }
                     }
                     else if (!password_verify($data->getPassword(), $gamer->getPassword())) {
@@ -87,7 +88,6 @@ class GestionEsportController extends BaseController
                         $this->session->set('Gamer_tag', $gamer->getTag());
                         $this->session->set('Gamer_id', $gamer->getId());
                         $this->session->set('Session_time', new DateTime());
-                        $this->session->migrate(true, $this->sessionLifetime);
                         return $this->redirect("/acceuil");
                     }
                 }
