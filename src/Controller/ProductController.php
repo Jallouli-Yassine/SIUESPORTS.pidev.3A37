@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Entity\Produit;
+use App\Form\CategorieType;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,8 +51,27 @@ class ProductController extends AbstractController
 
         ]);
     }
+    #[Route('/addc', name: 'ajoutCategorie')]
+    public function add(\Doctrine\Persistence\ManagerRegistry $doctrine,Request $request): Response
+    {
+        $categorie =new Categorie();
+        $form =$this->createForm(CategorieType::class,$categorie);
+        $form->handleRequest($request);
+        if($form->isSubmitted())
+        {
+            $em =$doctrine->getManager();
+            $em->persist($categorie);
+            $em->flush();
+            return $this->redirectToRoute('ajoutCategorie');
+        }
+
+
+        return $this->renderForm('product/categorie.html.twig', [
+            'form'=>$form
+        ]);
+    }
     #[Route('/addp', name: 'ajoutproduit')]
-    public function add()
+    public function addp()
     {
 
 
