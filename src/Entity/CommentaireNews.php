@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CommentaireNewsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: CommentaireNewsRepository::class)]
 class CommentaireNews
@@ -21,6 +22,14 @@ class CommentaireNews
 
     #[ORM\ManyToOne(inversedBy: 'commentaireNews')]
     private ?User $user = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -44,12 +53,25 @@ class CommentaireNews
         return $this->idNews;
     }
 
+
     public function setIdNews(?News $idNews): self
     {
         $this->idNews = $idNews;
 
         return $this;
     }
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
 
     public function getUser(): ?user
     {

@@ -25,6 +25,8 @@ class CommentaireNewsController extends AbstractController
         $news = $newsRepository->findOneBy(['id' => $id]);
         $comments = $commentRepository->findBy(['idNews' => $news]);
         $names = [];
+        $game = $news->getIdJeux();
+        $gameName = $game->getNomGame();
 
         foreach ($comments as $comment) {
             $user = $comment->getUser();
@@ -35,6 +37,7 @@ class CommentaireNewsController extends AbstractController
             'news' => $news,
             'comments' => $comments,
             'names' => $names,
+            'gameName' => $gameName,
             'form' => $form->createView()
         ]);
     }
