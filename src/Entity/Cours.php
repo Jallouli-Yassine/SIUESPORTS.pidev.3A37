@@ -39,6 +39,9 @@ class Cours
     #[ORM\OneToMany(mappedBy: 'idCours', targetEntity: UserCourses::class)]
     private Collection $userCourses;
 
+    #[ORM\ManyToOne(inversedBy: 'cours')]
+    private ?Jeux $idJeux = null;
+
     public function __construct()
     {
         $this->userCourses = new ArrayCollection();
@@ -159,6 +162,18 @@ class Cours
                 $userCourse->setIdCours(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIdJeux(): ?Jeux
+    {
+        return $this->idJeux;
+    }
+
+    public function setIdJeux(?Jeux $idJeux): self
+    {
+        $this->idJeux = $idJeux;
 
         return $this;
     }

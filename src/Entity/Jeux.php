@@ -37,10 +37,14 @@ class Jeux
     #[ORM\OneToMany(mappedBy: 'idJeux', targetEntity: ReviewJeux::class)]
     private Collection $reviewJeuxes;
 
+    #[ORM\OneToMany(mappedBy: 'idJeux', targetEntity: Cours::class)]
+    private Collection $cours;
+
     public function __construct()
     {
         $this->news = new ArrayCollection();
         $this->reviewJeuxes = new ArrayCollection();
+        $this->cours = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,6 +166,36 @@ class Jeux
             // set the owning side to null (unless already changed)
             if ($reviewJeux->getIdJeux() === $this) {
                 $reviewJeux->setIdJeux(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cours>
+     */
+    public function getCours(): Collection
+    {
+        return $this->cours;
+    }
+
+    public function addCour(Cours $cour): self
+    {
+        if (!$this->cours->contains($cour)) {
+            $this->cours->add($cour);
+            $cour->setIdJeux($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCour(Cours $cour): self
+    {
+        if ($this->cours->removeElement($cour)) {
+            // set the owning side to null (unless already changed)
+            if ($cour->getIdJeux() === $this) {
+                $cour->setIdJeux(null);
             }
         }
 
