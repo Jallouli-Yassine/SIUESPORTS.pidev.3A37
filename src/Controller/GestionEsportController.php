@@ -58,7 +58,6 @@ class GestionEsportController extends BaseController
                     $user->setPassword($hashedPassword);
                     $em->persist($user);
                     $em->flush();
-                    $form->reset;
                 }
             $formLogin = $this->createForm(LoginType::class);
             $formLogin->handleRequest($request);
