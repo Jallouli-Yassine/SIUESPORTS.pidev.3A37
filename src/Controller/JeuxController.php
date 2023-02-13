@@ -21,11 +21,36 @@ class JeuxController extends AbstractController
     /*
      * fonction d'affichage pour les jeux
      */
+
     #[Route('/jeux', name: 'afficher_les_jeux')]
     public function afficherjeux(): Response
     {
         $jeux = $this->managerRegistry->getRepository(Jeux::class);
-        $jeux= $jeux->findAll();
-        return $this->render('jeux/index.html.twig',array('jeux' => $jeux));
+        $jeux = $jeux->findAll();
+
+        $ratingJeux = [];
+        foreach ($jeux as $jeu) {
+            $reviews = $jeu->getReviewJeuxes();
+            if ($reviews->isEmpty()) {
+                $ratingJeux[$jeu->getId()] = null;
+                continue;
+            }
+
+            $totalRating = 0;
+            $reviewCount = 0;
+            foreach ($reviews as $review) {
+                $totalRating += $review->getRating();
+                $reviewCount++;
+            }
+
+            $ratingJeux[$jeu->getId()] = $totalRating / $reviewCount;
+        }
+
+        return $this->render('jeux/index.html.twig', array(
+            'jeux' => $jeux,
+            'ratingJeux' => $ratingJeux,
+        ));
     }
+
+
 }

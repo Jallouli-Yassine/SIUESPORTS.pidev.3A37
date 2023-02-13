@@ -58,13 +58,28 @@
                                                 <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
                                                     <div class="modal-content bg-dark text-light">
                                                         <div class="modal-header border-secondary">
-                                                            <h5 class="modal-title" id="userLoginTitle">Description du jeu</h5>
+                                                            <h5 class="modal-title" id="userLoginTitle">Description du jeu </h5>
                                                             <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
-                                                        <div class="modal-body">
-                                                            {{ f.description}}
+                                                        <div>
+                                                            <div class="modal-body">
+                                                                {{ f.description}}
+                                                            </div>
+                                                        <span class="hr-text small my-6">Rating</span>
+                                                <div class="text-center my-6">
+                                                                <div class="star_rating-se text-warning mr-7" style=" place-content: center;">
+                                                                {% for i in 1..5 %}
+                                                                    {% if i <=  ratingJeux[f.id] %}
+                                                                        <i class="fas fa-star"></i>
+                                                                    {% else %}
+                                                                        <i class="far fa-star"></i>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                                 </div>
+                                                            {{ ratingJeux[f.id] }}
+                                                        </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -111,10 +126,24 @@
                                 </div>
                                 <!-- tab item -->
                             </div>
+                        <button data-toggle="modal" data-target="#GameRate" class="btn btn-lg btn-warning" type="submit">Soummetre un avis pour un jeu</button>
+                            <!-- dialog -->
+                            <div class="modal fade" id="GameRate" tabindex="-1" role="dialog"  aria-hidden="true">
+                                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                                    <div class="modal-content bg-dark text-light">
+                                        <div class="modal-header border-secondary">
+                                            <h5 class="modal-title" id="userLoginTitle">Description du jeu </h5>
+                                            <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
 
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end dialog -->
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>

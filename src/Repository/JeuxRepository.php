@@ -39,6 +39,21 @@ class JeuxRepository extends ServiceEntityRepository
         }
     }
 
+    public function calculateRating(): ?float
+    {
+        $total = 0;
+        $reviews = $this->reviewJeuxes->toArray();
+        $count = count($reviews);
+        if ($count === 0) {
+            return null;
+        }
+        foreach ($reviews as $review) {
+            $total += $review->getRating();
+        }
+        return $total / $count;
+    }
+
+
 //    /**
 //     * @return Jeux[] Returns an array of Jeux objects
 //     */

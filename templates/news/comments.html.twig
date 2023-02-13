@@ -6,7 +6,6 @@
     <main class="main-content">
 
         <div class="overlay overflow-hidden pe-n"><img src="{{ asset('front_office/assets/img/bg/bg_shape.png') }}" alt="Background shape"></div>
-
         <!-- Start Content Area -->
         <div class="content-section text-light pt-8">
             <div class="container">
@@ -22,18 +21,6 @@
                             </nav>
                             <h3 class="product_name mb-4">{{ news.titre }}</h3>
                             <div class="d-flex flex-wrap align-items-center">
-                                <div class="review d-flex">
-                                    <div class="review_score">
-                                        <div class="review_score-btn">9.7</div>
-                                    </div>
-                                    <div class="star_rating-se text-warning mr-7">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                </div>
                                 <ul class="tag-list d-none d-md-flex flex-wrap list-unstyled mb-0">
                                     <li class="tag-item"><a href="{{ path('afficher_les_jeux') }}" class="badge badge-warning fw-600">{{ gameName }}</a></li>
                                     <li class="tag-item"><a href="#" class="text-unset release-date"><i class="far fa-clock text-warning mr-1"></i>{{ news.dateN.format('Y-m-d') }}</a></li>

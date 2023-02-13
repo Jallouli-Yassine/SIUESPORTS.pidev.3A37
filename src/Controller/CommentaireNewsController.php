@@ -33,6 +33,7 @@ class CommentaireNewsController extends AbstractController
             $names[] = $user->getNom() . ' ' . $user->getPrenom();
         }
         $form = $this->createForm(CommentaireNewsType::class);
+
         return $this->render('news/comments.html.twig', [
             'news' => $news,
             'comments' => $comments,
@@ -61,7 +62,8 @@ class CommentaireNewsController extends AbstractController
             }
         }
         return $this->render('news/comments.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+
         ]);
     }
 }
