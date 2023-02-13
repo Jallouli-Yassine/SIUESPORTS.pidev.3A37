@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\CommentaireNews;
+use App\Form\CommentaireNewsType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\NewsRepository;
 use App\Repository\CommentaireNewsRepository;
-
 class CommentaireNewsController extends AbstractController
 {
     #[Route('/commentaire/news', name: 'app_commentaire_news')]
@@ -34,6 +35,29 @@ class CommentaireNewsController extends AbstractController
             'news' => $news,
             'comments' => $comments,
             'names' => $names
+        ]);
+    }
+
+    #[Route('/addcomment', name: 'ajouter_un_commentaire')]
+    public function ajouter_un_commentaire(Request $request)
+    {
+        $commentaireNews = new CommentaireNews();
+        $form = $this->createForm(CommentaireNewsType::class, $commentaireNews);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->managerRegistry->getManagerForClass(CommentaireNews::class);
+            try {
+                $em->persist($commentaireNews);
+                $em->flush();
+                $this->addFlash('success', 'Comment added successfully');
+                return $this->redirectToRoute('news');
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'An error occurred while adding the comment');
+                return $this->redirectToRoute('news');
+            }
+        }
+        return $this->render('news/siu.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 }
