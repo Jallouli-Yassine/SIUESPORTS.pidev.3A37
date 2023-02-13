@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230213195414 extends AbstractMigration
+final class Version20230213220402 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -24,7 +24,7 @@ final class Version20230213195414 extends AbstractMigration
         $this->addSql('CREATE TABLE classement (id INT AUTO_INCREMENT NOT NULL, id_tournois_id INT DEFAULT NULL, id_team_id INT DEFAULT NULL, score DOUBLE PRECISION NOT NULL, INDEX IDX_55EE9D6D1F409EBB (id_tournois_id), INDEX IDX_55EE9D6DF7F171DE (id_team_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE coach (id INT NOT NULL, etat TINYINT(1) NOT NULL, review DOUBLE PRECISION DEFAULT NULL, prix_heure DOUBLE PRECISION NOT NULL, cv VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE commentaire_news (id INT AUTO_INCREMENT NOT NULL, id_news_id INT DEFAULT NULL, user_id INT DEFAULT NULL, description VARCHAR(255) NOT NULL, date DATETIME NOT NULL, INDEX IDX_F42B5D026B39F0D0 (id_news_id), INDEX IDX_F42B5D02A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE cours (id INT AUTO_INCREMENT NOT NULL, id_coach_id INT DEFAULT NULL, titre VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, video VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, prix INT NOT NULL, niveau VARCHAR(255) DEFAULT NULL, INDEX IDX_FDCA8C9C6CCBBA04 (id_coach_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE cours (id INT AUTO_INCREMENT NOT NULL, id_coach_id INT DEFAULT NULL, id_jeux_id INT DEFAULT NULL, titre VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, video VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, prix INT NOT NULL, niveau VARCHAR(255) DEFAULT NULL, INDEX IDX_FDCA8C9C6CCBBA04 (id_coach_id), INDEX IDX_FDCA8C9C32B700A2 (id_jeux_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE gamer (id INT NOT NULL, tag VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE groupe (id INT AUTO_INCREMENT NOT NULL, nom_groupe VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, nbr_user INT NOT NULL, nbr_max INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE historique_achat (id INT AUTO_INCREMENT NOT NULL, id_gamer_id INT DEFAULT NULL, idproduit_id INT DEFAULT NULL, date_dachat DATE NOT NULL, reference VARCHAR(255) NOT NULL, INDEX IDX_68295E257F984D83 (id_gamer_id), INDEX IDX_68295E25C29D63C1 (idproduit_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -48,6 +48,7 @@ final class Version20230213195414 extends AbstractMigration
         $this->addSql('ALTER TABLE commentaire_news ADD CONSTRAINT FK_F42B5D026B39F0D0 FOREIGN KEY (id_news_id) REFERENCES news (id)');
         $this->addSql('ALTER TABLE commentaire_news ADD CONSTRAINT FK_F42B5D02A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE cours ADD CONSTRAINT FK_FDCA8C9C6CCBBA04 FOREIGN KEY (id_coach_id) REFERENCES coach (id)');
+        $this->addSql('ALTER TABLE cours ADD CONSTRAINT FK_FDCA8C9C32B700A2 FOREIGN KEY (id_jeux_id) REFERENCES jeux (id)');
         $this->addSql('ALTER TABLE gamer ADD CONSTRAINT FK_88241BA7BF396750 FOREIGN KEY (id) REFERENCES user (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE historique_achat ADD CONSTRAINT FK_68295E257F984D83 FOREIGN KEY (id_gamer_id) REFERENCES gamer (id)');
         $this->addSql('ALTER TABLE historique_achat ADD CONSTRAINT FK_68295E25C29D63C1 FOREIGN KEY (idproduit_id) REFERENCES produit (id)');
@@ -75,6 +76,7 @@ final class Version20230213195414 extends AbstractMigration
         $this->addSql('ALTER TABLE commentaire_news DROP FOREIGN KEY FK_F42B5D026B39F0D0');
         $this->addSql('ALTER TABLE commentaire_news DROP FOREIGN KEY FK_F42B5D02A76ED395');
         $this->addSql('ALTER TABLE cours DROP FOREIGN KEY FK_FDCA8C9C6CCBBA04');
+        $this->addSql('ALTER TABLE cours DROP FOREIGN KEY FK_FDCA8C9C32B700A2');
         $this->addSql('ALTER TABLE gamer DROP FOREIGN KEY FK_88241BA7BF396750');
         $this->addSql('ALTER TABLE historique_achat DROP FOREIGN KEY FK_68295E257F984D83');
         $this->addSql('ALTER TABLE historique_achat DROP FOREIGN KEY FK_68295E25C29D63C1');
