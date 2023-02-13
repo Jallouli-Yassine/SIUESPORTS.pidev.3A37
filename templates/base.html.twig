@@ -63,21 +63,8 @@
                     </form>
                 </div>
                 <div class="col-8 col-sm-8 col-md-8 col-lg-6 col-xl-4 ml-auto text-right">
-                    {# <a class="btn btn-sm btn-warning text-secondary mr-2" href="#" data-toggle="modal"
-                        data-target="#userLogin">Sign in</a>
-                    <a class="btn btn-sm text-light d-none d-sm-inline-block" href="" data-toggle="modal"
-                        data-target="#createuser">Sign up</a> #}
                     <ul class="nav navbar-nav d-none d-sm-inline-flex flex-row">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle small" href="#" id="dropdownGaming"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-                                    class="mr-2 fas fa-globe"></i>EN </a>
-                            <div class="dropdown-menu position-absolute" aria-labelledby="dropdownGaming">
-                                <a class="dropdown-item" href="">English</a>
-                                <a class="dropdown-item" href="">Deutsch</a>
-                                <a class="dropdown-item" href="">Español</a>
-                            </div>
-                        </li>
+                        
                         <li class="nav-item">
                             <a class="nav-link small" href="#" data-toggle="offcanvas" data-target="#offcanvas-cart">
                                 <span class="p-relative d-inline-flex">
@@ -89,60 +76,26 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link small" href="#">{{ app.session.get('Gamer_tag') }}</a>
-                            <div class="dropdown-menu position-absolute" aria-labelledby="dropdownGaming">
-                                <a class="dropdown-item" href="">English</a>
-                                <a class="dropdown-item" href="">Deutsch</a>
-                                <a class="dropdown-item" href="">Español</a>
-                            </div>
+                            
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle small" href="#" id="dropdownGaming"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                                        class="mr-2 fas fa-cog"></i></a>
+                                <div class="dropdown-menu position-absolute" aria-labelledby="dropdownGaming">
+                                    <a class="dropdown-item" href="">Profile</a>
+                                    <a class="dropdown-item"  href="{{path('logout')}}">Logout</a>
+                                </div>
+                            </li>
                             
 
                         </li>
+                        
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <button class="navbar-toggler navbar-toggler-fixed" type="button" data-toggle="collapse"
-                data-target="#collapsingNavbar" aria-controls="collapsingNavbar" aria-expanded="false"
-                aria-label="Toggle navigation">☰</button>
-            <div class="collapse navbar-collapse" id="collapsingNavbar">
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown dropdown-hover">
-                        <a class="nav-link dropdown-toggle pl-lg-0" href="" id="dropdownGaming_games"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Games </a>
-                        <div class="dropdown-menu dropdown-menu-dark-lg" aria-labelledby="dropdownGaming_games">
-
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown dropdown-hover">
-                        <a class="nav-link dropdown-toggle" href="" id="dropdownGaming_software" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">Store </a>
-                        <div class="dropdown-menu dropdown-menu-dark-lg" aria-labelledby="dropdownGaming_software">
-                            <a class="dropdown-item" href="{{path('app_product')}}">Jeux & Materiel</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown dropdown-hover">
-                        <a class="nav-link dropdown-toggle" href="news.html" id="dropdownGaming_community"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">tournoi </a>
-                        <div class="dropdown-menu dropdown-menu-dark-lg" aria-labelledby="dropdownGaming_community">
-                            <a class="dropdown-item" href="{{path('tournoi')}}">tournoi</a>
-                            <a class="dropdown-item" href="{{path('teams')}}">team</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Support</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-    </div>
-</nav>
+    
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-fixed" type="button" data-toggle="collapse" data-target="#collapsingNavbar" aria-controls="collapsingNavbar" aria-expanded="false" aria-label="Toggle navigation">☰</button>

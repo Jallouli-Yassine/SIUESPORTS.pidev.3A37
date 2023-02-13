@@ -30,6 +30,12 @@ class GestionEsportController extends BaseController
             'controller_name' => 'GestionEsportController',
         ]);
     }
+
+    #[Route('/logout', name: 'logout')]
+    public function logout() {
+        $this->session->invalidate();
+        return $this->redirect("/");
+    }
      
     #[Route('/', name: 'home')]
     public function welcomefront(Request $request): Response

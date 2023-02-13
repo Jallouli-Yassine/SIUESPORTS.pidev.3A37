@@ -18,7 +18,7 @@ class BaseController extends AbstractController
     public $session;
     public $passwordhash;
     public $managerRegistry;
-    public $sessionLifetime=36;
+    public $sessionLifetime=3600;
     public $request;
 
     

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230212152621 extends AbstractMigration
+final class Version20230213195414 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -23,7 +23,7 @@ final class Version20230212152621 extends AbstractMigration
         $this->addSql('CREATE TABLE categorie (id INT AUTO_INCREMENT NOT NULL, type VARCHAR(255) NOT NULL, nom VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE classement (id INT AUTO_INCREMENT NOT NULL, id_tournois_id INT DEFAULT NULL, id_team_id INT DEFAULT NULL, score DOUBLE PRECISION NOT NULL, INDEX IDX_55EE9D6D1F409EBB (id_tournois_id), INDEX IDX_55EE9D6DF7F171DE (id_team_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE coach (id INT NOT NULL, etat TINYINT(1) NOT NULL, review DOUBLE PRECISION DEFAULT NULL, prix_heure DOUBLE PRECISION NOT NULL, cv VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE commentaire_news (id INT AUTO_INCREMENT NOT NULL, id_news_id INT DEFAULT NULL, description VARCHAR(255) NOT NULL, INDEX IDX_F42B5D026B39F0D0 (id_news_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE commentaire_news (id INT AUTO_INCREMENT NOT NULL, id_news_id INT DEFAULT NULL, user_id INT DEFAULT NULL, description VARCHAR(255) NOT NULL, date DATETIME NOT NULL, INDEX IDX_F42B5D026B39F0D0 (id_news_id), INDEX IDX_F42B5D02A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE cours (id INT AUTO_INCREMENT NOT NULL, id_coach_id INT DEFAULT NULL, titre VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, video VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, prix INT NOT NULL, niveau VARCHAR(255) DEFAULT NULL, INDEX IDX_FDCA8C9C6CCBBA04 (id_coach_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE gamer (id INT NOT NULL, tag VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE groupe (id INT AUTO_INCREMENT NOT NULL, nom_groupe VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, nbr_user INT NOT NULL, nbr_max INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -32,7 +32,7 @@ final class Version20230212152621 extends AbstractMigration
         $this->addSql('CREATE TABLE jeux (id INT AUTO_INCREMENT NOT NULL, nom_game VARCHAR(255) NOT NULL, date_add_game DATE NOT NULL, max_players INT NOT NULL, price_game DOUBLE PRECISION NOT NULL, description VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE membre (id INT AUTO_INCREMENT NOT NULL, id_gamer_id INT DEFAULT NULL, id_team_id INT DEFAULT NULL, point INT NOT NULL, INDEX IDX_F6B4FB297F984D83 (id_gamer_id), INDEX IDX_F6B4FB29F7F171DE (id_team_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE membre_groupe (id INT AUTO_INCREMENT NOT NULL, id_groupe_id INT DEFAULT NULL, id_gamer_id INT DEFAULT NULL, date DATETIME NOT NULL, INDEX IDX_9EB01998FA7089AB (id_groupe_id), INDEX IDX_9EB019987F984D83 (id_gamer_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE news (id INT AUTO_INCREMENT NOT NULL, id_jeux_id INT DEFAULT NULL, date_n DATE NOT NULL, titre VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, INDEX IDX_1DD3995032B700A2 (id_jeux_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE news (id INT AUTO_INCREMENT NOT NULL, id_jeux_id INT DEFAULT NULL, date_n DATETIME NOT NULL, titre VARCHAR(255) NOT NULL, description VARCHAR(65535) NOT NULL, INDEX IDX_1DD3995032B700A2 (id_jeux_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE planning (id INT AUTO_INCREMENT NOT NULL, id_gamer_id INT DEFAULT NULL, id_coach_id INT DEFAULT NULL, titre VARCHAR(255) NOT NULL, date DATETIME NOT NULL, description VARCHAR(255) NOT NULL, url_meet VARCHAR(255) DEFAULT NULL, etat TINYINT(1) NOT NULL, nbre_heure_seance INT NOT NULL, prix_heure INT DEFAULT NULL, INDEX IDX_D499BFF67F984D83 (id_gamer_id), INDEX IDX_D499BFF66CCBBA04 (id_coach_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE post (id INT AUTO_INCREMENT NOT NULL, id_groupe_id INT DEFAULT NULL, nompost VARCHAR(255) NOT NULL, contenu VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, nbr_like INT NOT NULL, INDEX IDX_5A8A6C8DFA7089AB (id_groupe_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE produit (id INT AUTO_INCREMENT NOT NULL, id_categorie_id INT DEFAULT NULL, nom INT NOT NULL, prix VARCHAR(255) NOT NULL, description VARCHAR(255) DEFAULT NULL, INDEX IDX_29A5EC279F34925F (id_categorie_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -46,6 +46,7 @@ final class Version20230212152621 extends AbstractMigration
         $this->addSql('ALTER TABLE classement ADD CONSTRAINT FK_55EE9D6DF7F171DE FOREIGN KEY (id_team_id) REFERENCES team (id)');
         $this->addSql('ALTER TABLE coach ADD CONSTRAINT FK_3F596DCCBF396750 FOREIGN KEY (id) REFERENCES user (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE commentaire_news ADD CONSTRAINT FK_F42B5D026B39F0D0 FOREIGN KEY (id_news_id) REFERENCES news (id)');
+        $this->addSql('ALTER TABLE commentaire_news ADD CONSTRAINT FK_F42B5D02A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE cours ADD CONSTRAINT FK_FDCA8C9C6CCBBA04 FOREIGN KEY (id_coach_id) REFERENCES coach (id)');
         $this->addSql('ALTER TABLE gamer ADD CONSTRAINT FK_88241BA7BF396750 FOREIGN KEY (id) REFERENCES user (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE historique_achat ADD CONSTRAINT FK_68295E257F984D83 FOREIGN KEY (id_gamer_id) REFERENCES gamer (id)');
@@ -72,6 +73,7 @@ final class Version20230212152621 extends AbstractMigration
         $this->addSql('ALTER TABLE classement DROP FOREIGN KEY FK_55EE9D6DF7F171DE');
         $this->addSql('ALTER TABLE coach DROP FOREIGN KEY FK_3F596DCCBF396750');
         $this->addSql('ALTER TABLE commentaire_news DROP FOREIGN KEY FK_F42B5D026B39F0D0');
+        $this->addSql('ALTER TABLE commentaire_news DROP FOREIGN KEY FK_F42B5D02A76ED395');
         $this->addSql('ALTER TABLE cours DROP FOREIGN KEY FK_FDCA8C9C6CCBBA04');
         $this->addSql('ALTER TABLE gamer DROP FOREIGN KEY FK_88241BA7BF396750');
         $this->addSql('ALTER TABLE historique_achat DROP FOREIGN KEY FK_68295E257F984D83');
