@@ -48,7 +48,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-4 col-sm-3 col-md-2 mr-auto">
-                    <a class="navbar-brand logo" href="{{path('home')}}">
+                    <a class="navbar-brand logo" href="{{path('acceuil')}}">
                         <img src="{{ asset('front_office/assets/img/logo-gaming.png') }}" alt="Wicodus"
                             class="logo-light mx-auto">
                     </a>
@@ -86,6 +86,16 @@
                                     <i class="fas fa-shopping-cart"></i>
                                 </span>
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link small" href="#">{{ app.session.get('Gamer_tag') }}</a>
+                            <div class="dropdown-menu position-absolute" aria-labelledby="dropdownGaming">
+                                <a class="dropdown-item" href="">English</a>
+                                <a class="dropdown-item" href="">Deutsch</a>
+                                <a class="dropdown-item" href="">Español</a>
+                            </div>
+                            
+
                         </li>
                     </ul>
                 </div>
