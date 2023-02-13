@@ -31,7 +31,6 @@ class BaseController extends AbstractController
         $this->check_session();   
     }
 
-   
 
     public function check_session():bool{
         $this->session=$this->request->getSession();
