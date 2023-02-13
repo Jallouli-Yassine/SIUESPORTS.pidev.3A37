@@ -17,10 +17,11 @@ class CommentaireNewsType extends AbstractType
 
 
             ->add('description', TextareaType::class, [
+                'label' => 'Insérez votre commentaire ici:',
                 'attr' => [
                     'class' => 'form-control form-control-lg',
                     'rows' => 4,
-                    'placeholder' => 'Your Message',
+                    'placeholder' => 'Votre commentaire',
                     'required' => true
                 ]
             ])
