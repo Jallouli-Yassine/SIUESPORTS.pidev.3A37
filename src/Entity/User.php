@@ -38,6 +38,14 @@ class User
     #[ORM\Column]
     private ?float $point = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: CommentaireNews::class)]
+    private Collection $commentaireNews;
+
+    public function __construct()
+    {
+        $this->commentaireNews = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -123,6 +131,36 @@ class User
     public function setPoint(float $point): self
     {
         $this->point = $point;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CommentaireNews>
+     */
+    public function getCommentaireNews(): Collection
+    {
+        return $this->commentaireNews;
+    }
+
+    public function addCommentaireNews(CommentaireNews $commentaireNews): self
+    {
+        if (!$this->commentaireNews->contains($commentaireNews)) {
+            $this->commentaireNews->add($commentaireNews);
+            $commentaireNews->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaireNews(CommentaireNews $commentaireNews): self
+    {
+        if ($this->commentaireNews->removeElement($commentaireNews)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaireNews->getUser() === $this) {
+                $commentaireNews->setUser(null);
+            }
+        }
 
         return $this;
     }

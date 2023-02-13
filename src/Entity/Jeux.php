@@ -37,11 +37,14 @@ class Jeux
     #[ORM\OneToMany(mappedBy: 'idJeux', targetEntity: ReviewJeux::class)]
     private Collection $reviewJeuxes;
 
+
     public function __construct()
     {
         $this->news = new ArrayCollection();
         $this->reviewJeuxes = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
