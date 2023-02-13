@@ -77,7 +77,7 @@ class GestionEsportController extends BaseController
                             
                         }else{
                             $this->session->set('Coach_id', $coach->getId());
-                            $this->session->set('Gamer_tag', $coach->getNom()+$coach->getPrenom());
+                            $this->session->set('Gamer_tag', $coach->getNom()." ".$coach->getPrenom());
                             $this->session->set('Session_time', new DateTime());
                             return $this->redirect("/profile");
                         }
