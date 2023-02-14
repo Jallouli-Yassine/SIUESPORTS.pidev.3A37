@@ -25,7 +25,7 @@
                 <td>{{ produit.id }}</td>
                 <td>{{ produit.nom }}</td>
                 <td>{{ produit.description }}</td>
-                <td>{{ produit.prix }} €</td>
+                <td>{{ produit.prix }} <img src="{{ asset('back_office/piece-de-kamel.png') }}" alt="coin" style="width: 16px; height: 16px;"></td>
                 <td>
 
                     <a href="{{ path('modifierProduit', {'id': produit.id}) }}">Modifier</a>
