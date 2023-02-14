@@ -68,7 +68,7 @@
                             <button class="btn btn-sm btn-warning text-secondary my-0 mx-0" type="submit"><i
                                     class="fas fa-search"></i></button>
                         </div>
-                  
+                    </form>
                 </div>
                 <div class="col-8 col-sm-8 col-md-8 col-lg-6 col-xl-4 ml-auto text-right">
                     <ul class="nav navbar-nav d-none d-sm-inline-flex flex-row">
@@ -134,7 +134,10 @@
                     <a class="nav-link dropdown-toggle" href="news.html" id="dropdownGaming_community" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Coaching </a>
                     <div class="dropdown-menu dropdown-menu-dark-lg" aria-labelledby="dropdownGaming_community">
                         <a class="dropdown-item " href="{{path('app_coaching')}}">liste des cours</a>
-                        <a class="dropdown-item" href="{{path('addC')}}">add course</a>
+                        {% if app.session.has('Coach_id') %}
+                            <a class="dropdown-item" href="{{path('addC')}}">add course</a>
+                        {% endif %}
+
                     </div>
                 </li>
                 <li class="nav-item">

@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Coach;
 use App\Entity\Cours;
 use App\Form\AddCourseType;
 use App\Repository\CoursRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CoachingController extends AbstractController
+class CoachingController extends BaseController
 {
     #[Route('/coaching/allCourses', name: 'app_coaching')]
     public function index(ManagerRegistry $doctrine): Response
@@ -34,9 +34,11 @@ class CoachingController extends AbstractController
     public function addC(\Doctrine\Persistence\ManagerRegistry $doctrine,Request $request): Response
     {
         $course =new Cours();
+        $coach= $this->managerRegistry->getRepository(Coach::class)->findOneBy((['id' => $request->getSession()->get('Coach_id')]));
+        $course->setIdCoach($coach);
         $form =$this->createForm(AddCourseType::class,$course);
         $form->handleRequest($request);
-        if($form->isSubmitted())
+        if($form->isSubmitted() && $form->isValid())
         {
             $em =$doctrine->getManager();
             $em->persist($course);
@@ -58,5 +60,4 @@ class CoachingController extends AbstractController
             'courses' => $courses
         ]);
     }
-
 }

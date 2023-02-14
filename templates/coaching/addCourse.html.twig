@@ -1,32 +1,29 @@
 {% extends 'base.html.twig' %}
 {% block title %}AllCourses{% endblock %}
 {% block css %}
-<style>
-    .form-style {
-        padding: 50px;
-
-    }
-
-    .form-group {
-        margin-bottom: 30px;
-        width: 50%;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 10px;
-        font-size: 16px;
-    }
-    ::placeholder {
-        color: #000000!important;
-    }
-</style>
+    <style>
+        .form-style {
+            padding: 50px;
+        }
+        .form-group {
+            margin-bottom: 30px;
+            width: 50%;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        ::placeholder {
+            color: #000000!important;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
     <div class="overlay overflow-hidden pe-n"><img src="{{ asset('front_office/assets/img/bg/bg_shape.png') }}" alt="Background shape"></div>
     <center>
-        {{ form_start(form, {'attr': {'class': 'form-style'}}) }}
+        {{ form_start(form, {'action': path('addC'), 'method': 'POST'}, {'attr': {'class': 'form-style'}}) }}
         <div class="form-group">
             {{ form_widget(form.titre, {'attr': {'class': 'form-control', 'placeholder': 'Enter the title'}}) }}
         </div>
@@ -44,9 +41,6 @@
         </div>
         <div class="form-group">
             {{ form_widget(form.niveau, {'attr': {'class': 'form-control', 'placeholder': 'Enter the niveau'}}) }}
-        </div>
-        <div class="form-group">
-                {{ form_widget(form.idCoach, {'attr': {'class': 'form-control'}}) }}
         </div>
         <div class="form-group">
             {{ form_widget(form.idJeux, {'attr': {'class': 'form-control'}}) }}
