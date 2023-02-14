@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Coach;
 use App\Entity\Gamer;
+use App\Entity\Produit;
 use App\Entity\User;
 use App\Form\CoachType;
 use App\Form\GamerType;
@@ -77,9 +78,9 @@ class GestionEsportController extends BaseController
                             
                         }else{
                             $this->session->set('Coach_id', $coach->getId());
-                            $this->session->set('Gamer_tag', $coach->getNom()+$coach->getPrenom());
+                            $this->session->set('Gamer_tag', $coach->getNom()." ".$coach->getPrenom());
                             $this->session->set('Session_time', new DateTime());
-                            return $this->redirect("/profile");
+                            return $this->redirect("/acceuil");
                         }
                     }
                     else if (!password_verify($data->getPassword(), $gamer->getPassword())) {
