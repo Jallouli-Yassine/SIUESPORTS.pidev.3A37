@@ -71,7 +71,9 @@
                                                      class="attachment-full size-full" alt="a" loading="lazy"
                                                      srcset="{{ asset('wp-content/uploads/2019/10/tour-list-img-5.jpg 800w') }},{{ asset('wp-content/uploads/2019/10/tour-list-img-5-768x487.jpg 768w') }}"
                                                      sizes="(max-width: 800px) 100vw, 800px"/>
-                                                <div class="edgtf-tournament-info">
+
+                                                <div class="edgtf-tournament-info" >
+
                                                     <div class="edgtf-tournament-top-info edgtf-tournament-section">
 
                                                         <div class="edgtf-tournament-date">
@@ -81,11 +83,11 @@
                                                         <div class="edgtf-tournament-categories"><span
                                                                     class="edgtf-tournament-category"><small> nombre de user : {{ g.nbruser }}<br></small></span>
                                                         </div>
-                                                        <div class="edgtf-st-button"><a itemprop="url" href=""
-                                                                                        target="_self"
+                                                        <div class="edgtf-st-button"><a itemprop="url" href="{{ path('onegroupe',{'id':g.getId}) }}"
+
                                                                                         style="color: #ffffff;margin: 55px 0 0"
                                                                                             class="edgtf-btn edgtf-btn-small edgtf-btn-outline">
-                                                                <span class="edgtf-btn-text">Rejoindre</span> </a></div>
+                                                                <span  class="edgtf-btn-text">Rejoindre</span> </a></div>
 
 
                                                     </div>

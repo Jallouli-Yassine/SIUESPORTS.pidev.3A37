@@ -14,16 +14,16 @@ class Post
     private ?int $id = null;
 
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $nompost = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $contenu = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $nbr_like = null;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]

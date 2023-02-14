@@ -6,6 +6,7 @@ use App\Entity\Groupe;
 use App\Entity\ReviewJeux;
 
 use App\Form\GroupeType;
+use App\Repository\GroupeRepository;
 use  Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,14 +45,26 @@ class GroupController extends AbstractController
     }
 
 
-
-    #[Route('/post', name: 'post')]
-    public function post(): Response
+/*
+    #[Route('/post/{id}', name: 'post')]
+    public function post(int $id, GroupeRepository $grouperep, \Doctrine\Persistence\ManagerRegistry $doctrine) : Response
     {
+        $post = $doctrine->getRepository(Groupe::class)->find($id);
         return $this->render('group/post.html.twig', [
-            'controller_name' => 'GroupController',
+            'post' => $post,
         ]);
     }
+    */
 
+
+    #[Route('/groupe/{id}', name: 'onegroupe')]
+    public function oneCourse(int $id, GroupeRepository $postgroupe)
+    {
+        $groupe = $postgroupe->find($id);
+
+        return $this->render('group/post.html.twig', [
+            'groupe' => $groupe
+        ]);
+    }
 
 }

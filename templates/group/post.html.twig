@@ -14,19 +14,8 @@
 
 <body>
 <h1 class="edgtf-st-title">
-    <center> groupe name </center>
+    <center> {{ groupe.Nomgroupe }} </center>
 </h1>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -35,9 +24,14 @@
 
         <!-- Start Main Content -->
         <main class="main-content">
-
+<center>
             <div class="overlay overflow-hidden pe-n"><img src="{{ asset('front_office/assets/img/bg/bg_shape.png') }}" alt="Background shape"></div>
+            <div class="edgtf-st-button"><a itemprop="url" data-toggle="modal" data-target="#userLogin"
 
+                                            style="color: #ffffff;margin: 55px 0 0"
+                                            class="edgtf-btn edgtf-btn-small edgtf-btn-outline">
+                    <span class="edgtf-btn-text "  >add post </span> </a></div>
+</center>
             <!-- Start Content Area -->
             <div class="content-section text-light pt-8">
                 <div class="container">
@@ -50,14 +44,15 @@
 
                                     </ol>
                                 </nav>
-                                <h3 class="product_name mb-4">titre post </h3>
-
+                                {% for post in groupe.getPosts %}
+                                <h3 class="product_name mb-4">{{ post.nompost }} </h3>
+                                {% endfor %}
                             </header>
                         </div>
                         <div class="col-lg-8">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="product-body">
+                                    <div class="product-body center">
                                         <!--Carousel Wrapper-->
                                         <div class="carousel-product">
                                             <div class="slider text-secondary" data-slick="product-body">
@@ -90,8 +85,6 @@
 
             <!-- End Content Area -->
 
-        </main>
-
 
 
         <!-- offcanvas-cart -->
@@ -104,7 +97,7 @@
             </div>
             <div class="offcanvas-cart-body flex-1">
                 <div class="offcanvas-cart-list row align-items-center no-gutters">
-                    <div class="ocs-cart-item col-12">
+                    <div class="ocs-cart-item col-12 mb--4">
                         <div class="row align-items-center no-gutters">
                             <div class="col-3 item_img d-none d-sm-block">
                                 <a href="store-product.html"><img class="img bl-3 text-primary" src="assets/img/content/store/h-08.jpg" alt="Product"></a>
@@ -171,4 +164,51 @@
 
 
 
+
+<!-- sign Up -->
+<div class="modal fade" id="userLogin" tabindex="-1" role="dialog" aria-labelledby="userLoginTitle" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header border-secondary">
+                <center>
+                <h5 class="modal-title" id="userLoginTitle">ADD YOUR POST</h5>
+                </center>
+                <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+
+
+                </div>
+                <form class="input-transparent">
+                    <div class="form-group">
+                        <input type="text" class="form-control border-secondary" name="nompost" placeholder="NOM DE VOTRE POST ">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control border-secondary" name="description" placeholder="DESCRIPTION ">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="file" class="form-control border-secondary" name="post" placeholder="">
+                    </div>
+                    <div class="form-group d-flex justify-content-between">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" checked="" id="rememberMeCheck">
+
+                        </div>
+
+                    </div>
+                    <div class="form-group mt-6">
+                        <button class="btn btn-block btn-warning" type="submit">poster</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.sign Up -->
 {% endblock %}
+
