@@ -44,9 +44,10 @@ class Jeux
 
     public function __construct()
     {
-        $this->news = new ArrayCollection();
-        $this->reviewJeuxes = new ArrayCollection();
-        $this->cours = new ArrayCollection();
+        //$this->news = new ArrayCollection();
+        //$this->reviewJeuxes = new ArrayCollection();
+        //$this->cours = new ArrayCollection();
+        $this->DateAddGame  = new \DateTime();
     }
 
 
