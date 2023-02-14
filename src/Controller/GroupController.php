@@ -14,22 +14,24 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class GroupController extends AbstractController
+class GroupController extends BaseController
 {
     #[Route('/group', name: 'app_group')]
     public function  add(ManagerRegistry $doctrine, Request  $request) : Response
     { $groupe = new Groupe() ;
-        $form = $this->createForm(GroupeType::class, $groupe);
-        $form->add('ajouter', SubmitType::class) ;
-        $form->handleRequest($request);
-        if ($form->isSubmitted())
-        { $em = $doctrine->getManager();
+        $fifi = $this->createForm(GroupeType::class, $groupe);
+        $fifi->add('ajouter', SubmitType::class) ;
+        $fifi->handleRequest($request);
+        if ($fifi->isSubmitted())
+        { $groupe->setIdOwner($this->session->get('Gamer_id'));
+            $groupe->setNbrUser($groupe->getNbrUser()+1);
+            $em = $doctrine->getManager();
             $em->persist($groupe);
             $em->flush();
             return $this->redirectToRoute('our_groupe');
         }
         return $this->renderForm("group/index.html.twig",
-            ["form"=>$form]) ;
+            ["form"=>$fifi]) ;
 
 
     }
