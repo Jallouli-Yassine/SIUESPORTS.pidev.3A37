@@ -6,21 +6,25 @@ use App\Entity\Categorie;
 use App\Entity\Produit;
 use App\Form\CategorieType;
 use App\Form\ProduitType;
+
 use App\Repository\ProduitRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 class ProductController extends AbstractController
 {
     #[Route('/product', name: 'app_product')]
-    public function index(): Response
+    public function index(ManagerRegistry $doctrine): Response
     {
-        $produit =$this->getDoctrine()->getRepository(Produit::class)->findAll();
+        $produit =$doctrine->getRepository(Produit::class)->findAll();
+        $categorie= $doctrine->getRepository(Categorie::class)->findAll();
         //dd($produit);
         return $this->render('product/store.html.twig', [
-            'produit' => $produit
+            'produit' => $produit,
+            'c'=>$categorie
         ]);
     }
 
@@ -43,6 +47,8 @@ class ProductController extends AbstractController
             'p'=>$produit
         ]);
     }
+
+
     #[Route('/consultePanier', name: 'affichePanier')]
     public function Panier( ProduitRepository $produitRepository)
     {
