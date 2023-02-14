@@ -16,13 +16,13 @@ class News
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateN = null;
 
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 65535)]
     private ?string $description = null;
 
     #[ORM\OneToMany(mappedBy: 'idNews', targetEntity: CommentaireNews::class)]
@@ -30,6 +30,7 @@ class News
 
     #[ORM\ManyToOne(inversedBy: 'news')]
     private ?Jeux $idJeux = null;
+
 
     public function __construct()
     {
@@ -118,4 +119,5 @@ class News
 
         return $this;
     }
+
 }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -11,6 +12,8 @@ class  TournoiController extends AbstractController
     #[Route('/tournoi', name: 'tournoi')]
     public function tournoi(): Response
     {
+        
+       
         return $this->render('tournoi/tournoi.html.twig', [
             'controller_name' => 'TournoiController',
         ]);

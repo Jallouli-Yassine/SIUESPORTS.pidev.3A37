@@ -39,6 +39,15 @@ class CoursRepository extends ServiceEntityRepository
         }
     }
 
+    public function findCoursesByCoachId($coachId)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.idCoach = :coachId')
+            ->setParameter('coachId', $coachId)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Cours[] Returns an array of Cours objects
 //     */

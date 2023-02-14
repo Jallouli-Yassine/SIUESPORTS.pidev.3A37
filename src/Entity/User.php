@@ -9,7 +9,10 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+#[ORM\InheritanceType("JOINED")]
+#[ORM\DiscriminatorColumn(name:"discriminator", type:"string")]
+#[ORM\DiscriminatorMap(["Gamer" => Gamer::class, "Coach" => Coach::class])]
+class User 
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,16 +37,16 @@ class User
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_naissance = null;
 
-    /**
-     * ManyToMany relation User----Jeux
-     * #[ORM\ManyToMany(targetEntity: Jeux::class, inversedBy: 'users')]
-     * #[ORM\JoinTable(name:'reviewuserjeux')]
-     * private Collection $jeux;
-     */
-
-
     #[ORM\Column]
     private ?float $point = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: CommentaireNews::class)]
+    private Collection $commentaireNews;
+
+    public function __construct()
+    {
+        $this->commentaireNews = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -130,6 +133,36 @@ class User
     public function setPoint(float $point): self
     {
         $this->point = $point;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CommentaireNews>
+     */
+    public function getCommentaireNews(): Collection
+    {
+        return $this->commentaireNews;
+    }
+
+    public function addCommentaireNews(CommentaireNews $commentaireNews): self
+    {
+        if (!$this->commentaireNews->contains($commentaireNews)) {
+            $this->commentaireNews->add($commentaireNews);
+            $commentaireNews->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaireNews(CommentaireNews $commentaireNews): self
+    {
+        if ($this->commentaireNews->removeElement($commentaireNews)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaireNews->getUser() === $this) {
+                $commentaireNews->setUser(null);
+            }
+        }
 
         return $this;
     }
