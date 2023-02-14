@@ -38,7 +38,7 @@ class BaseController extends AbstractController
             $diff= $this->session->get('Session_time');
             $now=new DateTime();            
             $difference = $diff->getTimestamp() - $now->getTimestamp();
-            if ($difference>60) {
+            if ($difference>$this->sessionLifetime) {
                  $this->session->invalidate();
                  return False;
             } else {
@@ -49,6 +49,18 @@ class BaseController extends AbstractController
         return False;
     }
     
+
+    public function getid(){
+        if ( $this->session->has('Gamer_id') ){
+            $this->session=$this->request->getSession();
+            return  $this->session->get('Gamer_id');
+        }
+        if (  $this->session->has('Coach_id')){
+            $this->session=$this->request->getSession();
+        return  $this->session->get('Coach_id');
+        }
+        return null;
+    }
     
 
 
