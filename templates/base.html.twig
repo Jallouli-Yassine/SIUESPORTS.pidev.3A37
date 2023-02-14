@@ -114,7 +114,6 @@
                     <div class="dropdown-menu dropdown-menu-dark-lg" aria-labelledby="dropdownGaming_games">
                         <a class="dropdown-item" href="{{ path('afficher_les_jeux') }}">Voir tout les jeux</a>
                         <a class="dropdown-item" href="{{ path('afficher_les_news') }}">Actualité des jeux</a>
-
                     </div>
                 </li>
                 <li class="nav-item dropdown dropdown-hover">
@@ -128,14 +127,20 @@
                     <div class="dropdown-menu dropdown-menu-dark-lg" aria-labelledby="dropdownGaming_community">
                         <a class="dropdown-item" href="{{path('tournoi')}}">tournoi</a>
                         <a class="dropdown-item" href="{{path('teams')}}">team</a>
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown dropdown-hover">
+                    <a class="nav-link dropdown-toggle" href="news.html" id="dropdownGaming_community" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Coaching </a>
+                    <div class="dropdown-menu dropdown-menu-dark-lg" aria-labelledby="dropdownGaming_community">
+                        <a class="dropdown-item " href="{{path('app_coaching')}}">liste des cours</a>
+                        <a class="dropdown-item" href="{{path('addC')}}">add course</a>
                     </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="about.html">About</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_coaching') }}">Coaching</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="contact.html">Support</a>
                 </li>
