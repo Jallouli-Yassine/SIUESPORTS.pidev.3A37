@@ -1,0 +1,42 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %} <center>----------Liste des produits</center> {% endblock %}
+
+{% block body %}
+
+    <div class="ml-10 col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <center>
+    <h1 >Liste des produits</h1>
+        </center>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Prix</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for produit in adproduit %}
+            <tr>
+                <td>{{ produit.id }}</td>
+                <td>{{ produit.nom }}</td>
+                <td>{{ produit.description }}</td>
+                <td>{{ produit.prix }} <img src="{{ asset('back_office/piece-de-kamel.png') }}" alt="coin" style="width: 16px; height: 16px;"></td>
+                <td>
+
+                    <a href="{{ path('modifierProduit', {'id': produit.id}) }}">Modifier</a>
+                    <a href="{{ path('supprimerproduit', {'id': produit.id}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary me-1" href="{{ path('ajoutproduit') }}" style="width: fit-content;" >Ajouter un produit</a>
+    </div>
+    </div>
+{% endblock %}
