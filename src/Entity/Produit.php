@@ -16,10 +16,10 @@ class Produit
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $nom = null;
+    private ?string $nom = null;
 
     #[ORM\Column(length: 255)]    //o
-    private ?string $prix = null;
+    private ?int $prix = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
@@ -29,6 +29,9 @@ class Produit
 
     #[ORM\OneToMany(mappedBy: 'idproduit', targetEntity: HistoriqueAchat::class)]
     private Collection $historiqueAchats;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
 
     public function __construct()
     {
@@ -41,24 +44,24 @@ class Produit
         return $this->id;
     }
 
-    public function getNom(): ?int
+    public function getNom(): ?string
     {
         return $this->nom;
     }
 
-    public function setNom(int $nom): self
+    public function setNom(string $nom): self
     {
         $this->nom = $nom;
 
         return $this;
     }
 
-    public function getPrix(): ?string
+    public function getPrix(): ?int
     {
         return $this->prix;
     }
 
-    public function setPrix(string $prix): self
+    public function setPrix(int $prix): self
     {
         $this->prix = $prix;
 
@@ -115,6 +118,18 @@ class Produit
                 $historiqueAchat->setIdproduit(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
