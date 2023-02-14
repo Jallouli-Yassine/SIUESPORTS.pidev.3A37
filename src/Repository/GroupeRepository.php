@@ -63,4 +63,15 @@ class GroupeRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findpostbygroupe($groupeid)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.idGroupe = :groupeid')
+            ->setParameter('groupeid', $groupeid)
+            ->getQuery()
+            ->getResult();
+    }
+
 }
+

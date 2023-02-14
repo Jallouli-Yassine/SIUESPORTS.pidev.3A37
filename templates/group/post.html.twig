@@ -1,0 +1,214 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<link rel="stylesheet" href="{{ asset('rbt-modules1eb7.css')}}">
+<link rel='stylesheet' id='overworld-edge-modules-css' href='{{ asset('wp-content/themes/overworld/assets/css/modules.min1eb7.css?ver=6.0.3') }}' type='text/css' media='all' />
+
+
+<header>
+
+
+    <link rel='stylesheet' id='overworld-edge-modules-css' href='{{ asset('wp-content/themes/overworld/assets/css/modules.min1eb7.css?ver=6.0.3') }}' type='text/css' media='all' />
+
+</header>
+
+
+<body>
+<h1 class="edgtf-st-title">
+    <center> {{ groupe.Nomgroupe }} </center>
+</h1>
+
+
+
+        <html lang="en">
+
+
+        <!-- Start Main Content -->
+        <main class="main-content">
+<center>
+            <div class="overlay overflow-hidden pe-n"><img src="{{ asset('front_office/assets/img/bg/bg_shape.png') }}" alt="Background shape"></div>
+            <div class="edgtf-st-button"><a itemprop="url" data-toggle="modal" data-target="#userLogin"
+
+                                            style="color: #ffffff;margin: 55px 0 0"
+                                            class="edgtf-btn edgtf-btn-small edgtf-btn-outline">
+                    <span class="edgtf-btn-text "  >add post </span> </a></div>
+</center>
+            <!-- Start Content Area -->
+            <div class="content-section text-light pt-8">
+                <div class="container">
+                    <div class="row gutters-y">
+                        <div class="col-12">
+                            <header>
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb-product breadcrumb-nowrap breadcrumb breadcrumb-angle bg-transparent pl-0 pr-0 mb-0">
+                                        <li class="breadcrumb-item"><a href="#">groupe precedent</a></li>
+
+                                    </ol>
+                                </nav>
+                                {% for post in groupe.getPosts %}
+                                <h3 class="product_name mb-4">{{ post.nompost }} </h3>
+                                {% endfor %}
+                            </header>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="product-body center">
+                                        <!--Carousel Wrapper-->
+                                        <div class="carousel-product">
+                                            <div class="slider text-secondary" data-slick="product-body">
+                                                <img src="{{ asset('front_office/assets/img/content/product/01.jpg')}}" alt="Game">
+                                            </div>
+                                        </div>
+                                        <!--/.Carousel Wrapper-->
+
+
+                                        <div id="about" class="about mb-8">
+                                            <p>{description</p>
+                                            <hr class="border-secondary my-2">
+                                            <div>
+                                                <div class="" id="collapseSummary">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <section class="container text-light">
+
+            </section>
+
+            <!-- End Content Area -->
+
+
+
+        <!-- offcanvas-cart -->
+        <div id="offcanvas-cart" class="offcanvas-cart offcanvas text-light h-100 r-0 l-auto d-flex flex-column" data-animation="slideRight">
+            <div>
+                <button type="button" data-toggle="offcanvas-close" class="close float-right ml-4 text-light o-1 fw-100" data-dismiss="offcanvas" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <hr class="border-light o-20 mt-8 mb-4">
+            </div>
+            <div class="offcanvas-cart-body flex-1">
+                <div class="offcanvas-cart-list row align-items-center no-gutters">
+                    <div class="ocs-cart-item col-12 mb--4">
+                        <div class="row align-items-center no-gutters">
+                            <div class="col-3 item_img d-none d-sm-block">
+                                <a href="store-product.html"><img class="img bl-3 text-primary" src="assets/img/content/store/h-08.jpg" alt="Product"></a>
+                            </div>
+                            <div class="col-7 flex-1 flex-grow pl-0 pl-sm-4 pr-4">
+                                <a href="store-product.html"><span class="d-block item_title text-lt ls-1 lh-1 small-1 fw-600 text-uppercase mb-2">Journey of the Solarcity</span></a>
+                                <div class="position-relative lh-1">
+                                    <div class="number-input">
+                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ><i class="ti-minus"></i></button>
+                                        <input class="quantity" min="0" name="quantity" value="1" type="number">
+                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="ti-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="row align-items-center h-100 no-gutters">
+                                    <div class="ml-auto text-center">
+                                        <a href="#"><i class="far fa-trash-alt"></i></a><br>
+                                        <span class="fw-500 text-warning">€44.99</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ocs-cart-item col-12">
+                        <div class="row align-items-center no-gutters">
+                            <div class="col-3 item_img d-none d-sm-block">
+                                <a href="store-product.html"><img class="img bl-3 text-primary" src="assets/img/content/store/h-09.jpg" alt="Product"></a>
+                            </div>
+                            <div class="col-7 flex-1 flex-grow pl-0 pl-sm-4 pr-4">
+                                <a href="store-product.html"><span class="d-block item_title text-lt ls-1 lh-1 small-1 fw-600 text-uppercase mb-2">Exploration Memories</span></a>
+                                <div class="position-relative lh-1">
+                                    <div class="number-input">
+                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ><i class="ti-minus"></i></button>
+                                        <input class="quantity" min="0" name="quantity" value="1" type="number">
+                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="ti-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="row align-items-center h-100 no-gutters">
+                                    <div class="ml-auto text-center">
+                                        <a href="#"><i class="far fa-trash-alt"></i></a><br>
+                                        <span class="fw-500 text-warning">€27.59</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <a href="checkout-order.html" class="btn btn-lg btn-block btn-outline-light">View cart</a>
+            </div>
+        </div>
+
+        </body>
+
+        <!-- Mirrored from scanthemes.com/demo/HTML/wicodus/store-product.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 Feb 2023 16:08:23 GMT -->
+        </html>
+
+
+
+
+
+
+
+<!-- sign Up -->
+<div class="modal fade" id="userLogin" tabindex="-1" role="dialog" aria-labelledby="userLoginTitle" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header border-secondary">
+                <center>
+                <h5 class="modal-title" id="userLoginTitle">ADD YOUR POST</h5>
+                </center>
+                <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+
+
+                </div>
+                <form class="input-transparent">
+                    <div class="form-group">
+                        <input type="text" class="form-control border-secondary" name="nompost" placeholder="NOM DE VOTRE POST ">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control border-secondary" name="description" placeholder="DESCRIPTION ">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="file" class="form-control border-secondary" name="post" placeholder="">
+                    </div>
+                    <div class="form-group d-flex justify-content-between">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" checked="" id="rememberMeCheck">
+
+                        </div>
+
+                    </div>
+                    <div class="form-group mt-6">
+                        <button class="btn btn-block btn-warning" type="submit">poster</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.sign Up -->
+{% endblock %}
+
