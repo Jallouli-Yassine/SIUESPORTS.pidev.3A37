@@ -18,14 +18,18 @@ use Doctrine\ORM\EntityManagerInterface;
 class ProductController extends AbstractController
 {
     #[Route('/product', name: 'app_product')]
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(ManagerRegistry $doctrine,Request $request): Response
     {
         $produit =$doctrine->getRepository(Produit::class)->findAll();
         $categorie= $doctrine->getRepository(Categorie::class)->findAll();
+        $dinarAmount = $request->request->get('dinarAmount');
+        $pointAmount = $dinarAmount * 230;
         //dd($produit);
         return $this->render('product/store.html.twig', [
             'produit' => $produit,
-            'c'=>$categorie
+            'c'=>$categorie,
+            'dinarAmount' => $dinarAmount,
+            'pointAmount' => $pointAmount
         ]);
     }
 
@@ -141,5 +145,8 @@ class ProductController extends AbstractController
             'produit' => $produit,
         ]);
     }
+    /*conversionnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn*/
+
+
 }
 

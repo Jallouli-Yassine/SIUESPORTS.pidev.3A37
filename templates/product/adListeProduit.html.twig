@@ -9,7 +9,7 @@
         <center>
     <h1 >Liste des produits</h1>
         </center>
-    <table class="table table-bordered">
+        <table class="table table-bordered custom-table">
         <thead>
         <tr>
             <th>ID</th>
@@ -24,12 +24,13 @@
             <tr>
                 <td>{{ produit.id }}</td>
                 <td>{{ produit.nom }}</td>
-                <td>{{ produit.description }}</td>
+                <td style="white-space: pre-wrap;">{{ produit.description }}</td>
                 <td>{{ produit.prix }} <img src="{{ asset('back_office/piece-de-kamel.png') }}" alt="coin" style="width: 16px; height: 16px;"></td>
                 <td>
 
                     <a href="{{ path('modifierProduit', {'id': produit.id}) }}">Modifier</a>
                     <a href="{{ path('supprimerproduit', {'id': produit.id}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</a>
+                    
                 </td>
             </tr>
         {% endfor %}

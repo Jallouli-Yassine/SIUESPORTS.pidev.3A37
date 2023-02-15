@@ -21,7 +21,7 @@ class Produit
     #[ORM\Column(length: 255)]    //o
     private ?int $prix = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 65535, nullable: true)]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'produits')]

@@ -558,6 +558,19 @@
                   </li>
                 </ul>
               </div>
+              <div class="filters border border-secondary rounded p-4">
+              <form method="post" action="{{ path('app_product') }}">
+                <div class="form-group">
+                  <label for="dinarAmount">Montant en dinar :</label>
+                  <input type="text" class="form-control" id="dinarAmount" name="dinarAmount">
+                </div>
+                <div class="form-group">
+                  <label for="pointAmount">Montant en SIU <img src="{{ asset('back_office/piece-de-kamel.png') }}" alt="coin" style="width: 16px; height: 16px;"> :</label>
+                  <input type="text" class="form-control" id="pointAmount" name="pointAmount" readonly value="{{ pointAmount ?? '' }} ">
+                </div>
+                <button type="submit" class="btn btn-primary">Convertir</button>
+              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -586,4 +599,5 @@
 
   <!-- Mirrored from scanthemes.com/demo/HTML/wicodus/store.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 Feb 2023 16:08:57 GMT -->
   </html>
+
 {% endblock %}
