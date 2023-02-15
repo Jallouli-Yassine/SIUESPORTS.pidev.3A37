@@ -118,14 +118,24 @@
                             </div>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-block btn-secondary"><i class="fas fa-heart"></i> Add to wishlist</a>
-                            <button class="btn btn-outline-primary btn-sm add-to-wishlist">
-                                <i class="fas fa-heart"></i> Add to Wishlist
-                            </button>
 
-                            <button  type="button" class="btn btn-outline-danger">
-                                <i class="fa fa-heart"></i> Remove from Wishlist
-                            </button>
+
+
+<center>
+    {% if isFavorite is defined and isFavorite  %}
+        <a  href="{{ path('removeFromFavoriCourse', {'id': course.id}) }}" type="button" class="btn btn-outline-danger">
+            <i class="fa fa-heart"></i> Remove from Wishlist
+        </a>
+    {% else %} <!-- ajouter -->
+        <a href="{{ path('favori_course', {'id': course.id}) }}" class="btn btn-outline-primary btn-sm add-to-wishlist">
+            <i class="fas fa-heart"></i> Add to Wishlist
+        </a>
+    {% endif %}
+
+</center>
+
+
+
                         </div>
                     </div>
                 </div>
@@ -143,18 +153,23 @@
                         <div class="review-item ml-sm-4">
                             <div class="small d-flex align-items-start">
                                 <!-- user -->
-                                <a class="name text-lt badge badge-info fw-600 small-4">Jallouli</a>
+                                <a class="name text-lt badge badge-info fw-600 small-4">{{ course.getIdCoach.getnom }}</a>
                                 <!-- /.user -->
                                 <!-- time -->
-                                <div class="time ml-2">05/08/2021</div>
+                                <div class="time ml-2">05/08/2021 </div>
                                 <!-- /.time -->
                                 <!-- star -->
+
                                 <div class="ml-2 text-warning">
+                                    review : {{ course.getIdCoach.getReview }}
+                                    {% for i in 1..5 %}
+                                    {% if i <= course.getIdCoach.getReview %}
                                     <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
+                                    {% else %}
+                                        <i class="far fa-star"></i>
+                                    {% endif %}
+                                    {% endfor %}
+                                  <!--  <i class="fas fa-star-half-alt"></i>-->
                                 </div>
                                 <!-- /.star -->
                                 <!-- info -->

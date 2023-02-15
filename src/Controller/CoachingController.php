@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Coach;
 use App\Entity\Cours;
+use App\Entity\Gamer;
+use App\Entity\UserCourses;
 use App\Form\AddCourseType;
 use App\Repository\CoursRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -15,20 +17,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class CoachingController extends BaseController
 {
     #[Route('/coaching/allCourses', name: 'app_coaching')]
-    public function index(ManagerRegistry $doctrine): Response
+    public function allCourses(ManagerRegistry $doctrine): Response
     {
         $courses= $doctrine->getRepository(Cours::class)->findAll();
         return $this->render('coaching/allCoaching.html.twig',['courses'=>$courses]);
-    }
-
-    #[Route('/coaching/oneCourse/{id}', name: 'oneCourse')]
-    public function oneCourse(int $id, CoursRepository $coursRepository)
-    {
-        $course = $coursRepository->find($id);
-
-        return $this->render('coaching/CourseDetails.html.twig', [
-            'course' => $course
-        ]);
     }
 
     #[Route('/coaching/addC', name: 'addC')]
@@ -95,4 +87,60 @@ class CoachingController extends BaseController
             'courses' => $courses
         ]);
     }
+
+
+    #[Route('/coaching/oneCourse/{id}', name: 'oneCourse')]
+    public function oneCourse(int $id, ManagerRegistry $doctrine ,Request $request,CoursRepository $coursRepository)
+    {
+        $gamer= $this->managerRegistry->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
+        $em =$doctrine->getManager();
+        $course = $doctrine->getRepository(Cours::class)->find($id);
+        $isFavorite = $em->getRepository(UserCourses::class)->findOneBy(['idGamer' => $gamer, 'idCours' => $course, 'favori' => true]);
+
+        return $this->render('coaching/CourseDetails.html.twig', [
+            'course' => $course,
+            'isFavorite'=>$isFavorite
+        ]);
+    }
+
+    #[Route('/course/{id}/toFavori', name: 'favori_course')]
+    public function addToFavoriCourse(ManagerRegistry $doctrine,Request $request, int $id): Response
+    {
+        $gamer= $this->managerRegistry->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
+        $course = $doctrine->getRepository(Cours::class)->find($id);
+
+        $gamersCourse = new UserCourses();
+        $gamersCourse->setIdGamer($gamer);
+        $gamersCourse->setIdCours($course);
+        $gamersCourse->setFavori(true);
+        $gamersCourse->setAcheter(false);
+
+        $favori = $gamersCourse->isFavori();
+        $acheter=$gamersCourse->isAcheter();
+
+        $em =$doctrine->getManager();
+        $em->persist($gamersCourse);
+        $em->flush();
+
+        return $this->redirectToRoute('oneCourse', ['id' => $id]);
+    }
+
+    #[Route('/course/{id}/removeFromFavori', name: 'removeFromFavoriCourse')]
+    public function removeFromFavoriCourse(ManagerRegistry $doctrine,Request $request, int $id)
+    {
+
+        $em =$doctrine->getManager();
+
+        $gamer= $this->managerRegistry->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
+        $course = $doctrine->getRepository(Cours::class)->find($id);
+        $userCourse =$em->getRepository(UserCourses::class)->findOneBy(['idGamer' => $gamer, 'idCours' => $course, 'favori' => true]);
+
+        if (!$course) {
+            throw $this->createNotFoundException('Course not found');
+        }
+        $em->remove($userCourse);
+        $em->flush();
+        return $this->redirectToRoute('oneCourse', ['id' => $id]);
+    }
+
 }
