@@ -117,8 +117,9 @@
                     <a class="nav-link dropdown-toggle" href="news.html" id="dropdownGaming_community" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Coaching </a>
                     <div class="dropdown-menu dropdown-menu-dark-lg" aria-labelledby="dropdownGaming_community">
                         <a class="dropdown-item " href="{{path('app_coaching')}}">liste des cours</a>
+                        {% if app.session.has('Coach_id') %}
                         <a class="dropdown-item" href="{{path('addC')}}">add course</a>
-
+                        {% endif %}
                     </div>
                 </li>
                 <li class="nav-item">

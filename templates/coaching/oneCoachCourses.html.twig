@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}AllCourses{% endblock %}
+{% block title %}My courses{% endblock %}
 
 {% block body %}
     <main class="main-content">
@@ -9,7 +9,7 @@
         <section class="content-section top_sellers carousel-spotlight ig-carousel pt-8 text-light">
             <div class="container">
                 <header class="header">
-                    <h2>All Courses</h2>
+                    <h2>My Courses</h2>
                 </header>
                 <div class="position-relative">
                     <div class="row">
@@ -29,7 +29,7 @@
                                         <!-- BOUCLE FOR LENNA -->
                                         {% for c in courses %}
                                             <!-- item -->
-                                            <div class="col-5 mr-9 ml-2 mb-8">
+                                            <div class="col-6 ml-2 mb-8">
 
                                                 <a href="{{ path('oneCourse', {'id': c.id}) }}" class="product-item">
                                                     <div class="row align-items-center no-gutters">
@@ -40,7 +40,7 @@
                                                             <h6 class="item_title ls-1 small-1 fw-600 text-uppercase mb-1">{{ c.titre }}</h6>
 
                                                             <div class="position-relative">
-                                                                <a href="index.html.twig">coach : {{ c.getIdJeux.getId }}</a>
+                                                                <a href="index.html.twig">coach : {{ c.getIdCoach.getNom }}</a>
                                                             </div>
                                                         </div>
                                                         <div class="item_discount d-none">
@@ -64,6 +64,24 @@
 
 
                                                                 </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- delete -->
+                                                        <div class="item_price ml-5">
+                                                            <div class="row align-items-center h-100 no-gutters">
+                                                                <a href="{{ path('suppC', {'id': c.id}) }}" class="btn" >
+                                                                    <i  style="color:red;font-size: 15px; " class="fa fa-trash"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- update -->
+                                                        <div class="item_price ml-5">
+                                                            <div class="row align-items-center h-100 no-gutters">
+                                                                <a href="{{ path('updateC', {'id': c.id}) }}" class="btn" >
+                                                                    <i style="color: yellow;font-size: 15px; " class="fa fa-pen"></i>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </div>
