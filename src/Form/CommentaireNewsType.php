@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
 
 class CommentaireNewsType extends AbstractType
 {
@@ -19,39 +20,10 @@ class CommentaireNewsType extends AbstractType
         $builder
 
 
-            ->add('description', TextareaType::class, [
-                'label' => 'Insérez votre commentaire ici:',
-                'attr' => [
-                    'class' => 'form-control form-control-lg',
-                    'rows' => 4,
-                    'placeholder' => 'Votre commentaire',
-                    'required' => true
-                ]
-            ])
-            ->add('idNews', TextareaType::class, [
-                'label' => 'Insérez votre commentaire ici:',
-                'attr' => [
-                    'class' => 'form-control form-control-lg',
-                    'rows' => 4,
-                    'placeholder' => 'Votre commentaire',
-                    'required' => true
-                ]
-            ])
-            ->add('user', TextareaType::class, [
-                'label' => 'Insérez votre commentaire ici:',
-                'attr' => [
-                    'class' => 'form-control form-control-lg',
-                    'rows' => 4,
-                    'placeholder' => 'Votre commentaire',
-                    'required' => true
-                ]
-            ])
-            ->add('send', SubmitType::class, [
-                'label' => 'Postez le commentaire',
-                'attr' => [
-                    'class' => 'btn btn-lg btn-warning'
-                ]
-            ])
+            ->add('description', TextareaType::class)
+            ->add('send', SubmitType::class)
+            ->add('clear', ResetType::class)
+
         ;
     }
 

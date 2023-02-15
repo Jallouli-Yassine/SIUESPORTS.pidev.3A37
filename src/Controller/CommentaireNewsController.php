@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\CommentaireNews;
 use App\Form\CommentaireNewsType;
+use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +32,23 @@ class CommentaireNewsController extends BaseController
             $user = $comment->getUser();
             $names[] = $user->getNom() . ' ' . $user->getPrenom();
         }
-        $form = $this->createForm(CommentaireNewsType::class);
+
+        $user = $this->getUserFromSession();
+        $commentaire = new CommentaireNews();
+
+        $commentaire->setUser($user);
+        $commentaire->setIdNews($news);
+        $commentaire->setDescription('zaerae');
+
+        $form = $this->createForm(CommentaireNewsType::class, $commentaire);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+
+            $em = $this->managerRegistry->getManagerForClass(CommentaireNews::class);
+            $em->persist($commentaire);
+            $em->flush();
+        }
+
 
         return $this->render('news/comments.html.twig', [
             'news' => $news,
@@ -39,34 +56,6 @@ class CommentaireNewsController extends BaseController
             'names' => $names,
             'gameName' => $gameName,
             'form' => $form->createView()
-        ]);
-    }
-
-    #[Route('/addcomment', name: 'ajouter_un_commentaire')]
-    public function ajouter_un_commentaire(Request $request)
-    {
-        $commentaireNews = new CommentaireNews();
-        $form = $this->createForm(CommentaireNewsType::class, $commentaireNews);
-
-        // Get the user object from the session
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->managerRegistry->getManagerForClass(CommentaireNews::class);
-            try {
-                // Set the date attribute of the comment to the current date and time
-                $commentaireNews->setDate(new \DateTime());
-
-                $em->persist($commentaireNews);
-                $em->flush();
-                $this->addFlash('success', 'Comment added successfully');
-                return $this->redirectToRoute('news');
-            } catch (\Exception $e) {
-                $this->addFlash('danger', 'An error occurred while adding the comment');
-                return $this->redirectToRoute('news');
-            }
-        }
-        return $this->render('news/comments.html.twig', [
-            'form' => $form->createView(),
         ]);
     }
 

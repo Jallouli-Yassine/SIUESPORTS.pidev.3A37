@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Coach;
+use App\Entity\Gamer;
 use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\Boolean;
@@ -49,18 +51,33 @@ class BaseController extends AbstractController
         else
         return False;
     }
-    
 
-    public function getid(){
-        if ( $this->session->has('Gamer_id') ){
-            $this->session=$this->request->getSession();
-            return  $this->session->get('Gamer_id');
+
+    public function getUserFromSession(): ?Gamer
+    {
+        $session = $this->request->getSession();
+
+        // Check if either Gamer or Coach ID is set in session
+        if ($session->has('Gamer_id')) {
+            $userId = $session->get('Gamer_id');
+            $user = $this->managerRegistry->getRepository(Gamer::class)->find($userId);
+        } elseif ($session->has('Coach_id')) {
+            $userId = $session->get('Coach_id');
+            $user = $this->managerRegistry->getRepository(Coach::class)->find($userId);
+        } else {
+            return null;
         }
-        if (  $this->session->has('Coach_id')){
-            $this->session=$this->request->getSession();
-        return  $this->session->get('Coach_id');
+
+        // Check if the user is still logged in
+        $sessionTime = $session->get('Session_time');
+        $now = new \DateTime();
+        $difference = $sessionTime->getTimestamp() - $now->getTimestamp();
+        if ($difference > $this->sessionLifetime) {
+            $session->invalidate();
+            return null;
         }
-        return null;
+
+        return $user;
     }
     
 
