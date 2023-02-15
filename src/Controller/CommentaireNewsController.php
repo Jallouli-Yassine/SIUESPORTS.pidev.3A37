@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\NewsRepository;
 use App\Repository\CommentaireNewsRepository;
-class CommentaireNewsController extends AbstractController
+class CommentaireNewsController extends BaseController
 {
     #[Route('/commentaire/news', name: 'app_commentaire_news')]
     public function index(): Response
@@ -27,7 +27,6 @@ class CommentaireNewsController extends AbstractController
         $names = [];
         $game = $news->getIdJeux();
         $gameName = $game->getNomGame();
-
         foreach ($comments as $comment) {
             $user = $comment->getUser();
             $names[] = $user->getNom() . ' ' . $user->getPrenom();
@@ -48,10 +47,15 @@ class CommentaireNewsController extends AbstractController
     {
         $commentaireNews = new CommentaireNews();
         $form = $this->createForm(CommentaireNewsType::class, $commentaireNews);
+
+        // Get the user object from the session
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->managerRegistry->getManagerForClass(CommentaireNews::class);
             try {
+                // Set the date attribute of the comment to the current date and time
+                $commentaireNews->setDate(new \DateTime());
+
                 $em->persist($commentaireNews);
                 $em->flush();
                 $this->addFlash('success', 'Comment added successfully');
@@ -63,7 +67,7 @@ class CommentaireNewsController extends AbstractController
         }
         return $this->render('news/comments.html.twig', [
             'form' => $form->createView(),
-
         ]);
     }
+
 }

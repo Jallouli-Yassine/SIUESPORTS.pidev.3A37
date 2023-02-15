@@ -1,0 +1,61 @@
+{% extends 'base1.html.twig' %}
+{% block body %}
+    <div class="col-lg-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Table des Actualité</h4>
+                </p>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>TITRE</th>
+                            <th>DATE</th>
+                            <th>Modifier</th>
+                            <th>Supprimer</th>
+                            <th>Consulter les commentaire</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for f in news %}
+                            <tr>
+                                <td>{{ f.id }}</td>
+                                <td>{{ f.titre }}</td>
+                                <td>{{ f.dateN|date('Y-m-d H:i:s')}}</td>
+
+                                <td>
+                                    <a href="{{ path('modifier_news', {'id': f.id}) }}" class="btn btn-outline-secondary btn-icon-text">  Modifier <i class="mdi mdi-file-check btn-icon-append"></i></a>
+                                </td>
+                                <td>
+                                    <a href="{{ path('supprimer_news', {'id': f.id}) }}" class="btn btn-outline-danger btn-icon-text">  Supprimer <i class="mdi mdi-bitbucket"></i></a>
+
+                                </td>
+                                <td>
+                                <button type="button" class="btn btn-warning btn-icon-text">
+                                    <i class="mdi mdi-comment"></i> Commentaires </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Form -->
+
+    <div class="col-md-4 grid-margin stretch-card">
+
+        <div class="card" >
+            <div class="card-body" >
+                <h4 class="card-title">Ajouter un jeu</h4>
+                {{ form(form) }}
+                {% if update_form is defined %}
+                    {{ form(update_form) }}
+                {% endif %}
+            </div> </div>
+    </div>
+
+{% endblock %}

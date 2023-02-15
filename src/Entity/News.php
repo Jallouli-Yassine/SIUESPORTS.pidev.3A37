@@ -35,6 +35,7 @@ class News
     public function __construct()
     {
         $this->commentaireNews = new ArrayCollection();
+        $this->dateN = new \DateTime();
     }
 
     public function getId(): ?int
@@ -112,6 +113,7 @@ class News
     {
         return $this->idJeux;
     }
+
 
     public function setIdJeux(?Jeux $idJeux): self
     {
