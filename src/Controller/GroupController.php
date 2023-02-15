@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Groupe;
+use App\Entity\Post;
 use App\Entity\ReviewJeux;
 
 use App\Form\GroupeType;
+use App\Form\PostType;
 use App\Repository\GroupeRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use  Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,18 +33,25 @@ class GroupController extends BaseController
             $em->flush();
             return $this->redirectToRoute('our_groupe');
         }
-        return $this->renderForm("group/index.html.twig",
+        return $this->renderForm("group/addg.html.twig",
             ["form"=>$fifi]) ;
 
 
     }
 
 
+
+
+
+
+
+
+
     #[Route('/ourgroupe', name: 'our_groupe')]
     public function affiche(): Response
     {
         $groupe =$this->getDoctrine()->getRepository(Groupe::class)->findAll();
-        return $this->render('group/de.html.twig', [
+        return $this->render('group/allgroupe.html.twig', [
             'groupe' => $groupe
         ]);
     }
@@ -60,13 +70,27 @@ class GroupController extends BaseController
 
 
     #[Route('/groupe/{id}', name: 'onegroupe')]
-    public function oneCourse(int $id, GroupeRepository $postgroupe)
+    public function oneCourse(int $id, GroupeRepository $postgroupe, Request $request, EntityManagerInterface $em)
     {
         $groupe = $postgroupe->find($id);
+        $post = new Post();
+        $post->setIdGroupe($groupe); // définir l'objet Groupe sur l'objet Post
+        $form = $this->createForm(PostType::class, $post);
+        $form->add('ajouter', SubmitType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($post);
+            $em->flush();
+
+            return $this->redirectToRoute('onegroupe', ['id' => $id]);
+        }
 
         return $this->render('group/post.html.twig', [
-            'groupe' => $groupe
+            'groupe' => $groupe,
+            'form' => $form->createView(),
         ]);
     }
+
 
 }
