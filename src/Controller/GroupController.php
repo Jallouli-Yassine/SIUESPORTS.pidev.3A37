@@ -9,6 +9,7 @@ use App\Entity\ReviewJeux;
 use App\Form\GroupeType;
 use App\Form\PostType;
 use App\Repository\GroupeRepository;
+use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use  Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,11 +39,6 @@ class GroupController extends BaseController
 
 
     }
-
-
-
-
-
 
 
 
@@ -91,6 +87,48 @@ class GroupController extends BaseController
             'form' => $form->createView(),
         ]);
     }
+
+
+/* remove postee*/
+    #[Route("/delete/{id}", name:'delete_post')]
+    public function delete($id, ManagerRegistry $doctrine, PostRepository $postRepository)
+    {
+        $post = $postRepository->find($id);
+        $groupId = $post->getIdGroupe()->getId();
+
+        $c = $doctrine
+        ->getRepository(Post::class)
+        ->find($id);
+        $em = $doctrine->getManager();
+        $em->remove($c);
+        $em->flush() ;
+        return $this->redirectToRoute('onegroupe', ['id' => $groupId]);
+    }
+
+
+    #[Route('/post/edit/{id}', name: 'edit_post')]
+    public function editPost(Post $post, Request $request, EntityManagerInterface $em)
+    {
+        $form = $this->createForm(PostType::class, $post);
+        $form->add('modifier', SubmitType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() ) {
+            $em->flush();
+
+            return $this->redirectToRoute('onegroupe', ['id' => $post->getIdGroupe()->getId()]);
+        }
+
+        return $this->render('group/updatepost.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+
+
+
+
 
 
 }
