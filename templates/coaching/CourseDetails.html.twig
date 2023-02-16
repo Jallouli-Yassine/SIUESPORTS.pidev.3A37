@@ -81,7 +81,7 @@
                     <div class="bg-dark_A-20 p-4 mb-4">
 
                         <video id="video" width="320" height="240" controls muted>
-                            <source src="{{ asset('front_office/assets/video/pub.mp4') }}" type="video/mp4">
+                            <source src="{{ asset('./uploads/videoCourses/'~course.video) }}" type="video/mp4">
 
                         </video>
                         {% if course.prix>0 %}

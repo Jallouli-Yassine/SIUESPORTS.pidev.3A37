@@ -2,12 +2,17 @@
 
 {% block title %}AllCourses{% endblock %}
 
+
+
 {% block body %}
+
+
 <main class="main-content">
 
     <!-- Start Content Area -->
     <section class="content-section top_sellers carousel-spotlight ig-carousel pt-8 text-light">
         <div class="container">
+
             <header class="header">
                 <h2>All Courses</h2>
             </header>
@@ -34,7 +39,7 @@
                                         <a href="{{ path('oneCourse', {'id': c.id}) }}" class="product-item">
                                             <div class="row align-items-center no-gutters">
                                                 <div class="item_img d-none d-sm-block">
-                                                    <img class="img bl-3 text-primary" src="{{asset('front_office/assets/img/content/store/h-08.jpg') }}" alt="Games Store">
+                                                    <img class="img bl-3 text-primary" src="{{asset('uploads/pictureCourses/'~c.image)}}" alt="Games Store">
                                                 </div>
                                                 <div class="item_content flex-1 flex-grow pl-0 pl-sm-6 pr-6">
                                                     <h6 class="item_title ls-1 small-1 fw-600 text-uppercase mb-1">{{ c.titre }}</h6>

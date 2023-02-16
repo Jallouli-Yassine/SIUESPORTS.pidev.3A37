@@ -10,31 +10,62 @@ use App\Form\AddCourseType;
 use App\Repository\CoursRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class CoachingController extends BaseController
 {
-    #[Route('/coaching/allCourses', name: 'app_coaching')]
-    public function allCourses(ManagerRegistry $doctrine): Response
-    {
-        $courses= $doctrine->getRepository(Cours::class)->findAll();
-        return $this->render('coaching/allCoaching.html.twig',['courses'=>$courses]);
-    }
-
     #[Route('/coaching/addC', name: 'addC')]
-    public function addC(\Doctrine\Persistence\ManagerRegistry $doctrine,Request $request): Response
+    public function addC(\Doctrine\Persistence\ManagerRegistry $doctrine,Request $request,SluggerInterface $slugger): Response
     {
         $course =new Cours();
+        //get coach with id logged in now
         $coach= $this->managerRegistry->getRepository(Coach::class)->findOneBy((['id' => $request->getSession()->get('Coach_id')]));
         $course->setIdCoach($coach);
         $coachId = $course->getIdCoach()->getId();
         $form =$this->createForm(AddCourseType::class,$course);
-        $form->add('ajouter', SubmitType::class) ;
         $form->handleRequest($request);
         if($form->isSubmitted())
         {
+
+// get the uploaded file
+            $photoC = $form->get('picture')->getData();
+            $videoC =  $form->get('videoC')->getData();
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($photoC && $videoC) {
+                $originalImgName = pathinfo($photoC->getClientOriginalName(), PATHINFO_FILENAME);
+                $originalVidName = pathinfo($videoC->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeImgname = $slugger->slug($originalImgName);
+                $safeVidname = $slugger->slug($originalVidName);
+                $newImgename = $safeImgname.'-'.uniqid().'.'.$photoC->guessExtension();
+                $newVidename = $safeVidname.'-'.uniqid().'.'.$videoC->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $photoC->move(
+                        $this->getParameter('img_directory'),
+                        $newImgename
+                    );
+                    $videoC->move(
+                        $this->getParameter('vid_directory'),
+                        $newVidename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $course->setImage($newImgename);
+                $course->setVideo($newVidename);
+            }
+
+
             $em =$doctrine->getManager();
             $em->persist($course);
             $em->flush();
@@ -44,6 +75,13 @@ class CoachingController extends BaseController
             [
                 "form"=>$form
             ]);
+    }
+
+    #[Route('/coaching/allCourses', name: 'app_coaching')]
+    public function allCourses(ManagerRegistry $doctrine): Response
+    {
+        $courses= $doctrine->getRepository(Cours::class)->findAll();
+        return $this->render('coaching/allCoaching.html.twig',['courses'=>$courses]);
     }
 
     #[Route('/Course/Delete/{id}', name: 'suppC')]
@@ -64,7 +102,6 @@ class CoachingController extends BaseController
         $course = $doctrine->getRepository(Cours::class)->find($id);
         $coachId = $course->getIdCoach()->getId();
         $form =$this->createForm(AddCourseType::class,$course);
-        $form->add('update', SubmitType::class);
         $form->handleRequest($request);
 
         if($form->isSubmitted())
@@ -88,13 +125,14 @@ class CoachingController extends BaseController
         ]);
     }
 
-
     #[Route('/coaching/oneCourse/{id}', name: 'oneCourse')]
     public function oneCourse(int $id, ManagerRegistry $doctrine ,Request $request,CoursRepository $coursRepository)
     {
         $gamer= $this->managerRegistry->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
+
         $em =$doctrine->getManager();
         $course = $doctrine->getRepository(Cours::class)->find($id);
+
         $isFavorite = $em->getRepository(UserCourses::class)->findOneBy(['idGamer' => $gamer, 'idCours' => $course, 'favori' => true]);
 
         return $this->render('coaching/CourseDetails.html.twig', [
