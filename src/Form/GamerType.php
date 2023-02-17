@@ -19,6 +19,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class GamerType extends AbstractType
@@ -28,18 +29,36 @@ class GamerType extends AbstractType
         $builder
             ->add('nom',null, [
                 'label' => false,
+                'constraints'=>[
+                    new Length([
+                        'max'=>8,
+                        'maxMessage'=>'max 8 caracteres',
+                    ])
+                ],
                 'attr' => [
                     'placeholder' => 'Nom',
                 ],
             ])
             ->add('prenom',null, [
                 'label' => false,
+                'constraints'=>[
+                    new Length([
+                        'max'=>8,
+                        'maxMessage'=>'max 8 caracteres',
+                    ])
+                ],
                 'attr' => [
                     'placeholder' => 'Prenom',
                 ],
             ])
             ->add('tag',null, [
                 'label' => false,
+                'constraints'=>[
+                    new Length([
+                        'max'=>8,
+                        'maxMessage'=>'max 8 caracteres',
+                    ])
+                ],
                 'attr' => [
                     'placeholder' => 'Pseudo',
                 ],
@@ -60,6 +79,12 @@ class GamerType extends AbstractType
             ])
             ->add('password',PasswordType::class, [
                 'label' => false,
+                'constraints'=>[
+                    new Length([
+                        'min'=>8,
+                        'minMessage'=>'min 8 caracteres',
+                    ])
+                ],
                 'attr' => [
                     'placeholder' => 'Password',
                 ],

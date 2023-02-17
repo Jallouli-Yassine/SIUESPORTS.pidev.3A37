@@ -55,6 +55,7 @@ class GestionEsportController extends BaseController
             $form = $this->createForm(GamerType::class, $user);
             $form->handleRequest($request);
                 if ($form->isSubmitted() && $form->isValid()) {
+                    $em2 = $this->managerRegistry->getRepository(Gamer::class);
                     
                     $hashedPassword = $this->passwordhash->hashPassword(
                         $users,

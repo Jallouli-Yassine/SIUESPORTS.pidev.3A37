@@ -1091,6 +1091,9 @@
                         {{ form_start(formcreateuser) }}
                         <div class="form-group">
                             {{ form_row(formcreateuser.nom, { 'attr': {'class': 'form-control border-secondary'} }) }}
+                            {% if form_errors(formcreateuser.nom) %}
+                            <div class="error-message">{{ form_errors(formcreateuser.nom) }}</div>
+                        {% endif %}
                         </div>
                         <div class="form-group">
                             {{ form_row(formcreateuser.prenom, { 'attr': {'class': 'form-control border-secondary'} }) }}
