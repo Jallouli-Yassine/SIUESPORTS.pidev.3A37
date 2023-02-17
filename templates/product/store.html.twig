@@ -95,7 +95,7 @@
                         <a href=" {{path('afficheproduit',{'id':p.id }) }} " class="product-item">
                           <div class="row align-items-center no-gutters">
                             <div class="item_img d-none d-sm-block">
-                              <img class="img bl-3 text-primary" src="front_office/assets/img/content/store/h-08.jpg" alt="Games Store">
+                              <img class="img bl-3 text-primary" src="{{asset('imageProduits/'~p.image)}}" alt="Games Store">
                             </div>
                             <div class="item_content flex-1 flex-grow pl-0 pl-sm-6 pr-6">
                               <h6 class="item_title ls-1 small-1 fw-600 text-uppercase mb-1">{{ p.nom }}</h6>
@@ -115,7 +115,7 @@
                               <div class="row align-items-center h-100 no-gutters">
                                 <div class="text-right">
 
-                                  <span class="fw-600" style="color: purple">{{ p.prix }} <img src="{{ asset('back_office/piece-de-kamel.png') }}" alt="coin" style="width: 16px; height: 16px;"></span>
+                                  <span class="fw-600" style="color: purple">{{ p.prix }} <img src="{{ asset('back_office/kamell.png') }}" alt="coin" style="width: 16px; height: 16px;"></span>
                                 </div>
                               </div>
                             </div>
@@ -565,7 +565,7 @@
                   <input type="text" class="form-control" id="dinarAmount" name="dinarAmount">
                 </div>
                 <div class="form-group">
-                  <label for="pointAmount">Montant en SIU <img src="{{ asset('back_office/piece-de-kamel.png') }}" alt="coin" style="width: 16px; height: 16px;"> :</label>
+                  <label for="pointAmount">Montant en SIU <img src="{{ asset('back_office/kamell.png') }}" alt="coin" style="width: 16px; height: 16px;"> :</label>
                   <input type="text" class="form-control" id="pointAmount" name="pointAmount" readonly value="{{ pointAmount ?? '' }} ">
                 </div>
                 <button type="submit" class="btn btn-primary">Convertir</button>

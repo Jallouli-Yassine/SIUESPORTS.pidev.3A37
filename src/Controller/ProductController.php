@@ -10,10 +10,12 @@ use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ProductController extends AbstractController
 {
@@ -95,23 +97,60 @@ class ProductController extends AbstractController
         ]);
     }
     //ajout product ad
-    #[Route('/addp', name: 'ajoutproduit')]
-    public function addp(\Doctrine\Persistence\ManagerRegistry $doctrine,Request $request): Response
+    #[Route('/addp/{idCategorie}', name: 'ajoutproduit')]
+    public function addp(\Doctrine\Persistence\ManagerRegistry $doctrine,Request $request,SluggerInterface $slugger, $idCategorie): Response
     {
 
         $produit =new Produit();
+
         $form =$this->createForm(ProduitType::class,$produit);
         $form->handleRequest($request);
         if($form->isSubmitted())
         {
+            /* img*/
+            $photoP = $form->get('imagep')->getData();
+            if ($photoP) {
+                $originalImgName = pathinfo($photoP->getClientOriginalName(), PATHINFO_FILENAME);
+
+                // this is needed to safely include the file name as part of the URL
+                $safeImgname = $slugger->slug($originalImgName);
+
+                $newImgename = $safeImgname . '-' . uniqid() . '.' . $photoP->guessExtension();
+
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $photoP->move(
+                        $this->getParameter('img_directory'),
+                        $newImgename
+                    );
+
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $produit->setImage($newImgename);
+            }
+            // Récupérer l'entité Catégorie correspondante à l'ID de catégorie fourni
+
+            /*endimg*/
+            // Définir la catégorie pour le produit
+
             $em =$doctrine->getManager();
+
+
+
             $em->persist($produit);
             $em->flush();
-            return $this->redirectToRoute('ad_product');
+
+            return $this->redirectToRoute('ad_categorie');
         }
         return $this->renderForm('product/addproduct.html.twig', [
-            'form'=>$form
+            'form'=>$form,'id'=>$idCategorie
         ]);
+
     }
     #[Route('/deletep/{id}', name: 'supprimerproduit')]
     public function deletep($id, \Doctrine\Persistence\ManagerRegistry $doctrine): Response
@@ -155,6 +194,7 @@ class ProductController extends AbstractController
         //dd($produit);
         return $this->render('product/adListeCategorie.html.twig', [
             'adcategorie' => $categorie
+
 
         ]);
     }

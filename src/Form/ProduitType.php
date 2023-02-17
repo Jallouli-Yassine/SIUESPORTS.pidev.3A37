@@ -7,6 +7,7 @@ use App\Entity\Produit;
 use phpDocumentor\Reflection\Types\False_;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,7 +31,17 @@ class ProduitType extends AbstractType
                 ],
             ])
             ->add('description')
-            ->add('image')
+            ->add('imagep',FileType::class, [
+                'label' => 'image du cours',
+
+                'mapped' => false, //maneha maandi attribut esmo photo fl entity mte3na
+                'required' => false,
+                'attr'=>[
+                    'placeholder' => 'Select a file',
+                    'style' => 'color:white;height:65px;background-color:#22152c;width:100%;border: none;margin:0px 0px 10px;padding:24px 33px'
+
+                ]
+            ])
             ->add('idCategorie',EntityType::class,[  //foreign key
                 'class' => Categorie::class,
                 'choice_label'=>'nom',
