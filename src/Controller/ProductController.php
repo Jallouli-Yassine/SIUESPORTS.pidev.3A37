@@ -145,8 +145,18 @@ class ProductController extends AbstractController
             'produit' => $produit,
         ]);
     }
-    /*conversionnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn*/
+    /*nnnnnnnnnnnnnnnnnnnnn**** categorie *******nnnnnnnnnnnnnnnnnnnnnnnnnn*/
+    //list categorie
+    #[Route('/categoriead', name: 'ad_categorie')]
+    public function adlistec(ManagerRegistry $doctrine): Response
+    {
+        $categorie =$doctrine->getRepository(Categorie::class)->findAll();
 
+        //dd($produit);
+        return $this->render('product/adListeCategorie.html.twig', [
+            'adcategorie' => $categorie
 
+        ]);
+    }
 }
 

@@ -14,6 +14,7 @@
         <tr>
             <th>ID</th>
             <th>Nom</th>
+
             <th>Description</th>
             <th>Prix</th>
             <th>Actions</th>
@@ -28,16 +29,20 @@
                 <td>{{ produit.prix }} <img src="{{ asset('back_office/piece-de-kamel.png') }}" alt="coin" style="width: 16px; height: 16px;"></td>
                 <td>
 
-                    <a href="{{ path('modifierProduit', {'id': produit.id}) }}">Modifier</a>
-                    <a href="{{ path('supprimerproduit', {'id': produit.id}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</a>
-                    
+
+                    <a href="{{ path('modifierProduit', {'id': produit.id}) }}"  class="btn btn-inverse-warning btn-fw">Modifier</a>
+
+                    <a href="{{ path('supprimerproduit', {'id': produit.id}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')" class="btn btn-inverse-danger btn-fw">Supprimer</a>
+
+
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a class="btn btn-primary me-1" href="{{ path('ajoutproduit') }}" style="width: fit-content;" >Ajouter un produit</a>
+
+        <a href="{{ path('ajoutproduit') }}"  class="btn btn-inverse-primary btn-fw" style="width: fit-content;" >Ajouter un produit</a>
     </div>
     </div>
 {% endblock %}

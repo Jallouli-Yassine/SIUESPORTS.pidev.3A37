@@ -6,6 +6,7 @@ use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -16,9 +17,12 @@ class Produit
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]    //o
+    #[Assert\GreaterThan(value: 0)]
+    #[Assert\Positive]
     private ?int $prix = null;
 
     #[ORM\Column(length: 65535, nullable: true)]
