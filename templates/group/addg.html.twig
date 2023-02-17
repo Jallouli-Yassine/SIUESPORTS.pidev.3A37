@@ -86,7 +86,7 @@
                                                                                        aria-atomic="true"></p>
                                                     <ul></ul>
                                                 </div>
-                                                <form  method="post" class="wpcf7-form init cf7_custom_style_1 demo" novalidate="novalidate" data-status="init">
+                                                {{ form_start(form) }}
                                                     <div style="display: none;">
                                                         <input type="hidden" name="_wpcf7" value="505">
                                                         <input type="hidden" name="_wpcf7_version" value="5.6.4">
@@ -112,7 +112,7 @@
 
                                                             </div>
                                                             <div class="edgtf-grid-col-6 edgtf-custom-text-input">
-                                                                {{ form_widget(form.image, {'attr': {'class': 'edgtf-eh-item-inner', 'placeholder': 'VOTRE IMAGE'}}) }}
+                                                                {{ form_widget(form.img, {'attr': {'class': 'edgtf-eh-item-inner', 'placeholder': 'VOTRE IMAGE'}}) }}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -125,7 +125,10 @@
                                                     </div>
                                             </div>
                                             <div class="wpcf7-response-output" aria-hidden="true"></div>
-                                            </form>
+
+
+
+                                            {{ form_end(form) }}
                                         </div>
                                     </div>
                                 </div>

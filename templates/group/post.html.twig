@@ -172,7 +172,7 @@
                         {{ form_widget(form.contenu, {'attr': {'class': 'edgtf-eh-item-inner', 'placeholder': 'CONTENUE'}}) }}
                     </div>
                     <div class="edgtf-eh-item-inner">
-                        {{ form_widget(form.image, {'attr': {'class': 'edgtf-eh-item-inner', 'placeholder': 'image'}}) }}
+                        {{ form_widget(form.imgp, {'attr': {'class': 'edgtf-eh-item-inner', 'placeholder': 'image'}}) }}
                     </div>
                 <div class="form-group mt-6">
 
@@ -282,26 +282,37 @@
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-md-6">
                 <div class="card">
+                    <center>{{ post.nompost }}</center>
+
+                    <div class="border-light o-20 mt-500 mb-7">
+                        <a href="{{ path('delete_post', {'id': post.id}) }}"> <span class="bi bi-trash" > delete</span> </a>   <a
+                        <a href="{{ path('edit_post', {'id': post.id}) }}"> <span id="boot-icon" class="bi bi-pencil"  color: rgb(255, 255, 255); </span> </a>
+                        <a  class="data-toggle="modal data-target="#update"> </a></div>
                     <div class="d-flex justify-content-between p-2 px-3">
                         <div class="d-flex flex-row align-items-center"> <img src="{{ asset('wp-content/uploads/2019/10/tour-list-img-5.jpg') }}" width="50" class="rounded-circle">
-                            <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">   {{ post.nompost }}</span> <small class="text-primary"></small> </div>
+
+                            <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">   </span> <small class="text-primary"></small> </div>
+
                         </div>
+                        <img width="800" height="507"
+                             src="{{asset('post/'~post.image)}}"
+                             class="attachment-full size-full" alt="a" loading="lazy"
+                             sizes="(max-width: 800px) 100vw, 800px"/>
+
+
+                    </div>
                         <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2"></small>
 
 
 
-                             </div>
 
-                            <div class="border-light o-20 mt-8 mb-4">
-                        <a href="{{ path('delete_post', {'id': post.id}) }}"> <span class="bi bi-trash" > delete</span> </a>   <a
-                                <a href="{{ path('edit_post', {'id': post.id}) }}"> <span id="boot-icon" class="bi bi-pencil"  color: rgb(255, 255, 255); </span> </a>
-                        <a  class="data-toggle="modal data-target="#update"> </a></div>
 
 
 
                     </div>
                     <div class="p-2">
-                        <p class="text-justify">{{ post.getContenu }}</p>
+                        <center> <p class="text-justify">{{ post.getContenu }}</p>
+                        </center>
 
                         <div class="comments">
 

@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Gamer;
 use App\Entity\Groupe;
+use App\Entity\MembreGroupe;
 use App\Entity\Post;
 use App\Entity\ReviewJeux;
 
@@ -12,22 +14,101 @@ use App\Repository\GroupeRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use  Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class GroupController extends BaseController
 {
-    #[Route('/group', name: 'app_group')]
-    public function  add(ManagerRegistry $doctrine, Request  $request) : Response
+
+
+
+
+    #[Route('/groupe/{id}/rejoindre', name: 'rejoindre')]
+    public function rejoindre(ManagerRegistry $doctrine,Request $request, int $id): Response
+    {
+        $gamer= $this->managerRegistry->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
+        $groupe = $doctrine->getRepository(Groupe::class)->find($id);
+
+
+
+        $groupemember = new MembreGroupe();
+        $groupemember->setIdGamer($gamer);
+        $groupemember->setIdGroupe($groupe);
+        $groupemember->setDate(new \DateTime()); // Set the current datetime
+
+
+
+
+        $em =$doctrine->getManager();
+        $em->persist($groupemember);
+        $em->flush();
+
+        return $this->redirectToRoute('onegroupe', ['id' => $id]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#[Route('/group', name: 'app_group')]
+    public function  add(ManagerRegistry $doctrine, Request  $request, SluggerInterface $slugger) : Response
     { $groupe = new Groupe() ;
         $fifi = $this->createForm(GroupeType::class, $groupe);
         $fifi->add('ajouter', SubmitType::class) ;
         $fifi->handleRequest($request);
-        if ($fifi->isSubmitted())
-        { $groupe->setIdOwner($this->session->get('Gamer_id'));
+        if ($fifi->isSubmitted() )
+        {
+            $photoC = $fifi->get('img')->getData();
+            if ($photoC ) {
+                $originalImgName = pathinfo($photoC->getClientOriginalName(), PATHINFO_FILENAME);
+
+                // this is needed to safely include the file name as part of the URL
+                $safeImgname = $slugger->slug($originalImgName);
+
+                $newImgename = $safeImgname . '-' . uniqid() . '.' . $photoC->guessExtension();
+
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $photoC->move(
+                        $this->getParameter('img_directory'),
+                        $newImgename
+                    );
+
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $groupe->setImage($newImgename);
+            }
+
+
+            $groupe->setIdOwner($this->session->get('Gamer_id'));
             $groupe->setNbrUser($groupe->getNbrUser()+1);
             $em = $doctrine->getManager();
             $em->persist($groupe);
@@ -39,7 +120,6 @@ class GroupController extends BaseController
 
 
     }
-
 
 
 
@@ -64,9 +144,9 @@ class GroupController extends BaseController
     }
     */
 
-
+/***************************affciche et ajout post  *****************************************/
     #[Route('/groupe/{id}', name: 'onegroupe')]
-    public function oneCourse(int $id, GroupeRepository $postgroupe, Request $request, EntityManagerInterface $em)
+    public function oneCourse(int $id, GroupeRepository $postgroupe, Request $request, EntityManagerInterface $em,SluggerInterface $slugger)
     {
         $groupe = $postgroupe->find($id);
         $post = new Post();
@@ -75,7 +155,36 @@ class GroupController extends BaseController
         $form->add('ajouter', SubmitType::class);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() ) {
+            $photoC = $form->get('img1')->getData();
+            if ($photoC) {
+                $originalImgName = pathinfo($photoC->getClientOriginalName(), PATHINFO_FILENAME);
+
+                // this is needed to safely include the file name as part of the URL
+                $safeImgname = $slugger->slug($originalImgName);
+
+                $newImgename = $safeImgname . '-' . uniqid() . '.' . $photoC->guessExtension();
+
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $photoC->move(
+                        $this->getParameter('imgp_directory'),
+                        $newImgename
+                    );
+
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $post->setImage($newImgename);
+            }
+
+
+
+
             $em->persist($post);
             $em->flush();
 
@@ -89,7 +198,7 @@ class GroupController extends BaseController
     }
 
 
-/* remove postee*/
+    /***************************remove post   *****************************************/
     #[Route("/delete/{id}", name:'delete_post')]
     public function delete($id, ManagerRegistry $doctrine, PostRepository $postRepository)
     {
@@ -105,15 +214,44 @@ class GroupController extends BaseController
         return $this->redirectToRoute('onegroupe', ['id' => $groupId]);
     }
 
+    /*************************** edit post   *****************************************/
 
     #[Route('/post/edit/{id}', name: 'edit_post')]
-    public function editPost(Post $post, Request $request, EntityManagerInterface $em)
+    public function editPost(Post $post, Request $request, EntityManagerInterface $em, SluggerInterface $slugger,ManagerRegistry $doctrine)
     {
+
         $form = $this->createForm(PostType::class, $post);
         $form->add('modifier', SubmitType::class);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() ) {
+        if ($form->isSubmitted()) {
+            $photoC= $form->get('imgp')->getData();
+            if ($photoC) {
+                $originalImgName = pathinfo($photoC->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeImgname = $slugger->slug($originalImgName);
+                $newImgename = $safeImgname . '-' . uniqid() . '.' . $photoC->guessExtension();
+
+                try {
+                    $photoC->move(
+                        $this->getParameter('imgp_directory'),
+                        $newImgename
+                    );
+                } catch (FileException $e) {
+                    // handle exception if something happens during file upload
+                }
+
+                // delete the old image
+                $oldImgename = $post->getImage();
+                if ($oldImgename) {
+                    $oldImgPath = $this->getParameter('imgp_directory') . '/' . $oldImgename;
+                    if (file_exists($oldImgPath)) {
+                        unlink($oldImgPath);
+                    }
+                }
+
+                $post->setImage($newImgename);
+            }
+
             $em->flush();
 
             return $this->redirectToRoute('onegroupe', ['id' => $post->getIdGroupe()->getId()]);
@@ -125,8 +263,52 @@ class GroupController extends BaseController
     }
 
 
+    /*************************** edit groupe   *****************************************/
 
+    #[Route("/update/{id}", name:'updategroupe')]
+    public function edit(Request $request, Groupe $groupe, SluggerInterface $slugger)
+    {
+        $form = $this->createForm(GroupeType::class, $groupe);
 
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $photoC= $form->get('img')->getData();
+            if ($photoC) {
+                $originalImgName = pathinfo($photoC->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeImgname = $slugger->slug($originalImgName);
+                $newImgename = $safeImgname . '-' . uniqid() . '.' . $photoC->guessExtension();
+
+                try {
+                    $photoC->move(
+                        $this->getParameter('img_directory'),
+                        $newImgename
+                    );
+                } catch (FileException $e) {
+                    // handle exception if something happens during file upload
+                }
+
+                // delete the old image
+                $oldImgename = $groupe->getImage();
+                if ($oldImgename) {
+                    $oldImgPath = $this->getParameter('img_directory') . '/' . $oldImgename;
+                    if (file_exists($oldImgPath)) {
+                        unlink($oldImgPath);
+                    }
+                }
+
+                $groupe->setImage($newImgename);
+            }
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            return $this->redirectToRoute('our_groupe');
+        }
+
+        return $this->renderForm('group/update.html.twig', [
+            'form' => $form
+        ]);
+    }
 
 
 
