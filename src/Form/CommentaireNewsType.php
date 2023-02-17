@@ -21,8 +21,10 @@ class CommentaireNewsType extends AbstractType
 
 
             ->add('description', TextareaType::class, [
+                'label' => 'Tapez votre commentaire ici',
                 'attr' => [
-                    'class' => 'form-control',
+
+                    'class' => 'form-control form-control-lg',
 
                 ]
             ])
@@ -30,12 +32,6 @@ class CommentaireNewsType extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-primary me-2',
 
-
-                ]
-            ])
-            ->add('clear', ResetType::class, [
-                'attr' => [
-                    'class' => 'btn btn-dark',
 
                 ]
             ])

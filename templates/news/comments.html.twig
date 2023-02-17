@@ -15,8 +15,7 @@
                         <header>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb-product breadcrumb-nowrap breadcrumb breadcrumb-angle bg-transparent pl-0 pr-0 mb-0">
-                                    <li class="breadcrumb-item"><a href="{{path('afficher_les_jeux')}}">Tout Les jeux</a></li>
-                                    <li class="breadcrumb-item"><a href="{{path('afficher_les_news')}}">Les actualités</a></li>
+                                    <li class="breadcrumb-item"><a href="{{path('afficher_les_news')}}">Actualité des jeux</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">{{ news.titre }}</li>
                                 </ol>
                             </nav>
@@ -41,14 +40,6 @@
 
                                     </div>
                                     <!--/.Carousel Wrapper-->
-                                    <div class="alert alert-no-border alert-share d-flex mb-6" role="alert">
-                                        <span class="flex-1 fw-600 text-uppercase text-warning">Partager:</span>
-                                        <div class="social-buttons text-unset">
-                                            <a class="social-twitter mx-2" href="#"><i class="fab fa-twitter"></i></a>
-                                            <a class="social-dribbble mx-2" href="#"><i class="fab fa-dribbble"></i></a>
-                                            <a class="social-instagram ml-2" href="#"><i class="fab fa-instagram"></i></a>
-                                        </div>
-                                    </div>
                                     <div id="about" class="about mb-8">
                                         <h6 class="mb-4 fw-400 ls-1 text-uppercase">L'article:</h6>
                                         <hr class="border-secondary my-2">
@@ -59,7 +50,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-6">
-                                        <h6 class="mb-0 fw-400 ls-1 text-uppercase">More like this</h6>
+                                        <h6 class="mb-0 fw-400 ls-1 text-uppercase">Donnez Votre avis:</h6>
                                         <hr class="border-secondary my-2">
                                         <div>
                                             <div class="owl-carousel carousel_sm" data-carousel-items="1, 2, 3, 3" data-carousel-margin="10" data-carousel-nav="false" data-carousel-dots="true">
@@ -200,14 +191,13 @@
                                                     <div class="row gutters-y">
                                                         <div class="col-lg-12 text-light">
                                                             <div class="mb-6">
-                                                                <div class="form-group">
+                                                                <div class="form-group" style="text-align-last: center;">
                                                                     {{ form_start(form) }}
                                                                     {{ form_row(form.description) }}
+                                                                    <div style="margin-top: 1rem;"></div>
                                                                     {{ form_row(form.send) }}
-                                                                    {{ form_row(form.clear) }}
                                                                     {{ form_end(form) }}
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                     </div>
@@ -247,9 +237,7 @@
                                                 <!-- /.time -->
                                             </div>
                                             <div>
-                                                <div class="collapse readmore r-fade">
                                                     <p class="mb-0 small-3">{{ c.description }}</p>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>

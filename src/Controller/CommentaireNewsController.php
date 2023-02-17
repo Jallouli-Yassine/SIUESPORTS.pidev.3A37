@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\CommentaireNews;
+use App\Entity\News;
 use App\Form\CommentaireNewsType;
 use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -67,88 +68,49 @@ class CommentaireNewsController extends BaseController
         ]);
     }
 
-
-
-
-    /** #[Route('/news/{id}', name: 'news')]
-    public function news(Request $request, NewsRepository $newsRepository, CommentaireNewsRepository $commentRepository, $id): Response
+    #[Route('/newsback/{id}', name: 'comment_back')]
+    public function news_back(Request $request, NewsRepository $newsRepository, CommentaireNewsRepository $commentRepository, $id): Response
     {
         $news = $newsRepository->findOneBy(['id' => $id]);
-        $comments = $commentRepository->findBy(['idNews' => $news]);
-        $names = [];
-        $game = $news->getIdJeux();
-        $gameName = $game->getNomGame();
-        foreach ($comments as $comment) {
-            $user = $comment->getUser();
-            $names[] = $user->getNom() . ' ' . $user->getPrenom();
-        }
-
         $user = $this->getUserFromSession();
         $commentaire = new CommentaireNews();
-
         $commentaire->setUser($user);
         $commentaire->setIdNews($news);
 
-
         $form = $this->createForm(CommentaireNewsType::class, $commentaire);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
 
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->managerRegistry->getManagerForClass(CommentaireNews::class);
             $em->persist($commentaire);
             $em->flush();
-        } else {
-            $errors = $form->getErrors(true);
         }
+        $comments = $commentRepository->findBy(['idNews' => $news]);
+        $game = $news->getIdJeux();
+        $gameName = $game->getNomGame();
+        $names = $this->getUserNames($comments);
 
-        return $this->render('news/comments.html.twig', [
+        return $this->render('news/commentsback.html.twig', [
             'news' => $news,
             'comments' => $comments,
             'names' => $names,
             'gameName' => $gameName,
             'form' => $form->createView(),
-            'errors'=> $errors
         ]);
     }
-    #[Route('/news/{id}', name: 'news')]
-    public function news(Request $request, NewsRepository $newsRepository, CommentaireNewsRepository $commentRepository, $id): Response
+
+    #[Route('/supprimercommentaire/{id}', name: 'supprimer_commentaire')]
+    public function delete_comment($id): Response
     {
+        $entityManager = $this->managerRegistry->getManagerForClass(CommentaireNews::class);
+        $comment = $entityManager->getRepository(CommentaireNews::class)->find($id);
 
-
-
-
-        $news = $newsRepository->findOneBy(['id' => $id]);
-        $comments = $commentRepository->findBy(['idNews' => $news]);
-
-        $names = [];
-        $game = $news->getIdJeux();
-        $gameName = $game->getNomGame();
-        foreach ($comments as $comment) {
-            $user = $comment->getUser();
-            $names[] = $user->getNom() . ' ' . $user->getPrenom();
+        if (!$comment) {
+            throw $this->createNotFoundException('No comment found for id '.$id);
         }
 
-        $user = $this->getUserFromSession();
-        $commentaire = new CommentaireNews();
-
-        $commentaire->setUser($user);
-        $commentaire->setIdNews($news);
-
-
-        $form = $this->createForm(CommentaireNewsType::class, $commentaire);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $em = $this->managerRegistry->getManagerForClass(CommentaireNews::class);
-            $em->persist($commentaire);
-            $em->flush();
-        }
-
-        return $this->render('news/comments2.html.twig', [
-            'news' => $news,
-            'comments' => $comments,
-            'form' => $form->createView(),
-        ]);
-    }**/
-
+        $entityManager->remove($comment);
+        $entityManager->flush();
+        return $this->redirectToRoute('comment_back', ['id' => $comment->getIdNews()->getId()]);
+    }
 }
