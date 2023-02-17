@@ -20,9 +20,25 @@ class CommentaireNewsType extends AbstractType
         $builder
 
 
-            ->add('description', TextareaType::class)
-            ->add('send', SubmitType::class)
-            ->add('clear', ResetType::class)
+            ->add('description', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+
+                ]
+            ])
+            ->add('send', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-primary me-2',
+
+
+                ]
+            ])
+            ->add('clear', ResetType::class, [
+                'attr' => [
+                    'class' => 'btn btn-dark',
+
+                ]
+            ])
 
         ;
     }

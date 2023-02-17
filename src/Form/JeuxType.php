@@ -14,6 +14,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\Constraints\Length;
+
 
 class JeuxType extends AbstractType
 {
@@ -28,7 +32,16 @@ class JeuxType extends AbstractType
             ->add('maxPlayers', IntegerType::class, [
                 'attr' => [
                     'class' => 'form-control'
-                ]
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a value',
+                    ]),
+                    new Type([
+                        'type' => 'integer',
+                        'message' => 'Please enter a valid number',
+                    ]),
+                ],
             ])
             ->add('priceGame', IntegerType::class, [
                 'attr' => [
@@ -38,7 +51,13 @@ class JeuxType extends AbstractType
             ->add('description', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control'
-                ]
+                ],
+                'constraints' => [
+                    new Length([
+                        'max' => 65535,
+                        'maxMessage' => 'The description cannot be longer than {{ limit }} characters',
+                    ]),
+                ],
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [

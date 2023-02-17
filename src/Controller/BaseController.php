@@ -38,7 +38,6 @@ class BaseController extends AbstractController
         $this->session=$this->request->getSession();
         if ( $this->session->has('Gamer_id') ||  $this->session->has('Coach_id')) {
             $diff= $this->session->get('Session_time');
-            var_dump($this->session->get('Gamer_id'));
             $now=new DateTime();            
             $difference = $diff->getTimestamp() - $now->getTimestamp();
             if ($difference>$this->sessionLifetime) {
