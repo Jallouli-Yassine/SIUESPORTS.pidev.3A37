@@ -222,5 +222,34 @@ class ProductController extends AbstractController
 
         return $this->redirectToRoute('ad_categorie');
     }
+    /*updateeeeeeeeeeeeeee categ*/
+    #[Route('/modifierc/{id}', name: 'modifierCategorie')]
+    public function updatec(Request $request, EntityManagerInterface $em, Categorie $categorie): Response
+    {
+        $form = $this->createForm(CategorieType::class, $categorie);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+
+            return $this->redirectToRoute('ad_categorie', ['id' => $categorie->getId()]);
+        }
+
+        return $this->renderForm('product/admodifiercategorie.html.twig', [
+            'form' => $form,
+            'categorie' => $categorie,
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 }

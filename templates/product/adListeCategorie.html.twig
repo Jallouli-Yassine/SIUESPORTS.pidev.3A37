@@ -33,7 +33,7 @@
                         <td>
                             <a href="{{ path('ajoutproduit', {'idCategorie': categorie.id}) }}" class="btn btn-inverse-info btn-fw">Ajouter un produit</a>
                             <a href="{{ path('supprimercategorie', {'id': categorie.id}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette categorie ?')" class="btn btn-inverse-danger btn-fw">Supprimer</a>
-
+                            <a href="{{ path('modifierCategorie', {'id': categorie.id}) }}"  class="btn btn-inverse-warning btn-fw">Modifier</a>
                         </td>
                     </tr>
                 {% endfor %}
