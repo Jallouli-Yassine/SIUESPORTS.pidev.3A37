@@ -25,10 +25,10 @@ class News
     #[ORM\Column(length: 65535)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'idNews', targetEntity: CommentaireNews::class)]
+    #[ORM\OneToMany(mappedBy: 'idNews', targetEntity: CommentaireNews::class, cascade: ["remove"])]
     private Collection $commentaireNews;
 
-    #[ORM\ManyToOne(inversedBy: 'news')]
+    #[ORM\ManyToOne(inversedBy: 'news', cascade: ["remove"])]
     private ?Jeux $idJeux = null;
 
 

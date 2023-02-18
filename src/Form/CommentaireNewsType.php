@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class CommentaireNewsType extends AbstractType
 {
@@ -23,20 +25,25 @@ class CommentaireNewsType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => 'Tapez votre commentaire ici',
                 'attr' => [
-
                     'class' => 'form-control form-control-lg',
-
-                ]
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Le champ description ne doit pas être vide',
+                    ]),
+                    new Length([
+                        'min' => 10,
+                        'max' => 255,
+                        'minMessage' => 'Le commantaire doit comporter au moins {{ limit }} caractères',
+                        'maxMessage' => 'Le commentaire ne doit pas dépasser {{ limit }} caractères',
+                    ]),
+                ],
             ])
             ->add('send', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary me-2',
-
-
-                ]
-            ])
-
-        ;
+                ],
+            ]);
     }
 
 

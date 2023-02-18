@@ -26,12 +26,12 @@ class Jeux
     private ?int $maxPlayers = null;
 
     #[ORM\Column]
-    private ?float $priceGame = null;
+    private ?string $image = null;
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'idJeux', targetEntity: News::class)]
+    #[ORM\OneToMany(mappedBy: 'idJeux', targetEntity: News::class, cascade: ["remove"])]
     private Collection $news;
 
     #[ORM\OneToMany(mappedBy: 'idJeux', targetEntity: ReviewJeux::class)]
@@ -205,5 +205,21 @@ class Jeux
         }
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string|null $image
+     */
+    public function setImage(?string $image): void
+    {
+        $this->image = $image;
     }
 }
