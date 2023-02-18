@@ -1,10 +1,10 @@
 {% extends 'base1.html.twig' %}
 {% block body %}
-    <div class="col-lg-6 grid-margin stretch-card">
+    <div class="col-lg-7 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Table des Actualité</h4>
-                </p>
+
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -37,16 +37,19 @@
                                 </td>
                             </tr>
                         {% endfor %}
-
                         </tbody>
                     </table>
+                    <div style="margin-top: 1rem;">
+                    {{ knp_pagination_render(news, 'pagination.html.twig') }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- Form -->
 
-    <div class="col-md-4 grid-margin stretch-card">
+    <div class="col-md-3 grid-margin stretch-card">
 
         <div class="card" >
             <div class="card-body" >

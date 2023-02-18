@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+
 class BaseController extends AbstractController
 {
     public $session;

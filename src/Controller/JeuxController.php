@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\ReviewJeux;
+use App\Form\ReviewJeuxType;
 use App\Repository\JeuxRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -20,7 +22,7 @@ class JeuxController extends BaseController
      */
 
     #[Route('/jeux', name: 'afficher_les_jeux')]
-    public function afficherjeux(): Response
+    public function afficherjeux(Request $request): Response
     {
         $jeux = $this->managerRegistry->getRepository(Jeux::class);
         $jeux = $jeux->findAll();
@@ -41,8 +43,8 @@ class JeuxController extends BaseController
             }
 
             $ratingJeux[$jeu->getId()] = $totalRating / $reviewCount;
-        }
 
+        }
         return $this->render('jeux/index.html.twig', array(
             'jeux' => $jeux,
             'ratingJeux' => $ratingJeux,

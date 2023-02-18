@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Knp\Component\Pager\PaginatorInterface;
 class NewsController extends BaseController
 {
 
@@ -30,15 +30,17 @@ class NewsController extends BaseController
     }
 
     #[Route('/news_back', name: 'afficher_les_news_back')]
-    public function newsBack(Request $request): Response
+    public function newsBack(PaginatorInterface $paginator, Request $request): Response
     {
         $newsRepository = $this->managerRegistry->getRepository(News::class);
-        $news = $newsRepository->findAll();
+        $queryBuilder = $newsRepository->createQueryBuilder('n')
+            ->orderBy('n.dateN', 'DESC');
+        $news = $paginator->paginate($queryBuilder, $request->query->getInt('page', 1), 10);
 
         $newNews = new News();
         $form = $this->createForm(NewsType::class, $newNews);
 
-        if ($request->isMethod('POST')) {
+
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -49,13 +51,15 @@ class NewsController extends BaseController
                 // Redirect to the same page to avoid resubmitting the form on refresh
                 return $this->redirectToRoute('afficher_les_news_back');
             }
-        }
 
+        $pageCount = ceil($news->count() / $news->getItemNumberPerPage());
         return $this->render('news/newsback.html.twig', [
             'news' => $news,
             'form' => $form->createView(),
+            'pageCount' => $pageCount
         ]);
     }
+
 
     #[Route('/delete_news/{id}', name: 'supprimer_news')]
     public function delete_news($id): Response

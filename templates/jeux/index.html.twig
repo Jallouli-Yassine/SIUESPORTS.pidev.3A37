@@ -67,8 +67,8 @@
                                                             <div class="modal-body">
                                                                 {{ f.description}}
                                                             </div>
-                                                        <span class="hr-text small my-6">Rating</span>
-                                                <div class="text-center my-6">
+                                                        <span class="hr-text small my-6">Les Avis</span>
+                                                            <div class="text-center my-6">
                                                                 <div class="star_rating-se text-warning mr-7" style=" place-content: center;">
                                                                 {% for i in 1..5 %}
                                                                     {% if i <=  ratingJeux[f.id] %}
@@ -79,7 +79,7 @@
                                                                 {% endfor %}
                                                                  </div>
                                                             {{ ratingJeux[f.id] }}
-                                                        </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
