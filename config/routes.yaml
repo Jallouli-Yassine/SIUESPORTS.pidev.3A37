@@ -5,3 +5,6 @@
 index:
   path: /index
   controller: App\Controller\ProductController::index
+updatec:
+  path: '/updatec'
+  controller: App\Controller\CategorieController::updatec

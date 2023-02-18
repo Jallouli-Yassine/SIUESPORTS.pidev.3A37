@@ -5,7 +5,7 @@
 {% block body %}
 
     <div class="ml-10 col-md-12 grid-margin stretch-card">
-    <div class="card">
+    <div >
         <center>
     <h1 >Liste des produits</h1>
         </center>
@@ -17,7 +17,7 @@
 
             <th>Description</th>
             <th>Prix</th>
-            <th>IMAGE</th>
+
             <th>Actions</th>
         </tr>
         </thead>
@@ -27,7 +27,7 @@
                 <td>{{ produit.id }}</td>
                 <td><a href="#" onclick="afficherImage('{{ asset('imageProduits/'~produit.image) }}')">{{ produit.nom }}</a></td>
                 <td style="white-space: pre-wrap;">{{ produit.description }}</td>
-                <td>{{ produit.prix }} <img src="{{ asset('back_office/piece-de-kamel.png') }}" alt="coin" style="width: 16px; height: 16px;"></td>
+                <td>{{ produit.prix }} <img src="{{ asset('back_office/kamell.png') }}" alt="coin" style="width: 16px; height: 16px;"></td>
                 <td>
                     <a href="{{ path('modifierProduit', {'id': produit.id}) }}"  class="btn btn-inverse-warning btn-fw">Modifier</a>
                     <a href="{{ path('supprimerproduit', {'id': produit.id}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')" class="btn btn-inverse-danger btn-fw">Supprimer</a>
@@ -56,7 +56,7 @@
     </table>
 
 
-        <a href=""  class="btn btn-inverse-primary btn-fw" style="width: fit-content;" >Ajouter un produit</a>
+        <a href=""  class="btn btn-inverse-info btn-fw" style="width: fit-content;" >Ajouter un produit</a>
     </div>
     </div>
 {% endblock %}

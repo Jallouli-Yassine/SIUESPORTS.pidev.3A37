@@ -5,7 +5,7 @@
 {% block body %}
 
     <div class="ml-10 col-md-12 grid-margin stretch-card">
-        <div class="card">
+        <div >
             <center>
                 <h1 style="color:purple; font-weight:bold;">Liste des Catégories</h1>
             </center>
@@ -31,7 +31,9 @@
                             {% endfor %}
                         </td>
                         <td>
-                            <a href="{{ path('ajoutproduit', {'idCategorie': categorie.id}) }}" class="btn btn-info btn-rounded btn-fw">Ajouter un produit</a>
+                            <a href="{{ path('ajoutproduit', {'idCategorie': categorie.id}) }}" class="btn btn-inverse-info btn-fw">Ajouter un produit</a>
+                            <a href="{{ path('supprimercategorie', {'id': categorie.id}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette categorie ?')" class="btn btn-inverse-danger btn-fw">Supprimer</a>
+
                         </td>
                     </tr>
                 {% endfor %}
@@ -39,6 +41,7 @@
             </table>
 
             <a href="{{ path('ajoutCategorie') }}" class="btn btn-inverse-info btn-fw" style="width: fit-content;">Ajouter une catégorie</a>
+
         </div>
     </div>
 

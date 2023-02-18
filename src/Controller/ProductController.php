@@ -39,7 +39,6 @@ class ProductController extends AbstractController
     public function update(Request $request,int $id): Response
     {
         $produit = $doctrine->getRepository(Produit::class)->find($id);
-
         return $this->renderForm('product/produit.html.twig',
             [
                 'p'=>$produit
@@ -88,7 +87,7 @@ class ProductController extends AbstractController
             $em =$doctrine->getManager();
             $em->persist($categorie);
             $em->flush();
-            return $this->redirectToRoute('ajoutCategorie');
+            return $this->redirectToRoute('ad_categorie');
         }
 
 
@@ -198,5 +197,30 @@ class ProductController extends AbstractController
 
         ]);
     }
-}
+    /*supp categ*/
+    #[Route("/deletec/{id}", name:'supprimercategorie')]
+    public function deletec($id, ManagerRegistry $doctrine, ProduitRepository $postRepository)
+    {
+        $em = $doctrine->getManager();
 
+        // Récupérer le groupe correspondant à l'id
+        $categorie= $doctrine->getRepository(Categorie:: class)->find($id);
+
+        // Récupérer tous les produit associés
+        $produits = $categorie->getProduits();
+
+        // Supprimer chaque produit
+        foreach ($produits as $produit) {
+            $em->remove($produit);
+        }
+
+
+        // Supprimer la categorie lui-même
+        $em->remove($categorie);
+
+        $em->flush();
+
+        return $this->redirectToRoute('ad_categorie');
+    }
+
+}
