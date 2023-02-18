@@ -207,7 +207,7 @@ class CoachingController extends BaseController
         $em->persist($gamersCourse);
         $em->flush();
 
-        return $this->redirectToRoute('oneCourse', ['id' => $id]);
+        return $this->redirectToRoute('GamerCourses');
     }
 
     #[Route('/course/{id}/removeFromFavori', name: 'removeFromFavoriCourse')]
@@ -223,7 +223,20 @@ class CoachingController extends BaseController
         }
         $em->remove($userCourse);
         $em->flush();
-        return $this->redirectToRoute('oneCourse', ['id' => $id]);
+        return $this->redirectToRoute('GamerCourses');
     }
+
+    #[Route('/gamer/wishlist', name: 'GamerCourses')]
+    public function showWishlist(Request $request)
+    {
+        $gamer= $this->managerRegistry->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
+        $GamerWishlist = $gamer->getUserCourses();
+
+        return $this->render('coaching/afficherWishlist.html.twig', [
+            'wishlist' => $GamerWishlist
+        ]);
+    }
+
+
 
 }
