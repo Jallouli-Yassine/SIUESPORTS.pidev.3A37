@@ -2,27 +2,20 @@
 
 namespace App\Form;
 
-use App\Entity\Coach;
 use App\Entity\Cours;
 use App\Entity\Jeux;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Choice;
-use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\PositiveOrZero;
 
 class AddCourseType extends AbstractType
 {
@@ -51,7 +44,6 @@ class AddCourseType extends AbstractType
             ])
             ->add('picture',FileType::class, [
                 'label' => 'image du cours',
-
                 'mapped' => false, //maneha maandi attribut esmo photo fl entity mte3na
                 'required' => false,
                 'attr'=>[
@@ -79,7 +71,6 @@ class AddCourseType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'placeholder' => 'Enter Course Price here',
-                    'class'=> 'edgtf-eh-item-inner',
                     'style' => 'color:white;height:65px;background-color:#22152c;width:100%;border: none;margin:0px 0px 10px;padding:24px 33px'
                 ],
             ])

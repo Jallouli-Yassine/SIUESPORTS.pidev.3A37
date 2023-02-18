@@ -82,7 +82,6 @@
 
                         <video id="video" width="320" height="240" controls muted>
                             <source src="{{ asset('./uploads/videoCourses/'~course.video) }}" type="video/mp4">
-
                         </video>
                         {% if course.prix>0 %}
                         <script>
@@ -100,7 +99,7 @@
                                 <div class="price">
                                    <!-- <div class="price-prev">300$</div> -->
                                     {% if course.prix>0 %}
-                                    <div class="price-current">{{ course.prix }} Points</div>
+                                    <div class="price-current">{{ course.prix }}  <img src="{{ asset('back_office/piece-de-kamel.png') }}" alt="coin" style="width: 25px; height: 25px; margin-bottom: 3px"></div>
 
                                     {% else %}
                                     <div class="price-current">free</div>

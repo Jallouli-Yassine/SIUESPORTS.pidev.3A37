@@ -18,17 +18,58 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class CoachingController extends BaseController
 {
+    //ADMIN
+    #[Route('/Admin/allCourses', name: 'Admincoaching')]
+    public function adminallCourses(ManagerRegistry $doctrine): Response
+    {
+        $courses= $doctrine->getRepository(Cours::class)->findAll();
+        return $this->render('coaching/adminSeeCourses.html.twig',['courses'=>$courses]);
+    }
+
+    #[Route('/Course/true/{id}', name: 'updateStateTrue')]
+    public function acceptCourse(\Doctrine\Persistence\ManagerRegistry $doctrine,Request $request, int $id): Response
+    {
+        $course = $doctrine->getRepository(Cours::class)->find($id);
+        if($course)
+        {
+            $course->setEtat(1);
+            $em =$doctrine->getManager();
+            $em->flush();
+            return $this->redirectToRoute('Admincoaching',['courseFound'=>true]);
+        }else
+            return $this->redirectToRoute('Admincoaching',['courseFound'=>false]);
+    }
+
+    #[Route('/Course/false/{id}', name: 'updateStateFalse')]
+    public function refusertCourse(\Doctrine\Persistence\ManagerRegistry $doctrine,Request $request, int $id): Response
+    {
+        $course = $doctrine->getRepository(Cours::class)->find($id);
+        if($course)
+        {
+            dump($course->getEtat()); // output the current value of the etat field
+            $course->setEtat(-1);
+            dump($course->getEtat()); // output the new value of the etat field
+
+            $em =$doctrine->getManager();
+            $em->flush();
+            return $this->redirectToRoute('Admincoaching',['courseFound'=>true]);
+        }else
+            return $this->redirectToRoute('Admincoaching',['courseFound'=>false]);
+    }
+    //others
+
     #[Route('/coaching/addC', name: 'addC')]
     public function addC(\Doctrine\Persistence\ManagerRegistry $doctrine,Request $request,SluggerInterface $slugger): Response
     {
         $course =new Cours();
+        $course->setEtat(0);
         //get coach with id logged in now
         $coach= $this->managerRegistry->getRepository(Coach::class)->findOneBy((['id' => $request->getSession()->get('Coach_id')]));
         $course->setIdCoach($coach);
         $coachId = $course->getIdCoach()->getId();
         $form =$this->createForm(AddCourseType::class,$course);
         $form->handleRequest($request);
-        if($form->isSubmitted())
+        if($form->isSubmitted()&&$form->isValid())
         {
 
 // get the uploaded file
@@ -69,7 +110,8 @@ class CoachingController extends BaseController
             $em =$doctrine->getManager();
             $em->persist($course);
             $em->flush();
-            return $this->redirectToRoute('CoachCourses', ['id' => $coachId]);
+            return $this->redirectToRoute('CoachCourses', ['id' => $coachId, 'etat' => 0]);
+
         }
         return $this->renderForm('coaching/addCourse.html.twig',
             [
@@ -92,7 +134,8 @@ class CoachingController extends BaseController
         $em = $doctrine->getManager();
         $em->remove($course);
         $em->flush();
-        return $this->redirectToRoute('CoachCourses', ['id' => $coachId]);
+
+        return $this->redirectToRoute('CoachCourses', ['id' => $coachId, 'etat' => 1]);
     }
 
     #[Route('/Course/update/{id}', name: 'updateC')]
@@ -104,26 +147,30 @@ class CoachingController extends BaseController
         $form =$this->createForm(AddCourseType::class,$course);
         $form->handleRequest($request);
 
-        if($form->isSubmitted())
+        if($form->isSubmitted()&&$form->isValid())
         {
+            $course->setEtat(0);
             $em =$doctrine->getManager();
             $em->flush();
-            return $this->redirectToRoute('CoachCourses', ['id' => $coachId]);
+            return $this->redirectToRoute('CoachCourses', ['id' => $coachId, 'etat' => 0]);
         }
         return $this->renderForm('Coaching/updateCourse.html.twig',[
             'form'=>$form
         ]);
     }
 
-    #[Route('/coach/{id}/courses', name: 'CoachCourses')]
-    public function showCoachCourses($id, CoursRepository $courseRepository)
+    #[Route('/coach/{id}/courses/{etat}', name: 'CoachCourses')]
+    public function showCoachCourses($id,int $etat, CoursRepository $courseRepository)
     {
-        $courses = $courseRepository->findCoursesByCoachId($id);
+        $EtatCourses = $courseRepository->findCoursesByCoachIdEtat($id,$etat);
+        $Allcourses = $courseRepository->findCoursesByCoachId($id);
 
         return $this->render('coaching/oneCoachCourses.html.twig', [
-            'courses' => $courses
+            'Allcourses' => $Allcourses,
+            'EtatCourses' => $EtatCourses
         ]);
     }
+
 
     #[Route('/coaching/oneCourse/{id}', name: 'oneCourse')]
     public function oneCourse(int $id, ManagerRegistry $doctrine ,Request $request,CoursRepository $coursRepository)
@@ -166,9 +213,7 @@ class CoachingController extends BaseController
     #[Route('/course/{id}/removeFromFavori', name: 'removeFromFavoriCourse')]
     public function removeFromFavoriCourse(ManagerRegistry $doctrine,Request $request, int $id)
     {
-
         $em =$doctrine->getManager();
-
         $gamer= $this->managerRegistry->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
         $course = $doctrine->getRepository(Cours::class)->find($id);
         $userCourse =$em->getRepository(UserCourses::class)->findOneBy(['idGamer' => $gamer, 'idCours' => $course, 'favori' => true]);

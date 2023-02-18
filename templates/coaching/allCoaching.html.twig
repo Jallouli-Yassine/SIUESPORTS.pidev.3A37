@@ -28,11 +28,9 @@
                             <div class="tab-pane fade active show" id="mp-2-01-c" role="tabpanel" aria-labelledby="mp-2-01-tab">
                                 <div class="row">
 
-
-
-
                                     <!-- BOUCLE FOR LENNA -->
                                     {% for c in courses %}
+                                        {% if c.etat == 1 %}
                                     <!-- item -->
                                     <div style="" class="col-5 mr-9 ml-2 mb-8 ">
 
@@ -61,12 +59,11 @@
                                                         <div class="text-right">
 
                                                             {% if c.prix>0 %}
-                                                                <span class="fw-600">{{ c.prix }} Points</span>
+                                                                <span style="font-size: 22px" class="fw-400">{{ c.prix }} <img src="{{ asset('back_office/piece-de-kamel.png') }}" alt="coin" style="width: 25px; height: 25px; margin-bottom: 3px"></span>
 
                                                             {% else %}
                                                                 <span class="fw-600">free</span>
                                                             {% endif %}
-
 
                                                         </div>
                                                     </div>
@@ -74,6 +71,7 @@
                                             </div>
                                         </a>
                                     </div>
+                                        {% endif %}
                                     {% endfor %}
 
 

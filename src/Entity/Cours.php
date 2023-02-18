@@ -42,6 +42,9 @@ class Cours
     #[ORM\ManyToOne(inversedBy: 'cours')]
     private ?Jeux $idJeux = null;
 
+    #[ORM\Column(type: 'integer')]
+    private ?int $etat = null;
+
     public function __construct()
     {
         $this->userCourses = new ArrayCollection();
@@ -177,4 +180,17 @@ class Cours
 
         return $this;
     }
+
+    public function getEtat(): ?int
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(int $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
 }
