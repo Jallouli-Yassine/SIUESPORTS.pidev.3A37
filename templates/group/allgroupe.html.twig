@@ -5,7 +5,7 @@
 {% endblock %}
 
 
-{% block body %}*
+{% block body %}
     <div class="overlay overflow-hidden pe-n"><img src="{{ asset('front_office/assets/img/bg/bg_shape.png') }}" alt="Background shape"></div>
     <link rel="stylesheet" href="{{ asset('rbt-modules1eb7.css') }}">
     <link rel='stylesheet' id='overworld-edge-modules-css'
@@ -71,33 +71,47 @@
                                                          src="{{asset('groupe/'~g.image)}}"
                                                          class="attachment-full size-full" alt="a" loading="lazy"
                                                          sizes="(max-width: 800px) 100vw, 800px"/>
-
+                                                    <small> Nom de groupe :{{ g.nomgroupe }}<br> </small></div>
+                                                <small>description :{{ g.description }}<br></small>
                                                     <div class="edgtf-tournament-info" >
+                                                     </div>
 
                                                         <div class="edgtf-tournament-top-info edgtf-tournament-section">
 
-                                                            <div class="edgtf-tournament-date">
-                                                                <small> Nom de groupe :{{ g.nomgroupe }}<br> </small></div>
+
+
                                                             <div class="edgtf-tournament-time">
-                                                                <small>description :{{ g.description }}<br></small></div>
                                                             <div class="edgtf-tournament-categories"><span
                                                                         class="edgtf-tournament-category"><small> nombre de user : {{ g.nbruser }}<br></small></span>
                                                             </div>
 
-                                                            <div class="edgtf-st-button"><a itemprop="url" href="{{ path('rejoindre',{'id':g.getId}) }}"
+                                                            <div ><a itemprop="url" href="{{ path('rejoindre',{'id':g.getId}) }}"
 
-                                                                                            style="color: #ffffff;margin: 55px 0 0"
+                                                                                            style="color: #ffffff;margin: 20px 0 0"
                                                                                             class="edgtf-btn edgtf-btn-small edgtf-btn-outline">
                                                                     <span  class="edgtf-btn-text">Rejoindre</span> </a></div>
 
 
-                                                        </div>
-                                                    </div>
-                                                    <div class="edgtf-st-button"><a itemprop="url" href="{{ path('updategroupe',{'id':g.getId}) }}"
 
-                                                                                    style="color: #ffffff;margin: 55px 0 0"
-                                                                                    class="edgtf-btn edgtf-btn-small edgtf-btn-outline">
-                                                            <span  class="edgtf-btn-text">update</span> </a></div>
+                                                    </div>
+
+                                                    {% if g.getIdOwner() == app.session.get('Gamer_id') %}
+                                                        <div>
+                                                            <a itemprop="url" href="{{ path('updategroupe',{'id':g.getId}) }}"
+                                                               style="color: #ffffff;margin: 10px 0 0"
+                                                               class="edgtf-btn edgtf-btn-small edgtf-btn-outline">
+                                                                <span class="edgtf-btn-text">update</span>
+                                                            </a>
+                                                        </div>
+
+                                                        <div>
+                                                            <a itemprop="url" href="{{ path('deletegroupe',{'id':g.getId}) }}"
+                                                               style="color: #ffffff;margin-top: 10px"
+                                                               class="edgtf-btn edgtf-btn-small edgtf-btn-outline">
+                                                                <span class="edgtf-btn-text">supprimer</span>
+                                                            </a>
+                                                        </div>
+                                                    {% endif %}
 
                                                 </div>
 

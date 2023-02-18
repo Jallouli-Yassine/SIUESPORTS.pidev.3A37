@@ -11,6 +11,7 @@ use App\Entity\ReviewJeux;
 use App\Form\GroupeType;
 use App\Form\PostType;
 use App\Repository\GroupeRepository;
+use App\Repository\MembreGroupeRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use  Doctrine\Persistence\ManagerRegistry;
@@ -156,7 +157,7 @@ class GroupController extends BaseController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() ) {
-            $photoC = $form->get('img1')->getData();
+            $photoC = $form->get('imgp')->getData();
             if ($photoC) {
                 $originalImgName = pathinfo($photoC->getClientOriginalName(), PATHINFO_FILENAME);
 
@@ -308,6 +309,39 @@ class GroupController extends BaseController
         return $this->renderForm('group/update.html.twig', [
             'form' => $form
         ]);
+    }
+
+
+
+    /***************************remove groupe   *****************************************/
+    #[Route("/supp/{id}", name:'deletegroupe')]
+    public function supp($id, ManagerRegistry $doctrine, PostRepository $postRepository, MembreGroupeRepository $membreGroupeRepository)
+    {
+        $em = $doctrine->getManager();
+
+        // Récupérer le groupe correspondant à l'id
+        $groupe = $doctrine->getRepository(Groupe::class)->find($id);
+
+        // Récupérer tous les posts associés
+        $posts = $groupe->getPosts();
+
+        // Supprimer chaque post
+        foreach ($posts as $post) {
+            $em->remove($post);
+        }
+
+        // Supprimer toutes les entrées liées à ce groupe dans la table membre_groupe
+        $membres = $membreGroupeRepository->findBy(['idGroupe' => $id]);
+        foreach ($membres as $membre) {
+            $em->remove($membre);
+        }
+
+        // Supprimer le groupe lui-même
+        $em->remove($groupe);
+
+        $em->flush();
+
+        return $this->redirectToRoute('our_groupe');
     }
 
 
