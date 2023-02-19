@@ -43,9 +43,19 @@ class User
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: CommentaireNews::class)]
     private Collection $commentaireNews;
 
+    #[ORM\Column(length: 255)]
+    private ?string $phone = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $about = null;
+
+    #[ORM\OneToMany(mappedBy: 'userid', targetEntity: HistoriquePoint::class)]
+    private Collection $historiquePoints;
+
     public function __construct()
     {
         $this->commentaireNews = new ArrayCollection();
+        $this->historiquePoints = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -161,6 +171,60 @@ class User
             // set the owning side to null (unless already changed)
             if ($commentaireNews->getUser() === $this) {
                 $commentaireNews->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getAbout(): ?string
+    {
+        return $this->about;
+    }
+
+    public function setAbout(?string $about): self
+    {
+        $this->about = $about;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HistoriquePoint>
+     */
+    public function getHistoriquePoints(): Collection
+    {
+        return $this->historiquePoints;
+    }
+
+    public function addHistoriquePoint(HistoriquePoint $historiquePoint): self
+    {
+        if (!$this->historiquePoints->contains($historiquePoint)) {
+            $this->historiquePoints->add($historiquePoint);
+            $historiquePoint->setUserid($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistoriquePoint(HistoriquePoint $historiquePoint): self
+    {
+        if ($this->historiquePoints->removeElement($historiquePoint)) {
+            // set the owning side to null (unless already changed)
+            if ($historiquePoint->getUserid() === $this) {
+                $historiquePoint->setUserid(null);
             }
         }
 

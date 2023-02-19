@@ -6,6 +6,12 @@
 parameters:
     img_directory: '%kernel.project_dir%/public/uploads/pictureJeux'
 
+    img_directory: '%kernel.project_dir%/public/imageProduits'
+
+    img_directory: '%kernel.project_dir%/public/groupe'
+    imgp_directory: '%kernel.project_dir%/public/post'
+
+
 services:
     # default configuration for services in *this* file
     _defaults:

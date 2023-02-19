@@ -68,22 +68,30 @@
                             <button class="btn btn-sm btn-warning text-secondary my-0 mx-0" type="submit"><i
                                     class="fas fa-search"></i></button>
                         </div>
-                    </form>
+
+
+                  </form>
+
+
                 </div>
                 <div class="col-8 col-sm-8 col-md-8 col-lg-6 col-xl-4 ml-auto text-right">
                     <ul class="nav navbar-nav d-none d-sm-inline-flex flex-row">
 
                         <li class="nav-item">
-                            <a class="nav-link small" href="{{path('affichePanier')}}" data-toggle="offcanvas" data-target="#offcanvas-cart">
+                            <a class="nav-link small" href="" data-toggle="offcanvas" data-target="#offcanvas-cart">
                                 <span class="p-relative d-inline-flex">
                                     <span
                                         class="badge-cart badge badge-counter badge-warning position-absolute l-1">2</span>
                                     <i class="fas fa-shopping-cart"></i>
                                 </span>
+                                &nbsp;
+                                <span class="text-warning fw-500">{{ app.session.get('Solde') }} <i class="fas fa-coins"></i>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link small" href="#">{{ app.session.get('Gamer_tag') }}</a>
+
+                            <a class="nav-link small" href="#">{{ app.session.get('User_name') }}  </span></a>
+                            
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle small" href="#" id="dropdownGaming"
@@ -97,7 +105,6 @@
 
 
                         </li>
-
                     </ul>
                 </div>
             </div>

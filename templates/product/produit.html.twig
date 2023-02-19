@@ -25,8 +25,8 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb-product breadcrumb-nowrap breadcrumb breadcrumb-angle bg-transparent pl-0 pr-0 mb-0">
                                 <li class="breadcrumb-item"><a href="#">Store</a></li>
-                                <li class="breadcrumb-item"><a href="{{path('app_product') }}">Jeux & Materiel</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">{{ p.nom }}</li>
+                                <li class="breadcrumb-item"><a href="{{path('app_product') }}" style="color: purple">Jeux & Materiel</a></li>
+                                <li class="breadcrumb-item active" aria-current="page" style="color: rebeccapurple">{{ p.nom }}</li>
                             </ol>
                         </nav>
                         <h3 class="product_name mb-4">{{ p.nom }}</h3>
@@ -40,7 +40,7 @@
                                 <!--Carousel Wrapper-->
                                 <div class="carousel-product">
                                     <div class="slider text-secondary" data-slick="product-body">
-                                        <img src="front_office/assets/img/content/product/01.jpg" alt="Game">
+                                        <img src="{{asset('imageProduits/'~p.image)}}" alt="Game">
 
                                     </div>
 
@@ -196,7 +196,7 @@
                             <div class="mb-3">
                                 <div class="price">
                                    <!-- <div class="price-prev">300$</div>-->
-                                    <div class="price-current" style="color: purple">{{ p.prix }} pt</div>
+                                    <div class="price-current" style="color: purple">{{ p.prix }} <img src="{{ asset('back_office/kamell.png') }}" alt="coin" style="width: 16px; height: 16px;"></div>
                                 </div>
                                 <!--<div class="discount">
                                     Save: $20.00 (33%)
@@ -208,7 +208,9 @@
                                         <input type="text" class="form-control form-control-sm h-auto" value="1">
                                     </div>
                                 </div>
-                                <div class="flex-1"><a href="{{path('affichePanier')}}" class="btn btn-block btn-warning"><i class="fas fa-shopping-cart"></i> Ajouter au Panier</a></div>
+
+
+                                <div class="flex-1"><a href=" {{path('ajoutpanier', {'id': p.id }) }} " class="btn btn-block btn-warning"><i class="fas fa-shopping-cart"></i> Ajouter au Panier</a></div>
                             </div>
                         </div>
 
