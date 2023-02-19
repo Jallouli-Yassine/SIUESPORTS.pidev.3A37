@@ -32,6 +32,9 @@ class Gamer extends User
     #[ORM\OneToMany(mappedBy: 'idGamer', targetEntity: MembreGroupe::class)]
     private Collection $membreGroupes;
 
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Tournoi::class)]
+    private Collection $tournois;
+
     public function __construct()
     {
         $this->historiqueAchats = new ArrayCollection();
@@ -40,6 +43,7 @@ class Gamer extends User
         $this->membres = new ArrayCollection();
         $this->reviewJeuxes = new ArrayCollection();
         $this->membreGroupes = new ArrayCollection();
+        $this->tournois = new ArrayCollection();
     }
     
 
@@ -229,6 +233,36 @@ class Gamer extends User
             // set the owning side to null (unless already changed)
             if ($membreGroupe->getIdGamer() === $this) {
                 $membreGroupe->setIdGamer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tournoi>
+     */
+    public function getTournois(): Collection
+    {
+        return $this->tournois;
+    }
+
+    public function addTournoi(Tournoi $tournoi): self
+    {
+        if (!$this->tournois->contains($tournoi)) {
+            $this->tournois->add($tournoi);
+            $tournoi->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTournoi(Tournoi $tournoi): self
+    {
+        if ($this->tournois->removeElement($tournoi)) {
+            // set the owning side to null (unless already changed)
+            if ($tournoi->getOwner() === $this) {
+                $tournoi->setOwner(null);
             }
         }
 

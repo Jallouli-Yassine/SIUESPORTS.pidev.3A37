@@ -15,23 +15,32 @@ class Tournoi
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $nb_team = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $nb_joueur_team = null;
 
     #[ORM\OneToMany(mappedBy: 'idTournois', targetEntity: Classement::class)]
     private Collection $classements;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $nomtournoi = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $device = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $datestart = null;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $datestart = null;
+
+    #[ORM\Column(length: 255,nullable: true)]
+    private ?string $image = null;
+
+    #[ORM\ManyToOne(inversedBy: 'tournois')]
+    private ?Gamer $owner = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $etat = null;
 
     public function __construct()
     {
@@ -121,14 +130,50 @@ class Tournoi
         return $this;
     }
 
-    public function getDatestart(): ?\DateTimeImmutable
+    public function getDatestart(): ?\DateTime
     {
         return $this->datestart;
     }
 
-    public function setDatestart(\DateTimeImmutable $datestart): self
+    public function setDatestart(\DateTime $datestart): self
     {
         $this->datestart = $datestart;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getOwner(): ?Gamer
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?Gamer $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getEtat(): ?int
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?int $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }

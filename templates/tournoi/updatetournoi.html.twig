@@ -24,7 +24,7 @@
                                                    alt="Background shape"></div>
 
 
-    {{ form_start(form, {'attr': {'novalidate': true}}) }}
+    {{ form_start(form) }}
 
     <div class="edgtf-row-grid-section-wrapper ">
         <div class="edgtf-row-grid-section">
@@ -103,7 +103,6 @@
                                                         <div class="edgtf-grid-col-6 edgtf-custom-text-input">
 
                                                             {{ form_widget(form.logos, {'attr': {'class': 'edgtf-cf7-custom-form', 'placeholder': 'Add Logo'}}) }}
-                                                            {{ form_errors(form.logos,{ 'attr': { 'class': 'form-control', 'style': 'color: red' } }) }}
 
                                                         </div>
                                                     </div>
@@ -115,7 +114,7 @@
                                                     <br>
                                                     <div>
                                                         <button class="edgtf-btn edgtf-btn-outline edgtf-btn-huge wpcf7-form-control wpcf7-submit edgtf-btn-stripe">
-                                                            Add
+                                                            update
                                                             <div class="edgtf-btn-bg-holder"></div>
                                                         </button>
                                                     </div>
