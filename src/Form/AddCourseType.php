@@ -7,6 +7,7 @@ use App\Entity\Cours;
 use App\Entity\Jeux;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,20 +21,33 @@ class AddCourseType extends AbstractType
                     'placeholder'=>'Enter the title of the course.'
                 ]
             ])
-            ->add('description')
-            ->add('video')
-            ->add('image')
-            ->add('prix')
-            ->add('niveau')
-            ->add('idCoach', EntityType::class, [
-                'class' => Coach::class,
-                'choice_label' => 'id',
-                'label' => 'Coach'
+            ->add('description',null,[
+                'attr' => [
+                    'placeholder'=>'Enter the title of the course.'
+                ]
             ])
-            ->add('idJeux', EntityType::class, [
-                'class' => Jeux::class,
-                'choice_label' => 'nom_game',
+            ->add('video',null,[
+                'attr' => [
+                    'placeholder'=>'Enter the title of the course.'
+                ]
             ])
+            ->add('image',null,[
+                'attr' => [
+                    'placeholder'=>'Enter the title of the course.'
+                ]
+            ])
+            ->add('prix',null,[
+                'attr' => [
+                    'placeholder'=>'Enter the title of the course.'
+                ]
+            ])
+            ->add('niveau',null,[
+                'attr' => [
+                    'placeholder'=>'Enter the title of the course.'
+                ]
+            ])
+           
+            ->add('send',SubmitType::class)
         ;
     }
 

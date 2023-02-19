@@ -13,7 +13,7 @@
               <div class="img-xl position-relative br-n bp-c bs-c article-image ar-1_1 mx-auto rounded-circle border border-secondary mb-6" style="background-image: url('front_office/assets/img/avatar/2.jpg')">
                 <span class="position-absolute b-0 r-0 text-secondary lead-3 d-block bg-warning p-2 rounded-circle lh-1"><input type="file" class="custom-file-input position-absolute l-0 t-0 b-0 h-auto" id="customFile"><i class="far fa-image"></i></span>
               </div>
-              <h3>jallouli</h3>
+              <h3>{{ app.session.get('User_name') }}</h3>
               <span class="d-flex align-items-center justify-content-center fw-500 text-shadow"><i class="fas fa-circle text-warning small-6 mr-1"></i>Online</span>
             </div>
           </div>
@@ -97,7 +97,11 @@
                       <hr class="w-10 border-top-2 mt-5 mb-5 ml-0 mr-auto border-warning">
                       <div class="row">
                         <div class="col-10 col-lg-11">
-                          <span class="lead-1">It looks like there's nothing here yet. Why don't you tell a little more about yourself?</span>
+                          {% if user.about %}
+                          <span class="lead-1">{{ user.about }}</span>
+                          {% else %}
+                          On dirait qu'il n'y a encore rien ici. Pourquoi ne pas nous en dire un peu plus sur vous ?
+                          {% endif %}
                         </div>
                         <div class="col-2 col-lg-1 text-right"><a href="#" class="lead-1 text-warning"><i class="fas fa-pen"></i></a></div>
                       </div>
@@ -117,273 +121,15 @@
                       <div class="row">
                         <div class="col-12">
                           <div class="profile-carousel owl-carousel" data-carousel-items="2, 3, 3, 4" data-carousel-margin="30" data-carousel-nav="true" data-carousel-navText="<span class='icon-cl-next pe-7s-angle-left'></span>, <span class='icon-cl-next pe-7s-angle-right'></span>">
-                            <!-- item -->
-                            <div class="item">
-                              <div class="item-cont">
-                                <figure class="owl_item_review">
-                                  <div>
-                                    <div class="position-relative overflow-hidden">
-                                      <img class="mb-2" src="../front_office/assets/img/avatar/5.jpg" alt="Avatar">
-                                      <div class="review_h text-light">
-                                        <a href="#" class="d-block">
-                                          Trina Squires
-                                        </a>
-                                        <span class="d-flex align-items-center small-3 text-warning"><i class="fas fa-circle small-7 mr-1"></i>Online</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </figure>
-                              </div>
-                            </div>
-                            <!-- /.item -->
-                            <!-- item -->
-                            <div class="item">
-                              <div class="item-cont">
-                                <figure class="owl_item_review">
-                                  <div>
-                                    <div class="position-relative overflow-hidden">
-                                      <img class="mb-2" src="../front_office/assets/img/avatar/2.jpg" alt="Avatar">
-                                      <div class="review_h text-light">
-                                        <a href="#" class="d-block">
-                                          Charles Jones
-                                        </a>
-                                        <span class="d-flex align-items-center small-3 text-warning"><i class="fas fa-circle small-7 mr-1"></i><span class="fw-500">Online</span></span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </figure>
-                              </div>
-                            </div>
-                            <!-- /.item -->
-                            <!-- item -->
-                            <div class="item">
-                              <div class="item-cont">
-                                <figure class="owl_item_review">
-                                  <div>
-                                    <div class="position-relative overflow-hidden">
-                                      <img class="mb-2" src="../front_office/assets/img/avatar/3.jpg" alt="Avatar">
-                                      <div class="review_h text-light">
-                                        <a href="#" class="d-block">
-                                          Dewei Tsou
-                                        </a>
-                                        <span class="d-flex align-items-center small-3 text-danger"><i class="fas fa-circle small-7 mr-1"></i><span class="fw-500">Offline</span></span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </figure>
-                              </div>
-                            </div>
-                            <!-- /.item -->
-                            <!-- item -->
-                            <div class="item">
-                              <div class="item-cont">
-                                <figure class="owl_item_review">
-                                  <div>
-                                    <div class="position-relative overflow-hidden">
-                                      <img class="mb-2" src="front_office/assets/img/avatar/4.jpg" alt="Avatar">
-                                      <div class="review_h text-light">
-                                        <a href="#" class="d-block">
-                                          George Collins
-                                        </a>
-                                        <span class="d-flex align-items-center small-3 text-warning"><i class="fas fa-circle small-7 mr-1"></i><span class="fw-500">Online</span></span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </figure>
-                              </div>
-                            </div>
-                            <!-- /.item -->
-                            <!-- item -->
-                            <div class="item">
-                              <div class="item-cont">
-                                <figure class="owl_item_review">
-                                  <div>
-                                    <div class="position-relative overflow-hidden">
-                                      <img class="mb-2" src="../front_office/assets/img/avatar/1.jpg" alt="Avatar">
-                                      <div class="review_h text-light">
-                                        <a href="#" class="d-block">
-                                          Sying Wei
-                                        </a>
-                                        <span class="d-flex align-items-center small-3 text-warning"><i class="fas fa-circle small-7 mr-1"></i><span class="fw-500">Online</span></span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </figure>
-                              </div>
-                            </div>
-                            <!-- /.item -->
+                            
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    <div id="reviews" class="mb-8">
-                      <div class="row">
-                        <div class="col-12">
-                          <h4 class="mb-4">Reviews</h4>
-                          <hr class="w-10 border-top-2 mt-5 mb-7 ml-0 mr-auto border-warning">
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-12">
-                          <div class="owl-carousel carousel_sm" data-carousel-items="1, 2, 3, 3" data-carousel-margin="10" data-carousel-nav="false" data-carousel-dots="true">
-                            <div class="item">
-                              <a href="#">
-                                <div class="d-flex h-100 bs-c br-n bp-c ar-8_5 position-relative" style="background-image: url('front_office/assets/img/content/img_04.jpg');">
-                                  <div class="position-absolute w-100 l-0 b-0 bg-dark_A-80 text-light">
-                                    <div class="px-4 py-3 lh-1">
-                                      <h6 class="text-lt mb-1 small-1 text-light text-uppercase">Convallis</h6>
-                                      <div class="price d-flex flex-wrap align-items-center">
-                                        <span class="text-warning small-2"><i class="fas fa-eye mr-1"></i>241</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </a>
-                            </div>
-                            <div class="item">
-                              <a href="#">
-                                <div class="d-flex h-100 bs-c br-n bp-c ar-8_5 position-relative" style="background-image: url('front_office/assets/img/content/img_01.jpg');">
-                                  <div class="position-absolute w-100 l-0 b-0 bg-dark_A-80 text-light">
-                                    <div class="px-4 py-3 lh-1">
-                                      <h6 class="text-lt mb-1 small-1 text-light text-uppercase">Phasellus</h6>
-                                      <div class="price d-flex flex-wrap align-items-center">
-                                        <span class="text-warning small-2"><i class="fas fa-eye mr-1"></i>241</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </a>
-                            </div>
-                            <div class="item">
-                              <a href="#">
-                                <div class="d-flex h-100 bs-c br-n bp-c ar-8_5 position-relative" style="background-image: url('front_office/assets/img/content/img_05.jpg');">
-                                  <div class="position-absolute w-100 l-0 b-0 bg-dark_A-80 text-light">
-                                    <div class="px-4 py-3 lh-1">
-                                      <h6 class="text-lt mb-1 small-1 text-light text-uppercase">Aenean 3</h6>
-                                      <div class="price d-flex flex-wrap align-items-center">
-                                        <span class="text-warning small-2"><i class="fas fa-eye mr-1"></i>241</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </a>
-                            </div>
-                            <div class="item">
-                              <a href="#">
-                                <div class="d-flex h-100 bs-c br-n bp-c ar-8_5 position-relative" style="background-image: url('front_office/assets/img/content/img_06.jpg');">
-                                  <div class="position-absolute w-100 l-0 b-0 bg-dark_A-80 text-light">
-                                    <div class="px-4 py-3 lh-1">
-                                      <h6 class="text-lt mb-1 small-1 text-light text-uppercase">Morbi vitae</h6>
-                                      <div class="price d-flex flex-wrap align-items-center">
-                                        <span class="text-warning small-2"><i class="fas fa-eye mr-1"></i>241</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    
                     <!-- comments -->
-                    <div id="comments" class="mb-0">
-                      <div class="row">
-                        <div class="col-12">
-                          <h4 class="mb-4">Comments</h4>
-                          <hr class="w-10 border-top-2 mt-5 mb-7 ml-0 mr-auto border-warning">
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-12 mb-8">
-                          <form action="#" class="input-transparent pb-8 border-bottom border-secondary">
-                            <div class="form-row">
-                              <div class="form-group col-3 col-sm-2">
-                                <img class="rounded" src="../front_office/assets/img/avatar/2.jpg" alt="Avatar">
-                              </div>
-                              <div class="form-group col-9 col-sm-10">
-                                <textarea class="form-control form-control" rows="4" placeholder="Your Message" name="message" required=""></textarea>
-                              </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-end">
-                              <div class="dropdownSmile dropup mr-4">
-                                <a class="dropdown-toggle lead-2" href="#" id="dropdownSmile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-smile"></i></a>
-                                <div class="dropdown-menu dropdown-menu-right position-absolute" aria-labelledby="dropdownSmile">
-                                  <a class="dropdown-item" href="#"><i class="fas fa-smile"></i></a>
-                                  <a class="dropdown-item" href="#"><i class="fas fa-smile-wink"></i></a>
-                                  <a class="dropdown-item" href="#"><i class="fas fa-smile-beam"></i></a>
-                                  <a class="dropdown-item" href="#"><i class="fas fa-poo"></i></a>
-                                  <a class="dropdown-item" href="#"><i class="fas fa-grin-squint-tears"></i></a>
-                                  <a class="dropdown-item" href="#"><i class="fas fa-grin-hearts"></i></a>
-                                  <a class="dropdown-item" href="#"><i class="fas fa-grin-beam-sweat"></i></a>
-                                  <a class="dropdown-item" href="#"><i class="fas fa-grin-beam"></i></a>
-                                  <a class="dropdown-item" href="#"><i class="fas fa-kiss-beam"></i></a>
-                                </div>
-                              </div>
-                              <div><button class="btn btn-warning" type="submit">Send</button></div>
-                            </div>
-                          </form>
-                        </div>
-                        <div class="col-12">
-                          <div class="row">
-                            <!-- comment-item -->
-                            <div class="col-12 comment-item mb-7">
-                              <div class="form-row">
-                                <div class="col-3 col-sm-2">
-                                  <div class="comment-img">
-                                    <img src="../front_office/assets/img/avatar/1.jpg" class="rounded" alt="User">
-                                  </div>
-                                </div>
-                                <div class="col-9 col-sm-10">
-                                  <div class="comment-main border border-secondary"> 
-                                    <div class="d-md-flex comment-header border-bottom border-secondary px-4 py-3">
-                                      <div class="d-flex align-items-center flex-1">
-                                        <h6 class="comment-username fw-500 mb-0"><a href="#">Dewei Tsou</a></h6>
-                                      </div>
-                                      <div>
-                                        <a href="#" class="comment-metadata text-warning small">Aug 12, 2021 at 09:12 AM</a>
-                                      </div>
-                                    </div>
-                                    <div class="p-4">
-                                      <p class="small-2 mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus lacus non tincidunt volutpat. Nullam volutpat mi nec nulla finibus tincidunt.</p>
-                                    </div>
-                                  </div>
-                                </div>  
-                              </div>
-                            </div>
-                            <!-- /.comment-item -->
-                            <!-- comment-item -->
-                            <div class="col-12 comment-item">
-                              <div class="form-row">
-                                <div class="col-3 col-sm-2">
-                                  <div class="comment-img">
-                                    <img src="../front_office/assets/img/avatar/3.jpg" class="rounded" alt="User">
-                                  </div>
-                                </div>
-                                <div class="col-9 col-sm-10">
-                                  <div class="comment-main border border-secondary"> 
-                                    <div class="d-md-flex comment-header border-bottom border-secondary px-4 py-3">
-                                      <div class="d-flex align-items-center flex-1">
-                                        <h6 class="comment-username fw-500 mb-0"><a href="#">Sying Wei</a></h6>
-                                      </div>
-                                      <div>
-                                        <a href="#" class="comment-metadata text-warning small">Aug 18, 2021 at 09:12 AM</a>
-                                      </div>
-                                    </div>
-                                    <div class="p-4">
-                                      <p class="small-2 mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus lacus non tincidunt volutpat. Nullam volutpat mi nec nulla finibus tincidunt.</p>
-                                    </div>
-                                  </div>
-                                </div>  
-                              </div>
-                            </div>
-                            <!-- /.comment-item -->
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- /.comments -->
+                    
                   </div>
                   <div class="col-lg-5">
                     <div class="card bg-dark_A-20 border border-secondary mb-6">
@@ -933,25 +679,81 @@
               <div class="position-relative">
                 <div class="row">
                   <div class="col-lg-7 mb-9 mb-lg-0">
+                    {% if app.session.get('Gamer_id') is defined %}
                     <div class="mb-8">
-                      <h4>Add funds to your Wallet</h4>
+                      <h4>Recharge</h4>
                       <hr class="w-10 border-top-2 mt-5 mb-5 ml-0 mr-auto border-warning">
-                      <form class="input-transparent">
+                      <div class="input-transparent"> 
+                        {{ form_start(charge, {'attr': {'class': 'input-transparent'}}) }}
                         <div class="form-group input-group">
-                          <input class="form-control" id="giftCard" type="text" name="giftCard" required="" placeholder="Gift Card">
+                         
+                         
+                          {{ form_widget(charge.code, {'attr': {'class': 'form-control', 'placeholder': 'Code Recharge'}}) }}
+
+              
                           <div class="input-group-append ml-3">
-                            <button class="btn btn-warning" type="button">Apply</button>
+                            
+                            {{ form_row(charge.Appliquer, {'attr': {'class': 'btn btn-warning','style':'height:100%'}}) }}
                           </div>
-                        </div>
-                      </form>
+                          
+                        </div>{{ form_end(charge) }}
+                      </div>
                     </div>
+                    {% endif %}
                     <div>
-                      <h4>Gift Card History</h4>
+                      <h4>Historique Portefeuille </h4>
                       <hr class="w-10 border-top-2 mt-5 mb-5 ml-0 mr-auto border-warning">
                       <div>
-                        <hr class="border-secondary mt-0 mb-4">
-                        You haven't redeemed any Gift Cards yet
                         <hr class="border-secondary mb-0 mt-4">
+                        {% set prev_date = null %}
+
+{% for item in historique %}
+
+  {# Check if current date is different from previous date #}
+  {% if prev_date is null or item.dates|date('Y-m-d') != prev_date %}
+
+    {# Display full date if it's different #}
+    <div  class="text-center text-warning fw-600 lead-1" >
+      *{{ item.dates|date('d/m/Y') }}*
+      <hr class="border-secondary mt-0 mb-4">
+    </div>
+  {% endif %}
+  <div style="display: flex; justify-content: space-between;">
+    {% if item.type == 0 %}
+    <div class="text-danger fw-600 lead-1">
+    <b> {{ item.dates|date('H:i') }}</b>
+    </div>
+    {% endif %}
+    {% if item.type == 1 %}
+    <div class="text-success fw-600 lead-1">
+    <b> {{ item.dates|date('H:i') }}</b>
+    </div>
+    {% endif %}
+    <div>
+      {% if item.type == 1 %}
+       <p class="text-success fw-600 lead-1"> Recharge</p>
+      {% else %}
+    <p class=" text-danger fw-600 lead-1"> Remboursement</p>
+      {% endif %}
+    </div>
+    <div>
+      {% if item.type == 1 %}
+        <div class="text-right text-success fw-600 lead-1">
+          +{{ item.point }} <i class="fas fa-coins"></i>
+        </div>
+      {% else %}
+        <div class="text-right text-danger fw-600 lead-1">
+          -{{ item.point }} <i class="fas fa-coins"></i>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% set prev_date = item.dates|date('Y-m-d') %}
+  <hr class="border-secondary mt-0 mb-4">
+{% endfor %}
+                        
+                        
                       </div>
                     </div>
                   </div>
@@ -962,12 +764,12 @@
                         <div class="mb-2">
                           <div class="row no-gutters">
                             <div class="col-4 d-flex align-items-center">
-                              <span class="fw-600 lead-1">Balance</span>
+                              <span class="fw-600 lead-1">Solde</span>
                             </div>
                             <div class="col-8">
                               <div class="row align-items-center justify-content-end h-100 no-gutters">
                                 <div class="text-right text-warning fw-600 lead-1">
-                                  517$
+                                 {{user.point}} <i class="fas fa-coins"></i>
                                 </div>
                               </div>
                             </div>
@@ -1016,7 +818,7 @@
                       <hr class="w-10 border-top-2 mt-5 mb-5 ml-0 mr-auto border-warning">
                       <form class="input-transparent d-flex align-items-start flex-column bg-dark_A-20 border border-secondary px-5 py-4">
                         <div class="form-group custom-control mb-1">
-                          <span>Email address: <span class="text-warning fw-500">wicodustheme@gmail.com</span></span>
+                          <span>Email address: <span class="text-warning fw-500">{{user.email}}</span></span>
                         </div>
                         <div class="form-group custom-control mb-1">
                           <span>Status: <span class="text-warning fw-500">Verified</span></span>
@@ -2307,4 +2109,8 @@
 
     </main>
     <!-- /.main content -->
+    
+   
     {% endblock %}
+
+    

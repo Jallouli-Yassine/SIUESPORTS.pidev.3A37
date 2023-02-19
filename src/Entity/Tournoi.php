@@ -24,6 +24,15 @@ class Tournoi
     #[ORM\OneToMany(mappedBy: 'idTournois', targetEntity: Classement::class)]
     private Collection $classements;
 
+    #[ORM\Column(length: 255)]
+    private ?string $nomtournoi = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $device = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $datestart = null;
+
     public function __construct()
     {
         $this->classements = new ArrayCollection();
@@ -84,6 +93,42 @@ class Tournoi
                 $classement->setIdTournois(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNomtournoi(): ?string
+    {
+        return $this->nomtournoi;
+    }
+
+    public function setNomtournoi(string $nomtournoi): self
+    {
+        $this->nomtournoi = $nomtournoi;
+
+        return $this;
+    }
+
+    public function getDevice(): ?string
+    {
+        return $this->device;
+    }
+
+    public function setDevice(string $device): self
+    {
+        $this->device = $device;
+
+        return $this;
+    }
+
+    public function getDatestart(): ?\DateTimeImmutable
+    {
+        return $this->datestart;
+    }
+
+    public function setDatestart(\DateTimeImmutable $datestart): self
+    {
+        $this->datestart = $datestart;
 
         return $this;
     }

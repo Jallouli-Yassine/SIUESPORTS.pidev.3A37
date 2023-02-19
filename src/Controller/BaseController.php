@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Gamer;
+use App\Entity\HistoriquePoint;
+use App\Entity\RechargeCode;
 use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\Boolean;
@@ -34,11 +37,11 @@ class BaseController extends AbstractController
 
     public function check_session():bool{
         $this->session=$this->request->getSession();
-        if ( $this->session->has('Gamer_id') ||  $this->session->has('Coach_id')) {
+        if ( $this->session->has('Gamer_id') ||  $this->session->has('Coach_id') || $this->session->has('Admin_id')) {
             $diff= $this->session->get('Session_time');
             $now=new DateTime();            
             $difference = $diff->getTimestamp() - $now->getTimestamp();
-            if ($difference>60) {
+            if ($difference>$this->sessionLifetime) {
                  $this->session->invalidate();
                  return False;
             } else {
@@ -49,11 +52,48 @@ class BaseController extends AbstractController
         return False;
     }
     
+
+    public function getid(){
+        if ( $this->session->has('Gamer_id') ){
+            $this->session=$this->request->getSession();
+            return  $this->session->get('Gamer_id');
+        }
+        if (  $this->session->has('Coach_id')){
+            $this->session=$this->request->getSession();
+        return  $this->session->get('Coach_id');
+        }
+        return null;
+    }
     
 
 
 
+public function recharge(string $coder,Gamer $gamer){
+    $em = $this->managerRegistry->getManagerForClass(Gamer::class);
+    $em2 = $this->managerRegistry->getManagerForClass(RechargeCode::class);
+    $em4 = $this->managerRegistry->getManagerForClass(RechargeCode::class);
+    $em3 = $this->managerRegistry->getRepository(RechargeCode::class);
+    $code=new RechargeCode();
+    $code=$em3->findOneBy(["code"=>$coder]);
+    if($code){
+        $gamer->setPoint($gamer->getPoint()+$code->getPoint());
+        $em->persist($gamer);
+        $em->flush();
+        $historique=new HistoriquePoint();
+        $historique->setPoint($code->getPoint());
+        $historique->setType(1);
+        $historique->setDates(new DateTime());
+        $historique->setUserid($gamer);
+        $em4->persist($historique);
+        $em4->flush();
+        $em2->remove($code);
+        $em2->flush();
+        $this->session->set('Solde', $gamer->getPoint());
+        return True;
+    }else
+    return False;
 
+}
 
 
 

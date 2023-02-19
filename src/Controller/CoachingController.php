@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Coach;
 use App\Entity\Cours;
 use App\Form\AddCourseType;
 use App\Repository\CoursRepository;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CoachingController extends AbstractController
+class CoachingController extends BaseController
 {
     #[Route('/coaching/allCourses', name: 'app_coaching')]
     public function index(ManagerRegistry $doctrine): Response
@@ -30,24 +31,33 @@ class CoachingController extends AbstractController
         ]);
     }
 
-    #[Route('/coaching/addC', name: 'addC')]
-    public function addC(\Doctrine\Persistence\ManagerRegistry $doctrine,Request $request): Response
+
+    #[Route('/coaching/addcours', name: 'addC')]
+    public function addcours(Request $request): Response
     {
-        $course =new Cours();
-        $form =$this->createForm(AddCourseType::class,$course);
-        $form->handleRequest($request);
-        if($form->isSubmitted())
-        {
-            $em =$doctrine->getManager();
-            $em->persist($course);
+        $em2 = $this->managerRegistry->getRepository(Coach::class);
+        $cours=new Cours();
+        $em = $this->managerRegistry->getManagerForClass(Cours::class);
+            $em->persist($cours);
             $em->flush();
-            return $this->redirectToRoute('app_coaching');
+        $form = $this->createForm(AddCourseType::class, $cours);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $coach=$em2->findOneBy(['id'=>$this->session->get('Coach_id')]);
+            $em = $this->managerRegistry->getManagerForClass(Cours::class);
+            $cours->setIdCoach($coach);
+            $em->persist($cours);
+            $em->flush();
+            return $this->redirectToRoute('app_coaching');  
         }
         return $this->renderForm('coaching/addCourse.html.twig',
-            [
-                'form'=>$form
-            ]);
+        [
+            'form'=>$form
+        ]);
     }
+
+
+    
 
     #[Route('/coach/{id}/courses', name: 'CoachCourses')]
     public function showCoachCourses($id, CoursRepository $courseRepository)
@@ -58,7 +68,5 @@ class CoachingController extends AbstractController
             'courses' => $courses
         ]);
     }
-
-
 
 }

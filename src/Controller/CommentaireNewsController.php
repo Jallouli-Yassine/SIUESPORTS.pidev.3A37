@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\NewsRepository;
 use App\Repository\CommentaireNewsRepository;
-class CommentaireNewsController extends AbstractController
+class CommentaireNewsController extends BaseController
 {
     #[Route('/commentaire/news', name: 'app_commentaire_news')]
     public function index(): Response
