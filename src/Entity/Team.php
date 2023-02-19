@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
@@ -15,13 +16,13 @@ class Team
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $idowner = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $nom_team = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $nb_joueurs = null;
 
     #[ORM\OneToMany(mappedBy: 'idTeam', targetEntity: Classement::class)]
@@ -29,6 +30,12 @@ class Team
 
     #[ORM\OneToMany(mappedBy: 'idTeam', targetEntity: Membre::class)]
     private Collection $membres;
+
+    #[ORM\Column(type: Types::TEXT,nullable: true)]
+    private ?string $about = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $logo = null;
 
     public function __construct()
     {
@@ -133,6 +140,30 @@ class Team
                 $membre->setIdTeam(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAbout(): ?string
+    {
+        return $this->about;
+    }
+
+    public function setAbout(string $about): self
+    {
+        $this->about = $about;
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(string $logo): self
+    {
+        $this->logo = $logo;
 
         return $this;
     }

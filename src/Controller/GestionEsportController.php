@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Admin;
 use App\Entity\Coach;
+use App\Entity\Cours;
 use App\Entity\Gamer;
 use App\Entity\Produit;
 use App\Entity\User;
@@ -12,7 +14,9 @@ use App\Form\LoginType;
 use App\Security\Users;
 use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
+use PHPUnit\Util\Xml\Validator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -39,7 +43,7 @@ class GestionEsportController extends BaseController
     }
      
     #[Route('/', name: 'home')]
-    public function welcomefront(Request $request): Response
+    public function signin_signout(Request $request): Response
     {   $this->session=$request->getSession();
         if($this->check_session()){
             return $this->redirect("/acceuil");
@@ -51,6 +55,7 @@ class GestionEsportController extends BaseController
             $form = $this->createForm(GamerType::class, $user);
             $form->handleRequest($request);
                 if ($form->isSubmitted() && $form->isValid()) {
+                    $em2 = $this->managerRegistry->getRepository(Gamer::class);
                     
                     $hashedPassword = $this->passwordhash->hashPassword(
                         $users,
@@ -75,10 +80,11 @@ class GestionEsportController extends BaseController
                             
                         }
                         else if (!password_verify($data->getPassword(), $coach->getPassword())) {
-                            
+                           
                         }else{
                             $this->session->set('Coach_id', $coach->getId());
-                            $this->session->set('Gamer_tag', $coach->getNom()." ".$coach->getPrenom());
+                            $this->session->set('Solde', $coach->getPoint());
+                            $this->session->set('User_name', $coach->getNom()." ".$coach->getPrenom());
                             $this->session->set('Session_time', new DateTime());
                             return $this->redirect("/acceuil");
                         }
@@ -86,19 +92,15 @@ class GestionEsportController extends BaseController
                     else if (!password_verify($data->getPassword(), $gamer->getPassword())) {
                         
                     }else{
-                        $this->session->set('Gamer_tag', $gamer->getTag());
+                        $this->session->set('User_name', $gamer->getTag());
+                        $this->session->set('Solde', $gamer->getPoint());
                         $this->session->set('Gamer_id', $gamer->getId());
                         $this->session->set('Session_time', new DateTime());
                         return $this->redirect("/acceuil");
                     }
                 }
-                
                 return $this->renderForm('Front_Template/welcome.html.twig',[
                     'controller_name' => 'GestionEsportController','formcreateuser' => $form,'formLogin'=>$formLogin
-                ]);
-        
-        
-       
-    
+                ]);  
     }
 }

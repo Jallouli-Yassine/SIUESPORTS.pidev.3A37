@@ -14,15 +14,27 @@ class HistoriquePoint
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dates = null;
 
     #[ORM\Column]
     private ?float $point = null;
 
+    #[ORM\ManyToOne(inversedBy: 'historiquePoints')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $userid = null;
+
+    #[ORM\Column]
+    private ?int $type = null;
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function __construct()
+    {
+        $this->dates  = new \DateTime();
     }
 
     public function getDates(): ?\DateTimeInterface
@@ -45,6 +57,30 @@ class HistoriquePoint
     public function setPoint(float $point): self
     {
         $this->point = $point;
+
+        return $this;
+    }
+
+    public function getUserid(): ?User
+    {
+        return $this->userid;
+    }
+
+    public function setUserid(?User $userid): self
+    {
+        $this->userid = $userid;
+
+        return $this;
+    }
+
+    public function getType(): ?int
+    {
+        return $this->type;
+    }
+
+    public function setType(int $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
