@@ -13,6 +13,7 @@
      <link rel="stylesheet" href="{{ asset('back_office/assets/vendors/owl-carousel-2/owl.theme.default.min.css')}}">
      <!-- End plugin css for this page -->
     <!-- plugins:css -->
+    <link rel="stylesheet" href="{{ asset('back_office/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('back_office/assets/vendors/mdi/css/materialdesignicons.min.css')}}">
     <link rel="stylesheet" href="{{ asset('back_office/assets/vendors/css/vendor.bundle.base.css')}}">
     <!-- endinject -->
@@ -23,6 +24,7 @@
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
+
     <link rel="stylesheet" href="{{ asset('back_office/assets/css/style.css')}}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset('back_office/assets/images/favicon.png')}}" />
@@ -305,23 +307,26 @@
                 </div>
             </li>
             <li class="nav-item menu-items">
+                <a class="nav-link" href="{{path('ad_categorie')}}">
+              <span class="menu-icon">
+                <i class="mdi mdi-animation"></i>
+              </span>
+                    <span class="menu-title">Categorie</span>
+                </a>
+            </li>
+            <li class="nav-item menu-items">
+
+
                 <a class="nav-link" href="{{path('ad_product')}}">
               <span class="menu-icon">
-                <i class="mdi mdi-playlist-play"></i>
+                <i class="mdi mdi-brightness-1"></i>
               </span>
                     <span class="menu-title">Liste Produit</span>
                 </a>
             </li>
+
             <li class="nav-item menu-items">
-                <a class="nav-link" href="{{path('ajoutCategorie')}}">
-              <span class="menu-icon">
-                <i class="mdi mdi-playlist-play"></i>
-              </span>
-                    <span class="menu-title">Ajouter Categorie</span>
-                </a>
-            </li>
-            <li class="nav-item menu-items">
-                <a class="nav-link" href="{{path('ajoutproduit')}}">
+                <a class="nav-link" href="">
               <span class="menu-icon">
                 <i class="mdi mdi-playlist-play"></i>
               </span>
