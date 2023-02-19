@@ -35,15 +35,18 @@ class ProductController extends AbstractController
         ]);
     }
 
-    /*#[Route('/consulteproduct/{id}', name: 'afficheproduit')]
-    public function update(Request $request,int $id): Response
+    #[Route('/consultecategg/{id}', name: 'affichecategg')]
+    public function consultcateg(ManagerRegistry $doctrine,Request $request,int $id): Response
     {
-        $produit = $doctrine->getRepository(Produit::class)->find($id);
-        return $this->renderForm('product/produit.html.twig',
+
+        $categorie= $doctrine->getRepository(Categorie::class)->find($id);
+        $produit=$categorie->getProduits();
+        return $this->renderForm('product/ConsultCategorie.html.twig',
             [
-                'p'=>$produit
+                'produit'=>$produit,
+                'c'=>$categorie
             ]);
-    }*/
+    }
     #[Route('/consulteproduct/{id}', name: 'afficheproduit')]
     public function oneProduct(int $id, ProduitRepository $produitRepository)
     {
@@ -80,6 +83,7 @@ class ProductController extends AbstractController
     public function add(\Doctrine\Persistence\ManagerRegistry $doctrine,Request $request): Response
     {
         $categorie =new Categorie();
+
         $form =$this->createForm(CategorieType::class,$categorie);
         $form->handleRequest($request);
         if($form->isSubmitted())
