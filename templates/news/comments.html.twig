@@ -221,28 +221,67 @@
                         <div class="mb-8">
                             <h6 class="mb-4 fw-400 ls-1 text-uppercase">Commentaires:</h6>
                             <hr class="border-secondary mt-2 mb-6">
-                            <div class="row">
+                            <div class="row" style="place-content: center;">
                                 {% for c in comments %}
-                                <!-- Item -->
-                                <div class="col-12 mb-7">
-                                    <div class="d-flex flex-wrap flex-sm-nowrap">
-                                        <div><img src="" class="d-none d-sm-block avatar rounded" alt="Avatar"></div>
-                                        <div class="review-item ml-sm-4">
-                                            <div class="small d-flex align-items-start">
-                                                <!-- user -->
-                                                <span class="name text-lt badge badge-info fw-600 small-4">{{ c.user.prenom }} {{ c.user.nom }}</span>
-                                                <!-- /.user -->
-                                                <!-- time -->
-                                                <div class="time ml-2">{{ c.date.format('Y-m-d H:i:s') }}</div>
-                                                <!-- /.time -->
-                                            </div>
-                                            <div>
+                                    <!-- Item -->
+                                    <div class="col-12 mb-7 comment-item">
+                                        <div class="d-flex flex-wrap flex-sm-nowrap">
+                                            <div><img src="" class="d-none d-sm-block avatar rounded" alt="Avatar"></div>
+                                            <div class="review-item ml-sm-4">
+                                                <div class="small d-flex align-items-start">
+                                                    <!-- user -->
+                                                    <span class="name text-lt badge badge-info fw-600 small-4">{{ c.user.prenom }} {{ c.user.nom }}</span>
+                                                    <!-- /.user -->
+                                                    <!-- time -->
+                                                    <div class="time ml-2">{{ c.date.format('Y-m-d H:i:s') }}</div>
+                                                    <!-- /.time -->
+                                                </div>
+                                                <div>
                                                     <p class="mb-0 small-3">{{ c.description }}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 {% endfor %}
+
+                                {% if comments|length > 3 %}
+                                    <div class="load-more-container">
+                                        <button id="load-more-btn" class="btn btn-outline-light">Load More</button>
+                                    </div>
+                                {% endif %}
+
+                                <script>
+                                    const comments = document.querySelectorAll('.comment-item');
+                                    const loadMoreBtn = document.querySelector('#load-more-btn');
+                                    const loadMoreContainer = document.querySelector('.load-more-container');
+                                    const commentsLength = {{ comments|length }};
+                                    const batchSize = 3;
+                                    let currentBatchSize = batchSize;
+
+                                    // Hide the load more button if there are no more comments to load
+                                    if (currentBatchSize >= commentsLength) {
+                                        loadMoreContainer.style.display = 'none';
+                                    }
+
+                                    // Hide all comments beyond the first batch
+                                    for (let i = batchSize; i < commentsLength; i++) {
+                                        comments[i].style.display = 'none';
+                                    }
+
+                                    loadMoreBtn.addEventListener('click', () => {
+                                        for (let i = currentBatchSize; i < currentBatchSize + batchSize; i++) {
+                                            if (comments[i]) {
+                                                comments[i].style.display = 'block';
+                                            } else {
+                                                // If there are no more comments to show, hide the load more button
+                                                loadMoreContainer.style.display = 'none';
+                                                break;
+                                            }
+                                        }
+                                        currentBatchSize += batchSize;
+                                    });
+                                </script>
+
                                 <!-- /.Item -->
                             </div>
                         </div>

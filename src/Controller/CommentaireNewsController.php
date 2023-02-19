@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Entity\CommentaireNews;
 use App\Entity\News;
 use App\Form\CommentaireNewsType;
-use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,9 +38,6 @@ class CommentaireNewsController extends BaseController
     {
         $news = $newsRepository->findOneBy(['id' => $id]);
 
-
-
-
         $user = $this->getUserFromSession();
         $commentaire = new CommentaireNews();
         $commentaire->setUser($user);
@@ -53,11 +50,25 @@ class CommentaireNewsController extends BaseController
             $em = $this->managerRegistry->getManagerForClass(CommentaireNews::class);
             $em->persist($commentaire);
             $em->flush();
+
+            // Clear the form data after submitting
+            $commentaire = new CommentaireNews();
+            $commentaire->setUser($user);
+            $commentaire->setIdNews($news);
+            $form = $this->createForm(CommentaireNewsType::class, $commentaire);
         }
-        $comments = $commentRepository->findBy(['idNews' => $news]);
+
+        $offset = $request->query->get('offset', 0);
+        $limit = 10;
+
+        $comments = $commentRepository->findBy(['idNews' => $news], ['date' => 'DESC'], $limit, $offset);
+        $totalComments = $commentRepository->count(['idNews' => $news]);
+
         $game = $news->getIdJeux();
         $gameName = $game->getNomGame();
         $names = $this->getUserNames($comments);
+
+        $loadMoreUrl = $this->generateUrl('news', ['id' => $id, 'offset' => $offset + $limit]);
 
         return $this->render('news/comments.html.twig', [
             'news' => $news,
@@ -65,8 +76,12 @@ class CommentaireNewsController extends BaseController
             'names' => $names,
             'gameName' => $gameName,
             'form' => $form->createView(),
+            'loadMoreUrl' => $loadMoreUrl,
+            'hasMoreComments' => ($offset + $limit < $totalComments)
         ]);
     }
+
+
 
     #[Route('/newsback/{id}', name: 'comment_back')]
     public function news_back(Request $request, NewsRepository $newsRepository, CommentaireNewsRepository $commentRepository, $id): Response

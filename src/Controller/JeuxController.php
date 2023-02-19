@@ -25,10 +25,13 @@ class JeuxController extends BaseController
      */
 
     #[Route('/jeux', name: 'afficher_les_jeux')]
-    public function afficherjeux(Request $request): Response
+    public function afficherjeux(PaginatorInterface $paginator,Request $request): Response
     {
-        $jeux = $this->managerRegistry->getRepository(Jeux::class);
-        $jeux = $jeux->findAll();
+        $repo = $this->managerRegistry->getRepository(Jeux::class);
+        $queryBuilder = $repo->createQueryBuilder('n')
+            ->leftJoin('n.reviewJeuxes', 'r')
+            ->orderBy('n.id', 'ASC');
+        $jeux = $paginator->paginate($queryBuilder, $request->query->getInt('page', 1), 10);
 
         $ratingJeux = [];
         foreach ($jeux as $jeu) {

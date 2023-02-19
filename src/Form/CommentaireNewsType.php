@@ -32,9 +32,9 @@ class CommentaireNewsType extends AbstractType
                         'message' => 'Le champ description ne doit pas être vide',
                     ]),
                     new Length([
-                        'min' => 10,
+                        'min' => 3,
                         'max' => 255,
-                        'minMessage' => 'Le commantaire doit comporter au moins {{ limit }} caractères',
+                        'minMessage' => 'Le commantaire doit comporter au moins comprendre {{ limit }} caractères',
                         'maxMessage' => 'Le commentaire ne doit pas dépasser {{ limit }} caractères',
                     ]),
                 ],
