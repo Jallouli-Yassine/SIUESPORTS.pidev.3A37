@@ -45,13 +45,8 @@
         <div class="form-group">
             {{ form_widget(form.niveau, {'attr': {'class': 'form-control', 'placeholder': 'Enter the niveau'}}) }}
         </div>
-        <div class="form-group">
-                {{ form_widget(form.idCoach, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_widget(form.idJeux, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <button type="submit" class="btn btn-primary">Save</button>
+      
+        {{ form_widget(form.send, {'attr': {'class': 'form-control'}}) }}
         {{ form_end(form) }}
 
     </center>
