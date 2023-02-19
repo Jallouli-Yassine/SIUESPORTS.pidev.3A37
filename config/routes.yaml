@@ -8,3 +8,5 @@ index:
 updatec:
   path: '/updatec'
   controller: App\Controller\CategorieController::updatec
+
+

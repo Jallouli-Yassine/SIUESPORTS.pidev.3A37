@@ -56,16 +56,57 @@ class ProductController extends AbstractController
             'p'=>$produit
         ]);
     }
+    /*---------------panier------------------*/
 
+    /**
+     * @Route("/ajouterAuPanier/{id}", name="ajoutpanier")
+     */
+    public function ajouterAuPanier(Request $request, $id) {
+        // Récupérer le produit à ajouter au panier à partir de l'ID
+        $produit = $this->getDoctrine()->getRepository(Produit::class)->find($id);
 
-    #[Route('/consultePanier', name: 'affichePanier')]
-    public function Panier( ProduitRepository $produitRepository)
-    {
+        // Récupérer le panier actuel depuis la session ou créer un nouveau panier si inexistant
+        $panier = $request->getSession()->get('panier', []);
 
+        // Ajouter le produit au panier ou augmenter la quantité si le produit est déjà présent
+        if (isset($panier[$id])) {
+            $panier[$id]['quantite']++;
+        } else {
+            $panier[$id] = [
+                'id' => $produit->getId(),
+                'nom' => $produit->getNom(),
+                'prix' => $produit->getPrix(),
+                'quantite' => 1
+            ];
+        }
 
+        // Stocker le panier mis à jour dans la session
+        $request->getSession()->set('panier', $panier);
+
+        // Rediriger l'utilisateur vers la page du panier
         return $this->render('product/panier.html.twig', [
+            'adproduit' => $produit
 
         ]);
+    }
+ /* *****************************  supprimer prod panier   **************************** */
+
+    #[Route('/supprimerDuPanier/{id}', name: 'supprimer_du_panier')]
+    public function supprimerDuPanier(Request $request, $id) {
+        // Récupérer le panier actuel depuis la session ou créer un nouveau panier si inexistant
+        $panier = $request->getSession()->get('panier', []);
+
+        // Vérifier si le produit à supprimer existe dans le panier
+        if (isset($panier[$id])) {
+            // Supprimer le produit du panier
+            unset($panier[$id]);
+        }
+
+        // Stocker le panier mis à jour dans la session
+        $request->getSession()->set('panier', $panier);
+
+        // Rediriger l'utilisateur vers la page de panier mise à jour
+        return $this->render('product/panier.html.twig');
     }
     //list product
     #[Route('/productad', name: 'ad_product')]

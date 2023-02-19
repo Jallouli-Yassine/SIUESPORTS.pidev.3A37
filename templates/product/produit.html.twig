@@ -208,7 +208,9 @@
                                         <input type="text" class="form-control form-control-sm h-auto" value="1">
                                     </div>
                                 </div>
-                                <div class="flex-1"><a href="{{path('affichePanier')}}" class="btn btn-block btn-warning"><i class="fas fa-shopping-cart"></i> Ajouter au Panier</a></div>
+
+
+                                <div class="flex-1"><a href=" {{path('ajoutpanier', {'id': p.id }) }} " class="btn btn-block btn-warning"><i class="fas fa-shopping-cart"></i> Ajouter au Panier</a></div>
                             </div>
                         </div>
 
