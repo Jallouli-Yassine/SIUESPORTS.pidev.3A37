@@ -6,8 +6,12 @@ use App\Repository\TeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Doctrine\ORM\Mapping as ORM;
-
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
 class Team
 {
@@ -17,10 +21,13 @@ class Team
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
+
     private ?int $idowner = null;
+
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $nom_team = null;
+
 
     #[ORM\Column(nullable: true)]
     private ?int $nb_joueurs = null;

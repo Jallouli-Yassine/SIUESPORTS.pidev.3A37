@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Team;
-
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -14,7 +13,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class TeamType extends AbstractType
+
+class Team2Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -67,23 +67,15 @@ class TeamType extends AbstractType
                 ],
             ])
             ->add('logos',FileType::class, [
-        'label' => 'image du cours',
+                'label' => 'image du cours',
 
-        'mapped' => false, //maneha maandi attribut esmo photo fl entity mte3na
-        'required' => false,
-        'attr'=>[
-            'placeholder' => 'Select a file',
-            'style' => 'color:white;height:65px;background-color:#22152c;width:100%;border: none;margin:0px 0px 10px;padding:24px 33px'
+                'mapped' => false, //maneha maandi attribut esmo photo fl entity mte3na
+                'required' => false,
+                'attr'=>[
+                    'placeholder' => 'Select a file',
+                    'style' => 'color:white;height:65px;background-color:#22152c;width:100%;border: none;margin:0px 0px 10px;padding:24px 33px'
 
-        ],
-                 'constraints' => [
-
-        new NotBlank([
-            'message' => 'Veuillez saisir image',
-        ])
-    ],
-
-    ])
+                ]])
         ;
     }
 
