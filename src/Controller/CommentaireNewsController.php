@@ -27,7 +27,10 @@ class CommentaireNewsController extends BaseController
         $names = [];
         foreach ($comments as $comment) {
             $user = $comment->getUser();
-            $names[] = $user->getNom() . ' ' . $user->getPrenom();
+            $names[] = [
+                'id' => $user->getId(),
+                'name' => $user->getNom() . ' ' . $user->getPrenom()
+            ];
         }
         return $names;
     }
@@ -53,7 +56,7 @@ class CommentaireNewsController extends BaseController
         }
 
         $offset = $request->query->get('offset', 0);
-        $limit = 10;
+        $limit = 100;
 
         $comments = $commentRepository->findBy(['idNews' => $news], ['date' => 'DESC'], $limit, $offset);
         $totalComments = $commentRepository->count(['idNews' => $news]);

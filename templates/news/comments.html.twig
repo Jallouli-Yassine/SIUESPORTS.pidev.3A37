@@ -108,6 +108,14 @@
                                                     <!-- time -->
                                                     <div class="time ml-2">{{ c.date.format('Y-m-d H:i:s') }}</div>
                                                     <!-- /.time -->
+                                                    <div class="ml-auto">
+                                                        <div class="d-flex small-1">
+                                                            {% if c.user.id %}
+                                                            <div class="mr-2"><a href="" class="text-info"><i class="fas fa-pencil-alt"></i></a></div>
+                                                            <div class="mr-2"><a href="" class="text-info"><i class="fas fa-trash-alt"></i></a></div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div>
                                                     <p class="mb-0 small-3">{{ c.description }}</p>
@@ -116,7 +124,6 @@
                                         </div>
                                     </div>
                                 {% endfor %}
-
                                 {% if comments|length > 3 %}
                                     <div class="load-more-container">
                                         <button id="load-more-btn" class="btn btn-outline-light">Load More</button>
