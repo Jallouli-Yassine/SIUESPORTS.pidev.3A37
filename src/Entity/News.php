@@ -25,16 +25,17 @@ class News
     #[ORM\Column(length: 65535)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'idNews', targetEntity: CommentaireNews::class)]
+    #[ORM\OneToMany(mappedBy: 'idNews', targetEntity: CommentaireNews::class, cascade: ["remove"])]
     private Collection $commentaireNews;
 
-    #[ORM\ManyToOne(inversedBy: 'news')]
+    #[ORM\ManyToOne(inversedBy: 'news', cascade: ["remove"])]
     private ?Jeux $idJeux = null;
 
 
     public function __construct()
     {
         $this->commentaireNews = new ArrayCollection();
+        $this->dateN = new \DateTime();
     }
 
     public function getId(): ?int
@@ -112,6 +113,7 @@ class News
     {
         return $this->idJeux;
     }
+
 
     public function setIdJeux(?Jeux $idJeux): self
     {

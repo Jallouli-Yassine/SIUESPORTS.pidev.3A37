@@ -3,6 +3,7 @@
 {% block title %}AllCourses{% endblock %}
 
 {% block body %}
+
     <main class="main-content">
 
         <div class="overlay overflow-hidden pe-n"><img src="{{ asset('front_office/assets/img/bg/bg_shape.png') }}" alt="Background shape"></div>
@@ -14,8 +15,7 @@
                         <header>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb-product breadcrumb-nowrap breadcrumb breadcrumb-angle bg-transparent pl-0 pr-0 mb-0">
-                                    <li class="breadcrumb-item"><a href="{{path('afficher_les_jeux')}}">Tout Les jeux</a></li>
-                                    <li class="breadcrumb-item"><a href="{{path('afficher_les_news')}}">Les actualités</a></li>
+                                    <li class="breadcrumb-item"><a href="{{path('afficher_les_news')}}">Actualité des jeux</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">{{ news.titre }}</li>
                                 </ol>
                             </nav>
@@ -29,25 +29,17 @@
                         </header>
                     </div>
                     <div class="col-lg-12">
-                        <div class="row">
+                        <div class="row" style="text-align-last: center;">
                             <div class="col-12">
                                 <div class="product-body">
                                     <!--Carousel Wrapper-->
                                     <div class="carousel-product">
                                         <div class="slider text-secondary" data-slick="product-body">
-                                            <img src="assets/img/content/product/01.jpg" alt="Game">
+                                            <img src="" alt="Game">
                                         </div>
 
                                     </div>
                                     <!--/.Carousel Wrapper-->
-                                    <div class="alert alert-no-border alert-share d-flex mb-6" role="alert">
-                                        <span class="flex-1 fw-600 text-uppercase text-warning">Partager:</span>
-                                        <div class="social-buttons text-unset">
-                                            <a class="social-twitter mx-2" href="#"><i class="fab fa-twitter"></i></a>
-                                            <a class="social-dribbble mx-2" href="#"><i class="fab fa-dribbble"></i></a>
-                                            <a class="social-instagram ml-2" href="#"><i class="fab fa-instagram"></i></a>
-                                        </div>
-                                    </div>
                                     <div id="about" class="about mb-8">
                                         <h6 class="mb-4 fw-400 ls-1 text-uppercase">L'article:</h6>
                                         <hr class="border-secondary my-2">
@@ -57,326 +49,34 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="system_requirements" class="mb-8">
-                                        <h6 class="mb-4 fw-400 ls-1 text-uppercase">System Requirements</h6>
-                                        <hr class="border-secondary my-2">
-                                        <div>
-                                            <ul class="sreq_nav nav nav-tabs-minimal text-center mb-4" role="tablist">
-                                                <li class="nav-item">
-                                                    <a class="py-2 px-7 nav-link active show" id="fillup-home-tab" data-toggle="tab" href="#fillup-1" role="tab" aria-controls="fillup-home-tab" aria-selected="true"><i class="fab fa-windows"></i> PC</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="py-2 px-7 nav-link" id="fillup-profile-tab" data-toggle="tab" href="#fillup-2" role="tab" aria-controls="fillup-profile-tab" aria-selected="false"><i class="fas fa-apple-alt"></i> MAC</a>
-                                                </li>
-                                            </ul>
-                                            <div class="tab-content" id="fillupTabContent">
-                                                <div class="tab-pane fade active show" id="fillup-1" role="tabpanel" aria-labelledby="fillup-home-tab">
-                                                    <div class="row">
-                                                        <div class="col-xs-12 col-lg-6 mb-6 mb-lg-0">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <span class="d-inline-block text-uppercase fw-500 mb-3 text-info">Minimum Requirements:</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">OS:</strong></div>
-                                                                <div class="col-sm-8">Windows 7,Windows 8.1,Windows 10</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Processor:</strong></div>
-                                                                <div class="col-sm-8">Intel Core i5-2400s @ 2.5 GHz or AMD FX-6350 @ 3.9 GHz</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Memory:</strong></div>
-                                                                <div class="col-sm-8">6 GB RAM</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Graphics:</strong></div>
-                                                                <div class="col-sm-8">NVIDIA GeForce GTX 660 or AMD R9 270 (2048 MB VRAM with Shader Model 5.0)</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Disk Space:</strong></div>
-                                                                <div class="col-sm-8">42 GB available space</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Architecture:</strong></div>
-                                                                <div class="col-sm-8">Requires a 64-bit processor and OS</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">API:</strong></div>
-                                                                <div class="col-sm-8">DirectX 11</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Miscellaneous:</strong></div>
-                                                                <div class="col-sm-8">Video Preset: Lowest (720p)</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-lg-6">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <span class="d-inline-block text-uppercase fw-500 mb-3 text-warning">Recommended Requirements:</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">OS:</strong></div>
-                                                                <div class="col-sm-8">Windows 7,Windows 8.1,Windows 10</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Processor:</strong></div>
-                                                                <div class="col-sm-8">Intel Core i7- 3770 @ 3.5 GHz or AMD FX-8350 @ 4.0 GHz</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Memory:</strong></div>
-                                                                <div class="col-sm-8">8 GB RAM</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Graphics:</strong></div>
-                                                                <div class="col-sm-8">NVIDIA GeForce GTX 760 or AMD R9 280X (3GB VRAM with Shader Model 5.0 or better)</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Disk Space:</strong></div>
-                                                                <div class="col-sm-8">42 GB available space</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Architecture:</strong></div>
-                                                                <div class="col-sm-8">Requires a 64-bit processor and OS</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">API:</strong></div>
-                                                                <div class="col-sm-8">DirectX 11</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Miscellaneous:</strong></div>
-                                                                <div class="col-sm-8">Video Preset: High (1080p)</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane fade" id="fillup-2" role="tabpanel" aria-labelledby="fillup-profile-tab">
-                                                    <div class="row">
-                                                        <div class="col-xs-12 col-lg-6 mb-6 mb-lg-0">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <span class="d-inline-block text-uppercase fw-500 mb-3 text-info">Minimum Requirements:</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">OS:</strong></div>
-                                                                <div class="col-sm-8">OSX 10.5</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Processor:</strong></div>
-                                                                <div class="col-sm-8">Intel Core i5-2400s @ 2.5 GHz or AMD FX-6350 @ 3.9 GHz</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Memory:</strong></div>
-                                                                <div class="col-sm-8">6 GB RAM</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Graphics:</strong></div>
-                                                                <div class="col-sm-8">NVIDIA GeForce GTX 660 or AMD R9 270 (2048 MB VRAM with Shader Model 5.0 or better)</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Disk Space:</strong></div>
-                                                                <div class="col-sm-8">42 GB available space</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Architecture:</strong></div>
-                                                                <div class="col-sm-8">Requires a 64-bit processor and OS</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">API:</strong></div>
-                                                                <div class="col-sm-8">DirectX 11</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Miscellaneous:</strong></div>
-                                                                <div class="col-sm-8">Video Preset: Lowest (720p)</div>
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="col-xs-12 col-lg-6">
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-12">
-                                                                    <span class="d-inline-block text-uppercase fw-500 mb-3 text-warning">Recommended Requirements:</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">OS:</strong></div>
-                                                                <div class="col-sm-8">OSX 10.5</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Processor:</strong></div>
-                                                                <div class="col-sm-8">Intel Core i7- 3770 @ 3.5 GHz or AMD FX-8350 @ 4.0 GHz</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Memory:</strong></div>
-                                                                <div class="col-sm-8">8 GB RAM</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Graphics:</strong></div>
-                                                                <div class="col-sm-8">NVIDIA GeForce GTX 760 or AMD R9 280X (3GB VRAM with Shader Model 5.0 or better)</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Disk Space:</strong></div>
-                                                                <div class="col-sm-8">42 GB available space</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Architecture:</strong></div>
-                                                                <div class="col-sm-8">Requires a 64-bit processor and OS</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">API:</strong></div>
-                                                                <div class="col-sm-8">DirectX 11</div>
-                                                            </div>
-                                                            <div class="row mb-4 mb-sm-0">
-                                                                <div class="col-sm-4"><strong class="fw-500">Miscellaneous:</strong></div>
-                                                                <div class="col-sm-8">Video Preset: High (1080p)</div>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="mb-6">
-                                        <h6 class="mb-0 fw-400 ls-1 text-uppercase">More like this</h6>
+                                        <h6 class="mb-0 fw-400 ls-1 text-uppercase">Donnez Votre avis:</h6>
                                         <hr class="border-secondary my-2">
-                                        <div>
-                                            <div class="owl-carousel carousel_sm" data-carousel-items="1, 2, 3, 3" data-carousel-margin="10" data-carousel-nav="false" data-carousel-dots="true">
-                                                <div class="item">
-                                                    <a href="#">
-                                                        <div class="d-flex h-100 bs-c br-n bp-c ar-8_5 position-relative" style="background-image: url(assets/img/content/cont/cg-c_01.jpg);">
-                                                            <div class="position-absolute w-100 l-0 b-0 bg-dark_A-80 text-light">
-                                                                <div class="px-4 py-3 lh-1">
-                                                                    <h6 class="mb-1 small-1 text-light text-uppercase">Akamen</h6>
-                                                                    <div class="price d-flex flex-wrap align-items-center">
-                                                                        <span class="discount_final text-warning small-2">€99.99</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="item">
-                                                    <a href="#">
-                                                        <div class="d-flex h-100 bs-c br-n bp-c ar-8_5 position-relative" style="background-image: url(assets/img/content/cont/cg-c_02.jpg);">
-                                                            <div class="position-absolute w-100 l-0 b-0 bg-dark_A-80 text-light">
-                                                                <div class="px-4 py-3 lh-1">
-                                                                    <h6 class="mb-1 small-1 text-light text-uppercase">Punk City</h6>
-                                                                    <div class="price d-flex flex-wrap align-items-center">
-                                                                        <span class="discount_final text-warning small-2">€99.99</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="item">
-                                                    <a href="#">
-                                                        <div class="d-flex h-100 bs-c br-n bp-c ar-8_5 position-relative" style="background-image: url(assets/img/content/cont/cg-c_03.jpg);">
-                                                            <div class="position-absolute w-100 l-0 b-0 bg-dark_A-80 text-light">
-                                                                <div class="px-4 py-3 lh-1">
-                                                                    <h6 class="mb-1 small-1 text-light text-uppercase">Transaction</h6>
-                                                                    <div class="price d-flex flex-wrap align-items-center">
-                                                                        <span class="discount_final text-warning small-2">€99.99</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="item">
-                                                    <a href="#">
-                                                        <div class="d-flex h-100 bs-c br-n bp-c ar-8_5 position-relative" style="background-image: url(assets/img/content/cont/cg_04.jpg);">
-                                                            <div class="position-absolute w-100 l-0 b-0 bg-dark_A-80 text-light">
-                                                                <div class="px-4 py-3 lh-1">
-                                                                    <h6 class="mb-1 small-1 text-light text-uppercase">Golden Mask</h6>
-                                                                    <div class="price d-flex flex-wrap align-items-center">
-                                                                        <span class="discount_final text-warning small-2">€99.99</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="item">
-                                                    <a href="#">
-                                                        <div class="d-flex h-100 bs-c br-n bp-c ar-8_5 position-relative" style="background-image: url(assets/img/content/cont/cg_05.jpg);">
-                                                            <div class="position-absolute w-100 l-0 b-0 bg-dark_A-80 text-light">
-                                                                <div class="px-4 py-3 lh-1">
-                                                                    <h6 class="mb-1 small-1 text-light text-uppercase">ONI</h6>
-                                                                    <div class="price d-flex flex-wrap align-items-center">
-                                                                        <span class="discount_final text-warning small-2">€99.99</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="item">
-                                                    <a href="#">
-                                                        <div class="d-flex h-100 bs-c br-n bp-c ar-8_5 position-relative" style="background-image: url(assets/img/content/cont/cg_06.jpg);">
-                                                            <div class="position-absolute w-100 l-0 b-0 bg-dark_A-80 text-light">
-                                                                <div class="px-4 py-3 lh-1">
-                                                                    <h6 class="mb-1 small-1 text-light text-uppercase">Engineer</h6>
-                                                                    <div class="price d-flex flex-wrap align-items-center">
-                                                                        <span class="discount_final text-warning small-2">€99.99</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="item">
-                                                    <a href="#">
-                                                        <div class="d-flex h-100 bs-c br-n bp-t ar-8_5 position-relative" style="background-image: url(assets/img/content/cont/cg_07.jpg);">
-                                                            <div class="position-absolute w-100 l-0 b-0 bg-dark_A-80 text-light">
-                                                                <div class="px-4 py-3 lh-1">
-                                                                    <h6 class="mb-1 small-1 text-light text-uppercase">Informant</h6>
-                                                                    <div class="price d-flex flex-wrap align-items-center">
-                                                                        <span class="discount_final text-warning small-2">€99.99</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="item">
-                                                    <a href="#">
-                                                        <div class="d-flex h-100 bs-c br-n bp-c ar-8_5 position-relative" style="background-image: url(assets/img/content/cont/cg_08.jpg);">
-                                                            <div class="position-absolute w-100 l-0 b-0 bg-dark_A-80 text-light">
-                                                                <div class="px-4 py-3 lh-1">
-                                                                    <h6 class="mb-1 small-1 text-light text-uppercase">Haku</h6>
-                                                                    <div class="price d-flex flex-wrap align-items-center">
-                                                                        <span class="discount_final text-warning small-2">€99.99</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="item">
-                                                    <a href="#">
-                                                        <div class="d-flex h-100 bs-c br-n bp-c ar-8_5 position-relative" style="background-image: url(assets/img/content/cont/cg-c_02.jpg);">
-                                                            <div class="position-absolute w-100 l-0 b-0 bg-dark_A-80 text-light">
-                                                                <div class="px-4 py-3 lh-1">
-                                                                    <h6 class="mb-1 small-1 text-light text-uppercase">Punk City</h6>
-                                                                    <div class="price d-flex flex-wrap align-items-center">
-                                                                        <span class="discount_final text-warning small-2">€99.99</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="mb-0">
                                         <div>
                                             <div>
-                                                <p class="small">*Duis sit amet lectus pharetra, placerat ante et, varius urna. Praesent euismod lacinia lacus, at posuere quam vestibulum ut. Vivamus eu ligula at massa laoreet commodo. In consequat aliquet scelerisque. Proin dapibus velit quis suscipit interdum. Vestibulum eu sapien eget lorem volutpat dapibus molestie a metus. Proin in turpis a arcu luctus euismod. Sed vitae ante at leo bibendum blandit nec vel mauris. Ut laoreet bibendum lobortis.</p>
+                                                <!-- SIU -->
+                                                {% if canAddComment %}
+                                                <div class="container">
+                                                    <div class="row gutters-y">
+                                                        <div class="col-lg-12 text-light">
+                                                            <div class="mb-6">
+                                                                <div class="form-group" style="text-align-last: center;">
+                                                                    {{ form_start(form) }}
+                                                                    {{ form_row(form.description) }}
+                                                                    <div style="margin-top: 1rem;"></div>
+                                                                    {{ form_row(form.send) }}
+                                                                    {{ form_end(form) }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% else %}
+                                                    <p class="small d-inline-block py-2 px-4 bg-dark_A-20 text-warning lead-1">Vous avez ajoutez 3 commentaires Vous ne pouvez plus ajoutez</p>
+                                                {% endif %}
+                                                <!-- /SIU -->
                                             </div>
                                         </div>
                                     </div>
@@ -387,20 +87,6 @@
                 </div>
             </div>
         </div>
-        <!-- SIU -->
-            <div class="container">
-                <div class="row gutters-y">
-                    <div class="col-lg-12 text-light">
-                        <div class="mb-6">
-                            <div class="form-group">
-                                {{ form_widget(form) }}
-                            </div>
-                            {{ form_end(form) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <!-- /SIU -->
         <section class="review-box content-section text-light">
             <div class="container">
                 <div class="row">
@@ -408,30 +94,74 @@
                         <div class="mb-8">
                             <h6 class="mb-4 fw-400 ls-1 text-uppercase">Commentaires:</h6>
                             <hr class="border-secondary mt-2 mb-6">
-                            <div class="row">
+                            <div class="row" style="place-content: center;">
                                 {% for c in comments %}
-                                <!-- Item -->
-                                <div class="col-12 mb-7">
-                                    <div class="d-flex flex-wrap flex-sm-nowrap">
-                                        <div><img src="assets/img/avatar/1.jpg" class="d-none d-sm-block avatar rounded" alt="Avatar"></div>
-                                        <div class="review-item ml-sm-4">
-                                            <div class="small d-flex align-items-start">
-                                                <!-- user -->
-                                                <span class="name text-lt badge badge-info fw-600 small-4">{{ c.user.prenom }} {{ c.user.nom }}</span>
-                                                <!-- /.user -->
-                                                <!-- time -->
-                                                <div class="time ml-2">{{ c.date.format('Y-m-d H:i:s') }}</div>
-                                                <!-- /.time -->
-                                            </div>
-                                            <div>
-                                                <div class="collapse readmore r-fade">
+                                    <!-- Item -->
+                                    <div class="col-12 mb-7 comment-item">
+                                        <div class="d-flex flex-wrap flex-sm-nowrap">
+                                            <div><img src="" class="d-none d-sm-block avatar rounded" alt="Avatar"></div>
+                                            <div class="review-item ml-sm-4">
+                                                <div class="small d-flex align-items-start">
+                                                    <!-- user -->
+                                                    <span class="name text-lt badge badge-info fw-600 small-4">{{ c.user.prenom }} {{ c.user.nom }}</span>
+                                                    <!-- /.user -->
+                                                    <!-- time -->
+                                                    <div class="time ml-2">{{ c.date.format('Y-m-d H:i:s') }}</div>
+                                                    <!-- /.time -->
+                                                    <div class="ml-auto">
+                                                        <div class="d-flex small-1">
+                                                            {% if c.user.id %}
+                                                            <div class="mr-2"><a href="" class="text-info"><i class="fas fa-pencil-alt"></i></a></div>
+                                                            <div class="mr-2"><a href="" class="text-info"><i class="fas fa-trash-alt"></i></a></div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
                                                     <p class="mb-0 small-3">{{ c.description }}</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 {% endfor %}
+                                {% if comments|length > 3 %}
+                                    <div class="load-more-container">
+                                        <button id="load-more-btn" class="btn btn-outline-light">Load More</button>
+                                    </div>
+                                {% endif %}
+
+                                <script>
+                                    const comments = document.querySelectorAll('.comment-item');
+                                    const loadMoreBtn = document.querySelector('#load-more-btn');
+                                    const loadMoreContainer = document.querySelector('.load-more-container');
+                                    const commentsLength = {{ comments|length }};
+                                    const batchSize = 3;
+                                    let currentBatchSize = batchSize;
+
+                                    // Hide the load more button if there are no more comments to load
+                                    if (currentBatchSize >= commentsLength) {
+                                        loadMoreContainer.style.display = 'none';
+                                    }
+
+                                    // Hide all comments beyond the first batch
+                                    for (let i = batchSize; i < commentsLength; i++) {
+                                        comments[i].style.display = 'none';
+                                    }
+
+                                    loadMoreBtn.addEventListener('click', () => {
+                                        for (let i = currentBatchSize; i < currentBatchSize + batchSize; i++) {
+                                            if (comments[i]) {
+                                                comments[i].style.display = 'block';
+                                            } else {
+                                                // If there are no more comments to show, hide the load more button
+                                                loadMoreContainer.style.display = 'none';
+                                                break;
+                                            }
+                                        }
+                                        currentBatchSize += batchSize;
+                                    });
+                                </script>
+
                                 <!-- /.Item -->
                             </div>
                         </div>

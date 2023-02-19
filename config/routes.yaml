@@ -1,6 +1,7 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
 # config/routes.yaml
 index:
   path: /index
@@ -8,5 +9,6 @@ index:
 updatec:
   path: '/updatec'
   controller: App\Controller\CategorieController::updatec
+
 
 

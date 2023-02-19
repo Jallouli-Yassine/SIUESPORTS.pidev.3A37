@@ -6,6 +6,7 @@ use App\Repository\CommentaireNewsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 
+
 #[ORM\Entity(repositoryClass: CommentaireNewsRepository::class)]
 class CommentaireNews
 {

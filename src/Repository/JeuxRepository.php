@@ -53,6 +53,20 @@ class JeuxRepository extends ServiceEntityRepository
         return $total / $count;
     }
 
+    public function getJeuxChoices(): array
+    {
+        $jeux = $this->createQueryBuilder('j')
+            ->select('j')
+            ->getQuery()
+            ->getResult();
+
+        $choices = [];
+        foreach ($jeux as $jeu) {
+            $choices[$jeu->getNomGame()] = $jeu;
+        }
+
+        return $choices;
+    }
 
 //    /**
 //     * @return Jeux[] Returns an array of Jeux objects
