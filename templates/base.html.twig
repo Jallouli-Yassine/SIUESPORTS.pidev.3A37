@@ -141,7 +141,7 @@
                         {% endif %}
 
                         {% if app.session.has('Gamer_id') %}
-                            <a class="dropdown-item" href="{{path('addC')}}">my wishlist</a>
+                            <a class="dropdown-item" href="{{path('GamerCourses')}}">mes cours</a>
                         {% endif %}
                     </div>
                 </li>
@@ -152,6 +152,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="contact.html">Support</a>
                 </li>
+                <li class="nav-item">   <a class="nav-link" href="contact.html">my Points : {{ app.session.get('Gamer_point') }}</a></li>
             </ul>
         </div>
     </div>

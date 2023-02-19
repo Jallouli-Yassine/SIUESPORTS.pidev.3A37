@@ -27,7 +27,7 @@ class CoachingController extends BaseController
     }
 
     #[Route('/Course/true/{id}', name: 'updateStateTrue')]
-    public function acceptCourse(\Doctrine\Persistence\ManagerRegistry $doctrine,Request $request, int $id): Response
+    public function acceptCourse(\Doctrine\Persistence\ManagerRegistry $doctrine, int $id): Response
     {
         $course = $doctrine->getRepository(Cours::class)->find($id);
         if($course)
@@ -46,10 +46,7 @@ class CoachingController extends BaseController
         $course = $doctrine->getRepository(Cours::class)->find($id);
         if($course)
         {
-            dump($course->getEtat()); // output the current value of the etat field
             $course->setEtat(-1);
-            dump($course->getEtat()); // output the new value of the etat field
-
             $em =$doctrine->getManager();
             $em->flush();
             return $this->redirectToRoute('Admincoaching',['courseFound'=>true]);
@@ -181,27 +178,29 @@ class CoachingController extends BaseController
         $course = $doctrine->getRepository(Cours::class)->find($id);
 
         $isFavorite = $em->getRepository(UserCourses::class)->findOneBy(['idGamer' => $gamer, 'idCours' => $course, 'favori' => true]);
+        $isBuyed = $em->getRepository(UserCourses::class)->findOneBy(['idGamer' => $gamer, 'idCours' => $course, 'acheter' => true]);
 
         return $this->render('coaching/CourseDetails.html.twig', [
             'course' => $course,
-            'isFavorite'=>$isFavorite
+            'isFavorite'=>$isFavorite,
+            'isBuyed'=>$isBuyed
         ]);
     }
 
     #[Route('/course/{id}/toFavori', name: 'favori_course')]
     public function addToFavoriCourse(ManagerRegistry $doctrine,Request $request, int $id): Response
     {
-        $gamer= $this->managerRegistry->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
+        $gamer= $doctrine->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
         $course = $doctrine->getRepository(Cours::class)->find($id);
+
+        if (!$gamer) throw $this->createNotFoundException('Gamer not found');
+        if (!$course) throw $this->createNotFoundException('Course not found');
 
         $gamersCourse = new UserCourses();
         $gamersCourse->setIdGamer($gamer);
         $gamersCourse->setIdCours($course);
         $gamersCourse->setFavori(true);
         $gamersCourse->setAcheter(false);
-
-        $favori = $gamersCourse->isFavori();
-        $acheter=$gamersCourse->isAcheter();
 
         $em =$doctrine->getManager();
         $em->persist($gamersCourse);
@@ -226,17 +225,67 @@ class CoachingController extends BaseController
         return $this->redirectToRoute('GamerCourses');
     }
 
-    #[Route('/gamer/wishlist', name: 'GamerCourses')]
+    #[Route('/gamer/courses', name: 'GamerCourses')]
     public function showWishlist(Request $request)
     {
         $gamer= $this->managerRegistry->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
         $GamerWishlist = $gamer->getUserCourses();
 
-        return $this->render('coaching/afficherWishlist.html.twig', [
+        return $this->render('coaching/gamerCourses.html.twig', [
             'wishlist' => $GamerWishlist
         ]);
     }
 
+    #[Route('/course/{id}/userBuyC', name: 'buy_course')]
+    public function buyCourse(ManagerRegistry $doctrine,Request $request, int $id): Response
+    {
+        $gamer= $this->managerRegistry->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
+        $course = $doctrine->getRepository(Cours::class)->find($id);
 
+        $gamersCourse = $doctrine->getRepository(UserCourses::class)->findOneBy([
+            'idGamer' => $gamer->getId(),
+            'idCours' => $course->getId(),
+        ]);
 
+        $prix = $course->getPrix();
+        $gamerP= $gamer->getPoint();
+        $em =$doctrine->getManager();
+        if ($gamersCourse) {
+            if ($gamersCourse->isFavori()) {
+
+                if($prix>$gamerP) return $this->redirectToRoute('GamerCourses');
+                else
+                {
+                    $gamer->setPoint($gamerP-$prix);
+                    $this->session->set('Gamer_point', $gamer->getPoint());
+                    $gamersCourse->setAcheter(true);
+                    $em->flush();
+                }
+
+                // Le gamer a déjà ajouté le cours à sa liste de favoris
+                return $this->redirectToRoute('GamerCourses');
+            }
+
+            if ($gamersCourse->isAcheter()) {
+                // Le gamer a déjà acheté le cours
+                return $this->redirectToRoute('GamerCourses');
+            }
+        }else{
+            if($prix>$gamerP){
+                return $this->redirectToRoute('GamerCourses');
+            }else{
+                $gamersCourse = new UserCourses();
+                $gamersCourse->setIdGamer($gamer);
+                $gamersCourse->setIdCours($course);
+                $gamer->setPoint($gamerP-$prix);
+                $this->session->set('Gamer_point', $gamer->getPoint());
+                $gamersCourse->setFavori(false);
+                $gamersCourse->setAcheter(true);
+
+                $em->persist($gamersCourse);
+                $em->flush();
+            }
+        }
+        return $this->redirectToRoute('GamerCourses');
+    }
 }

@@ -113,7 +113,13 @@
 
                             </div>
                             <div class="price-box mb-4">
-                                <div class="flex-1"><a href="#" class="btn btn-block btn-warning"><i class="fas fa-shopping-cart"></i>purshase</a></div>
+                                {% if isBuyed is defined and isBuyed %}
+                                <center>
+                                    <div class="alert alert-info"><span style="color: black!important;" class="flex-1 fw-600 text-uppercase text-warning">already Buyed</span> </div>
+                                </center>
+                                {% else %}
+                                <div class="flex-1"><a href="{{ path('buy_course', {'id': course.id}) }}" class="btn btn-block btn-warning"><i class="fas fa-shopping-cart"></i>purshase</a></div>
+                            {% endif %}
                             </div>
                         </div>
                         <div>
@@ -121,6 +127,7 @@
 
 
 <center>
+
     {% if isFavorite is defined and isFavorite  %}
         <a  href="{{ path('removeFromFavoriCourse', {'id': course.id}) }}" type="button" class="btn btn-outline-danger">
             <i class="fa fa-heart"></i> Remove from Wishlist
