@@ -50,12 +50,6 @@ class CommentaireNewsController extends BaseController
             $em = $this->managerRegistry->getManagerForClass(CommentaireNews::class);
             $em->persist($commentaire);
             $em->flush();
-
-            // Clear the form data after submitting
-            $commentaire = new CommentaireNews();
-            $commentaire->setUser($user);
-            $commentaire->setIdNews($news);
-            $form = $this->createForm(CommentaireNewsType::class, $commentaire);
         }
 
         $offset = $request->query->get('offset', 0);
@@ -70,6 +64,9 @@ class CommentaireNewsController extends BaseController
 
         $loadMoreUrl = $this->generateUrl('news', ['id' => $id, 'offset' => $offset + $limit]);
 
+        $commentCount = $commentRepository->count(['user' => $user]);
+        $canAddComment = $commentCount < 3;
+
         return $this->render('news/comments.html.twig', [
             'news' => $news,
             'comments' => $comments,
@@ -77,9 +74,11 @@ class CommentaireNewsController extends BaseController
             'gameName' => $gameName,
             'form' => $form->createView(),
             'loadMoreUrl' => $loadMoreUrl,
-            'hasMoreComments' => ($offset + $limit < $totalComments)
+            'hasMoreComments' => ($offset + $limit < $totalComments),
+            'canAddComment' => $canAddComment,
         ]);
     }
+
 
 
 
