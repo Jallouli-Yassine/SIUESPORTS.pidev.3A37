@@ -6,6 +6,8 @@
 parameters:
     img_directory: '%kernel.project_dir%/public/uploads/pictureCourses'
     vid_directory: '%kernel.project_dir%/public/uploads/videoCourses'
+    pdf_directory: '%kernel.project_dir%/public/uploads/facture'
+
 
 services:
     # default configuration for services in *this* file

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,.1);
+            border-radius: 5px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Facture Pdf</h1>
+    <img src="{{ asset('/public/back_office/piece-de-kamel.png') }}" alt="coin" style="width: 25px; height: 25px; margin-bottom: 3px">
+    <table>
+        <tr>
+            <th>Course name</th>
+            <td>{{ course.titre }}</td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>{{ course.prix }} Points</td>
+        </tr>
+        <tr>
+            <th>Coach name</th>
+            <td>{{ course.getIdCoach.nom }}</td>
+        </tr>
+        <tr>
+            <th>Gamer name</th>
+            <td>{{ gamer.nom }}</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

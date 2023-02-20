@@ -31,6 +31,26 @@
                                 alertDiv.style.display = "none";
                             }, 1000);
                         }, 5000);
+
+                        // Get the current URL
+                        var currentUrl = window.location.href;
+
+                        // Check if the URL contains any query parameters
+                        if (currentUrl.includes('?')) {
+                            // Remove the query parameter from the URL
+                            var updatedUrl = currentUrl.replace(/(\?|\&)([^=]+)=([^&]+)/g, function(match, p1, p2, p3) {
+                                if (p2 === 'enjoy') {
+                                    return ''; // Exclude the 'enjoy' parameter from removal
+                                } else {
+                                    return p1 + encodeURIComponent(p2) + '=' + encodeURIComponent(p3);
+                                }
+                            }).replace(/\?&/, '?').replace(/&$/, '');
+
+                            // Replace the current URL with the updated URL
+                            window.history.replaceState({}, document.title, updatedUrl);
+                        }
+
+
                     </script>
 
                         <h2>My wishlist Courses</h2>
@@ -114,7 +134,7 @@
         <!-- Start Content Area -->
         <section class="content-section top_sellers carousel-spotlight ig-carousel pt-8 text-light">
             <div class="mt-8 container">
-                <header class="header">
+                <header class="header" >
                     <h2>My owned Courses</h2>
                 </header>
                 <div class="position-relative">
@@ -158,6 +178,11 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        {% if c.acheter == 1 %}
+                                                            <a href="{{ path('generate_invoice', {'id': c.getIdCours.id}) }}" class="btn btn-danger mr-10">facture</a>
+                                                        {% endif %}
+
+
                                                         <!-- Price -->
                                                         <div class="item_price">
                                                             <div class="row align-items-center h-100 no-gutters">

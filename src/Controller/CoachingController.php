@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Controller;
-
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Entity\Coach;
 use App\Entity\Cours;
 use App\Entity\Gamer;
@@ -250,8 +251,17 @@ class CoachingController extends BaseController
         $gamer= $this->managerRegistry->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
         $GamerWishlist = $gamer->getUserCourses();
 
+        $cours = null;
+        if ($coursId = $this->request->query->get('cours')) {
+            $cours = $this->managerRegistry->getRepository(Cours::class)->find($coursId);
+        } else {
+            $cours = null;
+        }
+
+
         return $this->render('coaching/gamerCourses.html.twig', [
-            'wishlist' => $GamerWishlist
+            'wishlist' => $GamerWishlist,
+            'cours' => $cours,
         ]);
     }
 
@@ -285,18 +295,21 @@ class CoachingController extends BaseController
 
                 // Le gamer a déjà ajouté le cours à sa liste de favoris
                 return $this->redirectToRoute('GamerCourses',[
-                    'enjoy'=>"enjoy ur new course :D !"
+                    'enjoy'=>"enjoy ur new course :D !",
+                    'cours'=>$course
                 ]);
             }
 
             if ($gamersCourse->isAcheter()) {
                 // Le gamer a déjà acheté le cours
-                return $this->redirectToRoute('GamerCourses');
+                return $this->redirectToRoute('GamerCourses',[
+                    'error' =>"le cours est deja acheter"
+                ]);
             }
         }else{
             if($prix>$gamerP){
                 return $this->redirectToRoute('GamerCourses',[
-                    'error' =>"le cours est deja acheter"
+                    'error' =>"votre solde des points est insufisant"
                 ]);
             }else{
                 $gamersCourse = new UserCourses();
@@ -309,10 +322,45 @@ class CoachingController extends BaseController
 
                 $em->persist($gamersCourse);
                 $em->flush();
+
+
             }
         }
         return $this->redirectToRoute('GamerCourses',[
-            'enjoy'=>"enjoy ur new course :D !"
+            'enjoy'=>"enjoy ur new course :D !",
+            'cours' => $course->getId()
         ]);
+    }
+
+    /**
+     * @Route("/generate-invoice/{id}", name="generate_invoice")
+     */
+    public function generateInvoice(Request $request,int $id,ManagerRegistry $doctrine)
+    {
+        $gamer= $this->managerRegistry->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
+        $course = $doctrine->getRepository(Cours::class)->find($id);
+
+        $html = $this->renderView('./coaching/pdfFacture.html.twig', [
+            'course' => $course,
+            'gamer' => $gamer,
+        ]);
+
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $pdfContent = $dompdf->output();
+
+
+
+        $response = new Response($pdfContent);
+        $response->headers->set('Content-Type', 'application/pdf');
+        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s_%s.pdf"', $gamer->getNom() , $course->getTitre() ));
+
+        return $response;
     }
 }
