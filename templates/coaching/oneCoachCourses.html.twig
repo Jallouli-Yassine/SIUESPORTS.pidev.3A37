@@ -15,11 +15,53 @@
                 </div>
             </center>
 
-
-
             {% set parameters = app.request.attributes.get('_route_params') %}
             {% set lastParameter = parameters['etat'] %}
             <div class="mt-8 container">
+                {% if app.request.get('error') is not null %}
+                    <div class="alert alert-danger">
+                        <center>
+                            {{ app.request.get('error') }}
+                        </center>
+                    </div>
+                {% elseif app.request.get('enjoy') is not null%}
+                    <div class="alert alert-success">
+                        <center>
+                            {{ app.request.get('enjoy') }}
+                        </center>
+                    </div>
+                {% endif %}
+
+                <script>
+                    let alertDiv = document.querySelector('.alert');
+                    setTimeout(function(){
+                        alertDiv.style.opacity = 0;
+                        setTimeout(function(){
+                            alertDiv.style.display = "none";
+                        }, 1000);
+                    }, 5000);
+
+                    // Get the current URL
+                    var currentUrl = window.location.href;
+
+                    // Check if the URL contains any query parameters
+                    if (currentUrl.includes('?')) {
+                        // Remove the query parameter from the URL
+                        var updatedUrl = currentUrl.replace(/(\?|\&)([^=]+)=([^&]+)/g, function(match, p1, p2, p3) {
+                            if (p2 === 'enjoy') {
+                                return ''; // Exclude the 'enjoy' parameter from removal
+                            } else {
+                                return p1 + encodeURIComponent(p2) + '=' + encodeURIComponent(p3);
+                            }
+                        }).replace(/\?&/, '?').replace(/&$/, '');
+
+                        // Replace the current URL with the updated URL
+                        window.history.replaceState({}, document.title, updatedUrl);
+                    }
+
+
+                </script>
+
                 <header class="header">
                     {% if lastParameter == 1 %}
                     <h2>My Approuved Courses</h2>

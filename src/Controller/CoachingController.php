@@ -132,7 +132,11 @@ class CoachingController extends BaseController
         $em->remove($course);
         $em->flush();
 
-        return $this->redirectToRoute('CoachCourses', ['id' => $coachId, 'etat' => 1]);
+        return $this->redirectToRoute('CoachCourses', [
+            'id' => $coachId,
+            'etat' => 1,
+            'enjoy'=>"course deleted succesfuly !"
+        ]);
     }
 
     #[Route('/Course/update/{id}', name: 'updateC')]
@@ -149,7 +153,11 @@ class CoachingController extends BaseController
             $course->setEtat(0);
             $em =$doctrine->getManager();
             $em->flush();
-            return $this->redirectToRoute('CoachCourses', ['id' => $coachId, 'etat' => 0]);
+            return $this->redirectToRoute('CoachCourses', [
+                'id' => $coachId,
+                'etat' => 0,
+                'enjoy'=>"course updated succesfuly ! you must wait until the admin review and accept it !"
+            ]);
         }
         return $this->renderForm('Coaching/updateCourse.html.twig',[
             'form'=>$form
@@ -206,7 +214,9 @@ class CoachingController extends BaseController
         $em->persist($gamersCourse);
         $em->flush();
 
-        return $this->redirectToRoute('GamerCourses');
+        return $this->redirectToRoute('GamerCourses',[
+            'enjoy'=>"course added to wishlist succesfuly :D !"
+        ]);
     }
 
     #[Route('/course/{id}/removeFromFavori', name: 'removeFromFavoriCourse')]
@@ -219,10 +229,19 @@ class CoachingController extends BaseController
 
         if (!$course) {
             throw $this->createNotFoundException('Course not found');
+        }else
+        {
+            if($userCourse->isAcheter()){
+                $userCourse->setFavori(false);
+                $em->flush();
+                return $this->redirectToRoute('GamerCourses');
+            }else
+            {
+                $em->remove($userCourse);
+                $em->flush();
+                return $this->redirectToRoute('GamerCourses');
+            }
         }
-        $em->remove($userCourse);
-        $em->flush();
-        return $this->redirectToRoute('GamerCourses');
     }
 
     #[Route('/gamer/courses', name: 'GamerCourses')]
@@ -253,7 +272,9 @@ class CoachingController extends BaseController
         if ($gamersCourse) {
             if ($gamersCourse->isFavori()) {
 
-                if($prix>$gamerP) return $this->redirectToRoute('GamerCourses');
+                if($prix>$gamerP) return $this->redirectToRoute('GamerCourses',[
+                    'error' =>"votre solde des points est insufisant"
+                ]);
                 else
                 {
                     $gamer->setPoint($gamerP-$prix);
@@ -263,7 +284,9 @@ class CoachingController extends BaseController
                 }
 
                 // Le gamer a déjà ajouté le cours à sa liste de favoris
-                return $this->redirectToRoute('GamerCourses');
+                return $this->redirectToRoute('GamerCourses',[
+                    'enjoy'=>"enjoy ur new course :D !"
+                ]);
             }
 
             if ($gamersCourse->isAcheter()) {
@@ -272,7 +295,9 @@ class CoachingController extends BaseController
             }
         }else{
             if($prix>$gamerP){
-                return $this->redirectToRoute('GamerCourses');
+                return $this->redirectToRoute('GamerCourses',[
+                    'error' =>"le cours est deja acheter"
+                ]);
             }else{
                 $gamersCourse = new UserCourses();
                 $gamersCourse->setIdGamer($gamer);
@@ -286,6 +311,8 @@ class CoachingController extends BaseController
                 $em->flush();
             }
         }
-        return $this->redirectToRoute('GamerCourses');
+        return $this->redirectToRoute('GamerCourses',[
+            'enjoy'=>"enjoy ur new course :D !"
+        ]);
     }
 }

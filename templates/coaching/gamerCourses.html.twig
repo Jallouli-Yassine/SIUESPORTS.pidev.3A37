@@ -9,6 +9,30 @@
         <section class="content-section top_sellers carousel-spotlight ig-carousel pt-8 text-light">
             <div class="mt-8 container">
                 <header class="header">
+                    {% if app.request.get('error') is not null %}
+                        <div class="alert alert-danger">
+                            <center>
+                                {{ app.request.get('error') }}
+                            </center>
+                        </div>
+                        {% elseif app.request.get('enjoy') is not null%}
+                            <div class="alert alert-success">
+                                <center>
+                                    {{ app.request.get('enjoy') }}
+                                </center>
+                            </div>
+                    {% endif %}
+
+                    <script>
+                        let alertDiv = document.querySelector('.alert');
+                        setTimeout(function(){
+                            alertDiv.style.opacity = 0;
+                            setTimeout(function(){
+                                alertDiv.style.display = "none";
+                            }, 1000);
+                        }, 5000);
+                    </script>
+
                         <h2>My wishlist Courses</h2>
                 </header>
                 <div class="position-relative">

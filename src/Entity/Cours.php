@@ -36,7 +36,7 @@ class Cours
     #[ORM\ManyToOne(inversedBy: 'cours')]
     private ?Coach $idCoach = null;
 
-    #[ORM\OneToMany(mappedBy: 'idCours', targetEntity: UserCourses::class)]
+    #[ORM\OneToMany(mappedBy: 'idCours', targetEntity: UserCourses::class ,cascade: ["remove"])]
     private Collection $userCourses;
 
     #[ORM\ManyToOne(inversedBy: 'cours')]
