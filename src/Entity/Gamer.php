@@ -32,7 +32,10 @@ class Gamer extends User
     #[ORM\OneToMany(mappedBy: 'idGamer', targetEntity: MembreGroupe::class)]
     private Collection $membreGroupes;
 
-    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Tournoi::class)]
+    #[ORM\OneToMany(mappedBy: 'ownerteam', targetEntity: Team::class)]
+    private Collection $teams;
+
+    #[ORM\OneToMany(mappedBy: 'ownertournoi', targetEntity: Tournoi::class)]
     private Collection $tournois;
 
     public function __construct()
@@ -43,6 +46,8 @@ class Gamer extends User
         $this->membres = new ArrayCollection();
         $this->reviewJeuxes = new ArrayCollection();
         $this->membreGroupes = new ArrayCollection();
+
+        $this->teams = new ArrayCollection();
         $this->tournois = new ArrayCollection();
     }
     
@@ -239,6 +244,38 @@ class Gamer extends User
         return $this;
     }
 
+
+
+    /**
+     * @return Collection<int, Team>
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function addTeam(Team $team): self
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams->add($team);
+            $team->setOwnerteam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): self
+    {
+        if ($this->teams->removeElement($team)) {
+            // set the owning side to null (unless already changed)
+            if ($team->getOwnerteam() === $this) {
+                $team->setOwnerteam(null);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Tournoi>
      */
@@ -251,7 +288,7 @@ class Gamer extends User
     {
         if (!$this->tournois->contains($tournoi)) {
             $this->tournois->add($tournoi);
-            $tournoi->setOwner($this);
+            $tournoi->setOwnertournoi($this);
         }
 
         return $this;
@@ -261,8 +298,8 @@ class Gamer extends User
     {
         if ($this->tournois->removeElement($tournoi)) {
             // set the owning side to null (unless already changed)
-            if ($tournoi->getOwner() === $this) {
-                $tournoi->setOwner(null);
+            if ($tournoi->getOwnertournoi() === $this) {
+                $tournoi->setOwnertournoi(null);
             }
         }
 

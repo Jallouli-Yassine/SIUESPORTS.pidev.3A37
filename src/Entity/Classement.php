@@ -13,7 +13,7 @@ class Classement
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?float $score = null;
 
     #[ORM\ManyToOne(inversedBy: 'classements')]
@@ -62,4 +62,5 @@ class Classement
 
         return $this;
     }
+
 }

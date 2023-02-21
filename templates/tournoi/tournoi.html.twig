@@ -80,7 +80,14 @@
                                                     <a href="{{ path('deletetournoi',{id:t.id})}}"><button  style="font-size:14px; color:white;background: purple">Delete </button>
                                                     </a>
                                                     <a href="{{ path('updatetournoi',{id:t.id})}}"><button  style="font-size:14px; color:white;background: purple">Update </button>
+
                                                     </a>
+                                                    {% set x = t.id %}
+                                                    <a href="{{ path('join',{id:x})}}"><button  style="font-size:14px; color:white;background: purple">Rejoinder </button>
+
+                                                    </a>
+
+
                                                 </div>
                                             </div>
                                                 {% endif %}
@@ -105,6 +112,8 @@
                                                         <span class="edgtf-btn-text">Add Tournoi</span> </a></div>
                                             </center>
 {% endif %}
+
             </body>
 
+            <!------------------------------------ /.sign Up ---------------------------------------------------------------->
         {% endblock %}

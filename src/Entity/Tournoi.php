@@ -21,7 +21,7 @@ class Tournoi
     #[ORM\Column(nullable: true)]
     private ?int $nb_joueur_team = null;
 
-    #[ORM\OneToMany(mappedBy: 'idTournois', targetEntity: Classement::class)]
+    #[ORM\OneToMany(mappedBy: 'idTournois', targetEntity: Classement::class,cascade: ["remove"])]
     private Collection $classements;
 
     #[ORM\Column(length: 255,nullable: true)]
@@ -36,11 +36,12 @@ class Tournoi
     #[ORM\Column(length: 255,nullable: true)]
     private ?string $image = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tournois')]
-    private ?Gamer $owner = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $etat = null;
+
+    #[ORM\ManyToOne(inversedBy: 'tournois')]
+    private ?Gamer $ownertournoi = null;
 
     public function __construct()
     {
@@ -154,17 +155,6 @@ class Tournoi
         return $this;
     }
 
-    public function getOwner(): ?Gamer
-    {
-        return $this->owner;
-    }
-
-    public function setOwner(?Gamer $owner): self
-    {
-        $this->owner = $owner;
-
-        return $this;
-    }
 
     public function getEtat(): ?int
     {
@@ -177,4 +167,17 @@ class Tournoi
 
         return $this;
     }
+
+    public function getOwnertournoi(): ?Gamer
+    {
+        return $this->ownertournoi;
+    }
+
+    public function setOwnertournoi(?Gamer $ownertournoi): self
+    {
+        $this->ownertournoi = $ownertournoi;
+
+        return $this;
+    }
+
 }

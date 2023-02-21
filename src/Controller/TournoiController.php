@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Classement;
 use App\Entity\Gamer;
 use App\Entity\Groupe;
 use App\Entity\Membre;
 use App\Entity\Team;
 use App\Entity\Tournoi;
+use App\Form\ClassementType;
 use App\Form\Team2Type;
 use App\Form\Tournoi2Type;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -23,18 +26,21 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TournoiController extends BaseController
 {
-
     #[Route('/tournoi', name: 'tournoi')]
-    public function tournoi(ManagerRegistry $doctrine): Response
+    public function tournoi(ManagerRegistry $doctrine,Request $request): Response
     {
-        $tournois= $doctrine->getRepository(Tournoi::class)->findAll();
-        return $this->render('tournoi/tournoi.html.twig',['tournois'=>$tournois]);
+        $tournois = $doctrine->getRepository(Tournoi::class)->findAll();
+        $c = new Classement();
+        $form = $this->createForm(ClassementType::class, $c);
+
+        return $this->renderForm('tournoi/tournoi.html.twig',['tournois'=>$tournois,'form'=>$form]);
 
     }
     #[Route('/backtournoi', name: 'backtournoi')]
     public function batournoi(ManagerRegistry $doctrine): Response
     {
         $tournois= $doctrine->getRepository(Tournoi::class)->findAll();
+
         return $this->render('tournoi/tournoiback.html.twig',['tournoi'=>$tournois]);
 
     }
@@ -48,6 +54,52 @@ class TournoiController extends BaseController
         return $this->render('tournoi/teams.html.twig',['teams'=>$teams]);
 
     }
+    /**
+     * @Route("/jtournoi/{id}", name="join")
+     */
+    public function joinTeam(Request $request,$id,ManagerRegistry $doctrine)
+    {
+
+        $classement = new Classement();
+
+        $form = $this->createForm(ClassementType::class, $classement);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() ) {
+            $data = $form->getData(); // This will contain the data submitted in the form
+            $idTeam = $data->getIdTeam();
+
+
+            return $this->redirectToRoute('jeoin', ['id2' => $idTeam, 'id' => $id]);
+        }
+
+        return $this->renderForm('tournoi/rejoinder.html.twig', [
+            'form' => $form,
+            'i'=>$id
+        ]);
+    }
+    /**
+     * @Route("/jetournoi/{id}/{id2}", name="jeoin")
+     */
+    public function jeoinTeam(Request $request,$id,$id2, ManagerRegistry $doctrine)
+    {
+
+        $classement = new Classement();
+        $team = $doctrine->getRepository(Team::class)->find($id2);
+        $tournoi = $doctrine->getRepository(Tournoi::class)->find($id);
+        $classement->setIdTournois($tournoi);
+        $classement->setIdTeam($team);
+        $classement->setScore(0);
+        $em = $doctrine->getManager();
+        $em->persist($classement);
+        $em->flush();
+
+        return $this->renderForm('tournoi/division.html.twig', [
+
+            'i2'=>$id2
+        ]);
+    }
     #[Route('/mygroup/{id}', name: 'mygroup')]
     public function mygroup(int $id, Request $request , ManagerRegistry $doctrine): Response
     {
@@ -57,7 +109,7 @@ class TournoiController extends BaseController
         $groupemember = new Membre();
         $groupemember->setIdGamer($gamer);
         $groupemember->setIdTeam($team);
-        $groupemember->setPoint(11); // Set the
+        $groupemember->setPoint(0); // Set the
         if($count<$team->getNbJoueurs())
         {$em = $doctrine->getManager();
             $em->persist($groupemember);
@@ -70,9 +122,10 @@ class TournoiController extends BaseController
     #[Route('/addteam', name: 'addteam')]
     public function addgroup(SluggerInterface $slugger,ManagerRegistry $doctrine, Request  $request): Response
     {
-
+        $id=$this->session->get('Gamer_id');
+        $gamer= $doctrine->getRepository(Gamer::class)->find($id);
         $team = new Team() ;
-        $team->setIdOwner($this->session->get('Gamer_id'));
+        $team->setOwnerteam($gamer);
 
         $form = $this->createForm(TeamType::class, $team);
 
@@ -116,8 +169,10 @@ class TournoiController extends BaseController
     #[Route('/addtournoi', name: 'addtourno')]
     public function addtournoi(SluggerInterface $slugger,ManagerRegistry $doctrine, Request  $request): Response
     {
-
+        $id=$this->session->get('Gamer_id');
+        $gamer= $doctrine->getRepository(Gamer::class)->find($id);
         $tournoi = new Tournoi() ;
+        $tournoi->setOwnertournoi($gamer);
         $form = $this->createForm(TournoiType::class, $tournoi);
 
         $form->handleRequest($request);

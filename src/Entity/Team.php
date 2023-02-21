@@ -20,9 +20,7 @@ class Team
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(nullable: true)]
 
-    private ?int $idowner = null;
 
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -35,7 +33,7 @@ class Team
     #[ORM\OneToMany(mappedBy: 'idTeam', targetEntity: Classement::class)]
     private Collection $classements;
 
-    #[ORM\OneToMany(mappedBy: 'idTeam', targetEntity: Membre::class)]
+    #[ORM\OneToMany(mappedBy: 'idTeam', targetEntity: Membre::class,cascade: ["remove"])]
     private Collection $membres;
 
     #[ORM\Column(type: Types::TEXT,nullable: true)]
@@ -43,6 +41,11 @@ class Team
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
+
+    #[ORM\ManyToOne(inversedBy: 'teams')]
+    private ?Gamer $ownerteam = null;
+
+
 
     public function __construct()
     {
@@ -55,17 +58,7 @@ class Team
         return $this->id;
     }
 
-    public function getIdowner(): ?int
-    {
-        return $this->idowner;
-    }
 
-    public function setIdowner(int $idowner): self
-    {
-        $this->idowner = $idowner;
-
-        return $this;
-    }
 
     public function getNomTeam(): ?string
     {
@@ -174,4 +167,22 @@ class Team
 
         return $this;
     }
+    public function __toString()
+    {
+        return (string) $this->id;
+    }
+
+    public function getOwnerteam(): ?Gamer
+    {
+        return $this->ownerteam;
+    }
+
+    public function setOwnerteam(?Gamer $ownerteam): self
+    {
+        $this->ownerteam = $ownerteam;
+
+        return $this;
+    }
+
+
 }
