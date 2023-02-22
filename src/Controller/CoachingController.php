@@ -242,29 +242,7 @@ class CoachingController extends BaseController
         ]);
     }
 
-    #[Route('/course/{id}/toFavori', name: 'favori_course')]
-    public function addToFavoriCourse(ManagerRegistry $doctrine,Request $request, int $id): Response
-    {
-        $gamer= $doctrine->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
-        $course = $doctrine->getRepository(Cours::class)->find($id);
 
-        if (!$gamer) throw $this->createNotFoundException('Gamer not found');
-        if (!$course) throw $this->createNotFoundException('Course not found');
-
-        $gamersCourse = new UserCourses();
-        $gamersCourse->setIdGamer($gamer);
-        $gamersCourse->setIdCours($course);
-        $gamersCourse->setFavori(true);
-        $gamersCourse->setAcheter(false);
-
-        $em =$doctrine->getManager();
-        $em->persist($gamersCourse);
-        $em->flush();
-
-        return $this->redirectToRoute('GamerCourses',[
-            'enjoy'=>"course added to wishlist succesfuly :D !"
-        ]);
-    }
 
     #[Route('/course/{id}/removeFromFavori', name: 'removeFromFavoriCourse')]
     public function removeFromFavoriCourse(ManagerRegistry $doctrine,Request $request, int $id)
@@ -310,7 +288,48 @@ class CoachingController extends BaseController
             'cours' => $cours,
         ]);
     }
+    #[Route('/course/{id}/toFavori', name: 'favori_course')]
+    public function addToFavoriCourse(ManagerRegistry $doctrine,Request $request, int $id): Response
+    {
+        $gamer= $doctrine->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
+        $course = $doctrine->getRepository(Cours::class)->find($id);
 
+        $gamersCourse = $doctrine->getRepository(UserCourses::class)->findOneBy([
+            'idGamer' => $gamer->getId(),
+            'idCours' => $course->getId(),
+        ]);
+        $em =$doctrine->getManager();
+        if ($gamersCourse) {
+            if ($gamersCourse->isAcheter()) {
+                $gamersCourse->setFavori(true);
+                    $em->flush();
+                // Le gamer a déjà ajouté le cours à sa liste de favoris
+                return $this->redirectToRoute('GamerCourses',[
+                    'enjoy'=>"enjoy ur new course :D !",
+                    'cours'=>$course
+                ]);
+            }
+
+            if ($gamersCourse->isFavori()) {
+                // Le gamer a déjà acheté le cours
+                return $this->redirectToRoute('GamerCourses',[
+                    'error' =>"le cours est deja au favori"
+                ]);
+            }
+        }else{
+            $gamersCourse = new UserCourses();
+            $gamersCourse->setIdGamer($gamer);
+            $gamersCourse->setIdCours($course);
+            $gamersCourse->setFavori(true);
+            $gamersCourse->setAcheter(false);
+                $em->persist($gamersCourse);
+                $em->flush();
+        }
+
+        return $this->redirectToRoute('GamerCourses',[
+            'enjoy'=>"course added to wishlist succesfuly :D !"
+        ]);
+    }
     #[Route('/course/{id}/userBuyC', name: 'buy_course')]
     public function buyCourse(ManagerRegistry $doctrine,Request $request, int $id): Response
     {
@@ -325,7 +344,7 @@ class CoachingController extends BaseController
         $prix = $course->getPrix();
         $gamerP= $gamer->getPoint();
         $em =$doctrine->getManager();
-        if ($gamersCourse) {
+        if ($gamersCourse){
             if ($gamersCourse->isFavori()) {
 
                 if($prix>$gamerP) return $this->redirectToRoute('GamerCourses',[
@@ -338,7 +357,7 @@ class CoachingController extends BaseController
                     $gamersCourse->setAcheter(true);
                     //updateCoach points
                     $newPoints = $course->getIdCoach()->getPoint()+$course->getPrix();
-                    $course->getIdCoach()->setPoints($newPoints);
+                    $course->getIdCoach()->setPoint($newPoints);
                     $em->flush();
                 }
 
