@@ -11,6 +11,7 @@ use App\Entity\UserCourses;
 use App\Form\AddCourseType;
 use App\Repository\CoursRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -126,13 +127,29 @@ class CoachingController extends BaseController
     }
 
     #[Route('/Course/Delete/{id}', name: 'suppC')]
-    public function supp(ManagerRegistry $doctrine , int $id): Response
+    public function supp(ManagerRegistry $doctrine , int $id,Filesystem $filesystem): Response
     {
         $course= $doctrine->getRepository(Cours::class)->find($id);
         $coachId= $course->getIdCoach()->getId();
+
+
+        // get the filename of the image associated with the course
+        $imageFileName = $course->getImage();
+        $vidFileName = $course->getVideo();
+
         $em = $doctrine->getManager();
         $em->remove($course);
         $em->flush();
+
+        // delete the image file from the filesystem
+        if ($imageFileName && $filesystem->exists($this->getParameter('img_directory').'/'.$imageFileName)) {
+            $filesystem->remove($this->getParameter('img_directory').'/'.$imageFileName);
+        }
+
+        // delete the image file from the filesystem
+        if ($vidFileName && $filesystem->exists($this->getParameter('vid_directory').'/'.$vidFileName)) {
+            $filesystem->remove($this->getParameter('vid_directory').'/'.$vidFileName);
+        }
 
         return $this->redirectToRoute('CoachCourses', [
             'id' => $coachId,
