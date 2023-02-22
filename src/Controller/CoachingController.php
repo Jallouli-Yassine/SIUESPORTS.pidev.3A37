@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use App\Form\UpdateCourseType;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Entity\Coach;
@@ -141,29 +142,74 @@ class CoachingController extends BaseController
     }
 
     #[Route('/Course/update/{id}', name: 'updateC')]
-    public function updateC(\Doctrine\Persistence\ManagerRegistry $doctrine,Request $request, int $id): Response
+    public function updateC(\Doctrine\Persistence\ManagerRegistry $doctrine, Request $request, int $id, SluggerInterface $slugger): Response
     {
-
         $course = $doctrine->getRepository(Cours::class)->find($id);
         $coachId = $course->getIdCoach()->getId();
-        $form =$this->createForm(AddCourseType::class,$course);
+        $form = $this->createForm(UpdateCourseType::class, $course);
         $form->handleRequest($request);
 
-        if($form->isSubmitted()&&$form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
+            // get the uploaded file
+            $photoC = $form->get('picture')->getData();
+            $videoC =  $form->get('videoC')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($photoC ) {
+                $originalImgName = pathinfo($photoC->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeImgname = $slugger->slug($originalImgName);
+                $newImgename = $safeImgname.'-'.uniqid().'.'.$photoC->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $photoC->move(
+                        $this->getParameter('img_directory'),
+                        $newImgename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $course->setImage($newImgename);
+            }
+            if($videoC)
+            {
+                $originalVidName = pathinfo($videoC->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeVidname = $slugger->slug($originalVidName);
+                $newVidename = $safeVidname.'-'.uniqid().'.'.$videoC->guessExtension();
+                // Move the file to the directory where brochures are stored
+                try {
+                    $videoC->move(
+                        $this->getParameter('vid_directory'),
+                        $newVidename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $course->setVideo($newVidename);
+
+            }
+
             $course->setEtat(0);
-            $em =$doctrine->getManager();
+            $em = $doctrine->getManager();
             $em->flush();
             return $this->redirectToRoute('CoachCourses', [
                 'id' => $coachId,
                 'etat' => 0,
-                'enjoy'=>"course updated succesfuly ! you must wait until the admin review and accept it !"
+                'enjoy' => "Course updated successfully! You must wait until the admin review and accept it!"
             ]);
         }
-        return $this->renderForm('Coaching/updateCourse.html.twig',[
-            'form'=>$form
+
+        return $this->renderForm('Coaching/updateCourse.html.twig', [
+            'form' => $form
         ]);
     }
+
+
 
     #[Route('/coach/{id}/courses/{etat}', name: 'CoachCourses')]
     public function showCoachCourses($id,int $etat, CoursRepository $courseRepository)
@@ -290,6 +336,9 @@ class CoachingController extends BaseController
                     $gamer->setPoint($gamerP-$prix);
                     $this->session->set('Gamer_point', $gamer->getPoint());
                     $gamersCourse->setAcheter(true);
+                    //updateCoach points
+                    $newPoints = $course->getIdCoach()->getPoint()+$course->getPrix();
+                    $course->getIdCoach()->setPoints($newPoints);
                     $em->flush();
                 }
 
@@ -316,6 +365,11 @@ class CoachingController extends BaseController
                 $gamersCourse->setIdGamer($gamer);
                 $gamersCourse->setIdCours($course);
                 $gamer->setPoint($gamerP-$prix);
+
+                //updateCoach points
+                $newPoints = $course->getIdCoach()->getPoint()+$course->getPrix();
+                $course->getIdCoach()->setPoint($newPoints);
+
                 $this->session->set('Gamer_point', $gamer->getPoint());
                 $gamersCourse->setFavori(false);
                 $gamersCourse->setAcheter(true);

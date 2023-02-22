@@ -46,6 +46,7 @@
                 </div>
                 <div class="edgtf-eh-item-inner">
                     {{ form_widget(form.description) }}
+                    {{ form_errors(form.description) }}
                 </div>
 
 
@@ -69,7 +70,7 @@
                     {{ form_widget(form.idJeux) }}
                     {{ form_errors(form.idJeux) }}
                 </div>
-                <div><button href="{{path('addC')}}" type="submit" class="edgtf-btn edgtf-btn-outline edgtf-btn-huge">modifier course</button></div>
+                <div><button type="submit" class="edgtf-btn edgtf-btn-outline edgtf-btn-huge">modifier course</button></div>
 
             </div>
         </div>

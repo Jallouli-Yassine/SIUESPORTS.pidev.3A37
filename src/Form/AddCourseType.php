@@ -14,8 +14,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Choice;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class AddCourseType extends AbstractType
 {
@@ -24,7 +27,10 @@ class AddCourseType extends AbstractType
         $builder
             ->add('titre',TextType::class,[
                 'constraints'=>[
-                    new Length(['min'=>3,'max'=>255]),
+                    new NotNull([
+                        'message' => 'Please select a title of the course',
+                    ]),
+                    new Length(['min'=>5,'max'=>255]),
                 ],
                 'required' => true,
                 'attr' => [
@@ -33,39 +39,70 @@ class AddCourseType extends AbstractType
             ])
             ->add('description',TextareaType::class,[
                 'constraints'=>[
-                    new Length(['min'=>5,'max'=>1000])
+                    new NotNull([
+                        'message' => 'Please select a description of the course',
+                    ]),
+                    new Length(['min'=>10,'max'=>1000])
                 ],
                 'required' => true,
                 'attr' => [
                     'placeholder' => 'Enter Course Description here',
-                    'class'=> 'edgtf-eh-item-inner',
                     'style' => 'color:white;height:150px;background-color:#22152c;width:100%;border: none;margin:0px 0px 10px;padding:24px 33px'
                 ],
             ])
-            ->add('picture',FileType::class, [
+            ->add('picture', FileType::class, [
                 'label' => 'image du cours',
                 'mapped' => false, //maneha maandi attribut esmo photo fl entity mte3na
-                'required' => false,
-                'attr'=>[
+                'required' => true,
+                'attr' => [
                     'placeholder' => 'Select a file',
                     'style' => 'color:white;height:65px;background-color:#22152c;width:100%;border: none;margin:0px 0px 10px;padding:24px 33px'
-
-                ]
+                ],
+                'constraints' => [
+                    new NotNull([
+                        'message' => 'Please select a picture to upload',
+                    ]),
+                    new Image([
+                        'maxSize' => '5M',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpg',
+                            'image/jpeg',
+                            'image/gif',
+                            'image/webp',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image file (PNG, JPEG, jpg, GIF or WEBP)',
+                    ]),
+                ],
             ])
-            ->add('videoC',FileType::class, [
+            ->add('videoC', FileType::class, [
                 'label' => 'video du cours',
                 'mapped' => false, //maneha maandi attribut esmo photo fl entity mte3na
-                'required' => false,
-                'attr'=>[
+                'required' => true,
+                'attr' => [
                     'style' => 'color:white;height:65px;background-color:#22152c;width:100%;border: none;margin:0px 0px 10px;padding:24px 33px'
-
-                ]
-
+                ],
+                'constraints' => [
+                    new NotNull([
+                        'message' => 'Please select a video to upload',
+                    ]),
+                    new File([
+                        'maxSize' => '100M',
+                        'mimeTypes' => [
+                            'video/mp4',
+                            'video/mpeg',
+                            'video/ogg',
+                            'video/webm',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid video file (MP4, MPEG, OGG or WEBM)',
+                    ]),
+                ],
             ])
-
-
             ->add('prix',IntegerType::class,[
                 'constraints'=>[
+                    new NotNull([
+                        'message' => 'Please select a price of the course',
+                    ]),
                     new GreaterThanOrEqual(['value'=>0, 'message' => 'Le prix doit être supérieur à 0']),
                 ],
                 'required' => true,
@@ -85,7 +122,6 @@ class AddCourseType extends AbstractType
                 ],
                 'required' => true,
                 'attr' => [
-                    'class'=> 'edgtf-eh-item-inner',
                     'style' => 'color:white;height:65px;background-color:#22152c;width:100%;border: none;margin:0px 0px 10px;padding:24px 33px'
                 ],
             ])
@@ -94,7 +130,6 @@ class AddCourseType extends AbstractType
                 'class' => Jeux::class,
                 'choice_label' => 'nom_game',
                 'attr' => [
-                    'class'=> 'edgtf-eh-item-inner',
                     'style' => 'color:white;height:65px;background-color:#22152c;width:100%;border: none;margin:0px 0px 10px;padding:24px 33px'
                 ],
             ])
