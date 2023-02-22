@@ -35,6 +35,7 @@ class AddCourseType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'placeholder' => 'Enter Course title here',
+                    'class' => 'form-control' // Add a class here
                 ],
             ])
             ->add('description',TextareaType::class,[

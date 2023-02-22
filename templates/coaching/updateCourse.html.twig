@@ -42,33 +42,47 @@
             <div style="margin-left: 21%" class="col-7">
                 <div>
                     {{ form_widget(form.titre) }}
+                    <div style="background-color: transparent;color: red" class="alert-danger">
                     {{ form_errors(form.titre) }}
+                    </div>
                 </div>
                 <div class="edgtf-eh-item-inner">
                     {{ form_widget(form.description) }}
+                    <div style="background-color: transparent;color: red" class="alert-danger">
                     {{ form_errors(form.description) }}
+                    </div>
                 </div>
 
 
                 <div class="edgtf-eh-item-inner">
                     image  {{ form_widget(form.picture) }}
+                    <div style="background-color: transparent;color: red" class="alert-danger">
                     {{ form_errors(form.picture) }}
+                    </div>
                 </div>
                 <div class="edgtf-eh-item-inner">
                     video      {{ form_widget(form.videoC) }}
+                    <div style="background-color: transparent;color: red" class="alert-danger">
                     {{ form_errors(form.videoC) }}
+                    </div>
                 </div>
                 <div class="edgtf-eh-item-inner">
-                    {{ form_widget(form.prix)}}
+                    {{ form_widget(form.prix) }}
+                    <div style="background-color: transparent;color: red" class="alert-danger">
                     {{ form_errors(form.prix) }}
+                    </div>
                 </div>
                 <div class="edgtf-eh-item-inner">
                     {{ form_widget(form.niveau) }}
+                    <div style="background-color: transparent;color: red" class="alert-danger">
                     {{ form_errors(form.niveau) }}
+                    </div>
                 </div>
                 <div class="edgtf-eh-item-inner">
                     {{ form_widget(form.idJeux) }}
+                    <div style="background-color: transparent;color: red" class="alert-danger">
                     {{ form_errors(form.idJeux) }}
+                    </div>
                 </div>
                 <div><button type="submit" class="edgtf-btn edgtf-btn-outline edgtf-btn-huge">modifier course</button></div>
 

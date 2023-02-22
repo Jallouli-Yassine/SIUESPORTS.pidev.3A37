@@ -17,6 +17,9 @@
                 <tr>
                     <th>image</th>
                     <th>Nom</th>
+                    <th>Coach name</th>
+                    <th>game of course</th>
+                    <th>Niveau</th>
                     <th>Description</th>
                     <th>Prix</th>
                     <th>Actions</th>
@@ -28,6 +31,9 @@
                     <tr>
                         <td> <img class="img bl-3 text-primary" src="{{asset('uploads/pictureCourses/'~c.image)}}" alt="Games Store"></td>
                         <td>{{ c.titre }}</td>
+                        <td>{{ c.getIdCoach.nom }}</td>
+                        <td>{{ c.getIdJeux.nomGame }}</td>
+                        <td>{{ c.niveau }}</td>
                         <td style="white-space: pre-wrap;">{{ c.description }}</td>
                         <td>{{ c.prix }} <img src="{{ asset('back_office/piece-de-kamel.png') }}" alt="coin" style="width: 16px; height: 16px;"></td>
                         <td>
@@ -53,7 +59,10 @@
                 <thead>
                 <tr>
                     <th>image</th>
-                    <th>Nom</th>
+                    <th>Titre</th>
+                    <th>Coach name</th>
+                    <th>game of course</th>
+                    <th>Niveau</th>
                     <th>Description</th>
                     <th>Prix</th>
                     <th>consulter video</th>
@@ -65,6 +74,9 @@
                     <tr>
                         <td> <img class="img bl-3 text-primary" src="{{asset('uploads/pictureCourses/'~c.image)}}" alt="Games Store"></td>
                         <td>{{ c.titre }}</td>
+                        <td>{{ c.getIdCoach.nom }}</td>
+                        <td>{{ c.getIdJeux.nomGame }}</td>
+                        <td>{{ c.niveau }}</td>
                         <td style="white-space: pre-wrap;">{{ c.description }}</td>
                         <td>{{ c.prix }} <img src="{{ asset('back_office/piece-de-kamel.png') }}" alt="coin" style="width: 16px; height: 16px;"></td>
                         <td>
@@ -87,6 +99,9 @@
                 <tr>
                     <th>image</th>
                     <th>Nom</th>
+                    <th>Coach name</th>
+                    <th>game of course</th>
+                    <th>Niveau</th>
                     <th>Description</th>
                     <th>Prix</th>
                 </tr>
@@ -97,6 +112,9 @@
                         <tr>
                             <td> <img class="img bl-3 text-primary" src="{{asset('uploads/pictureCourses/'~c.image)}}" alt="Games Store"></td>
                             <td>{{ c.titre }}</td>
+                            <td>{{ c.getIdCoach.nom }}</td>
+                            <td>{{ c.getIdJeux.nomGame }}</td>
+                            <td>{{ c.niveau }}</td>
                             <td style="white-space: pre-wrap;">{{ c.description }}</td>
                             <td>{{ c.prix }} <img src="{{ asset('back_office/piece-de-kamel.png') }}" alt="coin" style="width: 16px; height: 16px;"></td>
                         </tr>

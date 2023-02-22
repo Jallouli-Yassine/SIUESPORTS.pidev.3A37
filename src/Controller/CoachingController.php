@@ -71,7 +71,6 @@ class CoachingController extends BaseController
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid())
         {
-
 // get the uploaded file
             $photoC = $form->get('picture')->getData();
             $videoC =  $form->get('videoC')->getData();

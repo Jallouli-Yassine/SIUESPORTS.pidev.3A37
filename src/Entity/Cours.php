@@ -135,7 +135,6 @@ class Cours
     public function setIdCoach(?Coach $idCoach): self
     {
         $this->idCoach = $idCoach;
-
         return $this;
     }
 

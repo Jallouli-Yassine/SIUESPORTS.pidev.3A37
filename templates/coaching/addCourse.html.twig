@@ -17,6 +17,14 @@
         ::placeholder {
             color: #FFFFFF!important;
         }
+        /* Style error messages */
+        .has-error .form-control {
+            border-color: #a94442; /* Change border color to red */
+        }
+        .has-error .help-block {
+            color: #a94442; /* Change text color to red */
+        }
+
     </style>
 {% endblock %}
 
@@ -42,35 +50,52 @@
                 <div style="margin-left: 21%" class="col-7">
                     <div>
                         {{ form_widget(form.titre) }}
-                        {{ form_errors(form.titre) }}
+                        <div style="background-color: transparent;color: red" class="alert-danger">
+                            {{ form_errors(form.titre) }}
+                        </div>
+
                     </div>
                     <div class="edgtf-eh-item-inner">
                         {{ form_widget(form.description) }}
-                        {{ form_errors(form.description) }}
+                        <div style="background-color: transparent;color: red" class="alert-danger">
+                            {{ form_errors(form.description) }}
+                        </div>
                     </div>
 
 
                     <div class="edgtf-eh-item-inner">
                         {{  form_label(form.picture) }}
                         {{ form_widget(form.picture) }}
-                        {{ form_errors(form.picture) }}
+                        <div style="background-color: transparent;color: red" class="alert-danger">
+                            {{ form_errors(form.picture) }}
+                        </div>
                     </div>
                     <div class="edgtf-eh-item-inner">
                         {{  form_label(form.videoC) }}
                         {{ form_widget(form.videoC) }}
-                        {{ form_errors(form.videoC) }}
+                        <div style="background-color: transparent;color: red" class="alert-danger">
+                            {{ form_errors(form.videoC) }}
+                        </div>
                     </div>
                     <div class="edgtf-eh-item-inner">
                         {{ form_widget(form.prix)}}
+                        <div style="background-color: transparent;color: red" class="alert-danger">
+
                         {{ form_errors(form.prix) }}
+                    </div>
                     </div>
                     <div class="edgtf-eh-item-inner">
                         {{ form_widget(form.niveau) }}
+                        <div style="background-color: transparent;color: red" class="alert-danger">
                         {{ form_errors(form.niveau) }}
+                        </div>
+
                     </div>
                     <div class="edgtf-eh-item-inner">
                         {{ form_widget(form.idJeux) }}
+                        <div style="background-color: transparent;color: red" class="alert-danger">
                         {{ form_errors(form.idJeux) }}
+                        </div>
                     </div>
                     <div><button href="{{path('addC')}}" type="submit" class="edgtf-btn edgtf-btn-outline edgtf-btn-huge">add course</button></div>
 

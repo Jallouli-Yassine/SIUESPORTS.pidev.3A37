@@ -51,29 +51,66 @@
                                 <!--Carousel Wrapper-->
                                 <div class="carousel-product">
                                     <div class="slider text-secondary" data-slick="product-body">
-                                        <img style="height: 500px" class="img bl-3 text-primary" src="{{asset('uploads/pictureCourses/'~course.image)}}" alt="Games Store">
+
+                                        {% if app.session.has('Gamer_id') %}
+                                            {% if isBuyed != false %}
+                                                <video id="video" width="100%" height="100%" controls muted>
+                                                    <source src="{{ asset('./uploads/videoCourses/'~course.video) }}" type="video/mp4">
+                                                </video>
+                                            {% else %}
+                                                <video id="video" width="100%" height="100%" controls muted>
+                                                    <source src="{{ asset('./uploads/videoCourses/'~course.video) }}" type="video/mp4">
+                                                </video>
+                                                <script>
+                                                    const video = document.getElementById("video");
+                                                    video.addEventListener("play", function(e) {
+                                                        video.src = "";
+                                                        alert("You must purchase this Course before you can play the video.");
+                                                    });
+                                                </script>
+                                            {% endif %}
+                                        {% endif %}
+
+
+                                        {% if app.session.has('Coach_id') %}
+                                            {% if isOwner %}
+                                                <video id="video" width="100%" height="100%" controls muted>
+                                                    <source src="{{ asset('./uploads/videoCourses/'~course.video) }}" type="video/mp4">
+                                                </video>
+                                            {% else %}
+                                                <video id="video" width="100%" height="100%" controls muted>
+                                                    <source src="{{ asset('./uploads/videoCourses/'~course.video) }}" type="video/mp4">
+                                                </video>
+                                                <script>
+                                                    const video = document.getElementById("video");
+                                                    video.addEventListener("play", function(e) {
+                                                        video.src = "";
+                                                        alert("this is not your course to see the video !");
+                                                    });
+                                                </script>
+                                            {% endif %}
+                                        {% endif %}
 
                                     </div>
                                 </div>
-                                <!--/.Carousel Wrapper-->
+                                <!--
 
-                                <div class="alert alert-no-border alert-share d-flex mb-6" role="alert">
-                                    <span class="flex-1 fw-600 text-uppercase text-warning">Share:</span>
-                                    <div class="social-buttons text-unset">
-                                        <a class="social-twitter mx-2" href="#"><i class="fab fa-twitter"></i></a>
-                                        <a class="social-dribbble mx-2" href="#"><i class="fab fa-dribbble"></i></a>
-                                        <a class="social-instagram ml-2" href="#"><i class="fab fa-instagram"></i></a>
-                                    </div>
-                                </div>
-                                <div id="about" class="about mb-8">
-                                  <p>{{ course.description }}</p>
-                                    <hr class="border-secondary my-2">
-                                    <div>
-                                        <div class="" id="collapseSummary">
+                                -->
 
-                                        </div>
-                                    </div>
+                                <div class="alert alert-no-border alert-share mb-6" role="alert">
+                                    <span class="fw-600 text-uppercase text-warning">DESCRIPTION OF this COURSE:</span>
+                                    <h6 class="ml-3">{{ course.description }}</h6>
+                                          <br>
+                                    <span class="fw-600 text-uppercase text-warning">niveau Courses : </span>
+                                    <h6 class="ml-3">{{ course.niveau }}</h6>
+                                        <br>
+                                    <span class="fw-600 text-uppercase text-warning">game of this course:</span>
+                                    <h1 class="ml-3">{{ course.getIdJeux.nomGame }}</h1>
+
+
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
@@ -81,56 +118,18 @@
                 <div class="col-lg-4">
                     <div class="bg-dark_A-20 p-4 mb-4">
 
-                        {% if app.session.has('Gamer_id') %}
-                            {% if isBuyed != false %}
-                                <video id="video" width="320" height="240" controls muted>
-                                    <source src="{{ asset('./uploads/videoCourses/'~course.video) }}" type="video/mp4">
-                                </video>
-                            {% else %}
-                                <video id="video" width="320" height="240" controls muted>
-                                    <source src="{{ asset('./uploads/videoCourses/'~course.video) }}" type="video/mp4">
-                                </video>
-                                <script>
-                                    const video = document.getElementById("video");
-                                    video.addEventListener("play", function(e) {
-                                        video.src = "";
-                                        alert("You must purchase this Course before you can play the video.");
-                                    });
-                                </script>
-                            {% endif %}
-                        {% endif %}
+                        <img style="width: 100%;height: 300px" class="img bl-3 text-primary" src="{{asset('uploads/pictureCourses/'~course.image)}}" alt="Games Store">
 
-
-                        {% if app.session.has('Coach_id') %}
-                            {% if isOwner %}
-                                <video id="video" width="320" height="240" controls muted>
-                                    <source src="{{ asset('./uploads/videoCourses/'~course.video) }}" type="video/mp4">
-                                </video>
-                            {% else %}
-                                <video id="video" width="320" height="240" controls muted>
-                                    <source src="{{ asset('./uploads/videoCourses/'~course.video) }}" type="video/mp4">
-                                </video>
-                                <script>
-                                    const video = document.getElementById("video");
-                                    video.addEventListener("play", function(e) {
-                                        video.src = "";
-                                        alert("this is not your course to see the video !");
-                                    });
-                                </script>
-                            {% endif %}
-                        {% endif %}
-
-
-
-                        <h6 class="mb-4 fw-400 ls-1 text-uppercase">niveau Courses : {{   course.niveau }}</h6>
 
                         <div class="price-wrapper">
                             <div class="mb-3">
                                 <div class="price">
                                    <!-- <div class="price-prev">300$</div> -->
                                     {% if course.prix>0 %}
-                                    <div class="price-current">{{ course.prix }}  <img src="{{ asset('back_office/piece-de-kamel.png') }}" alt="coin" style="width: 25px; height: 25px; margin-bottom: 3px"></div>
-
+                                        <br>
+                             <center>
+                                 <div class="price-current">Prix  : {{ course.prix }}  <img src="{{ asset('back_office/piece-de-kamel.png') }}" alt="coin" style="width: 25px; height: 25px; margin-bottom: 3px"></div>
+                             </center>
                                     {% else %}
                                     <div class="price-current">free</div>
                                     {% endif %}
@@ -143,11 +142,10 @@
 
                             </div>
                             {% if app.session.has('Gamer_id') %}
-                            <div class="price-box mb-4">
+                            <div class="mb-4">
                                 {% if isBuyed is defined and isBuyed %}
-                                <center>
-                                    <div class="alert alert-info"><span style="color: black!important;" class="flex-1 fw-600 text-uppercase text-warning">already Owned</span> </div>
-                                </center>
+                                    <div class="flex-1"><a class="btn btn-block btn-success"><i class="mr-1 fas fa-shopping-bag"></i>ALREADY OWNED</a></div>
+
                                 {% else %}
 
                                 <div class="flex-1"><a href="{{ path('buy_course', {'id': course.id}) }}" class="btn btn-block btn-warning"><i class="fas fa-shopping-cart"></i>purshase</a></div>
