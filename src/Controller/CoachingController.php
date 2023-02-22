@@ -159,12 +159,15 @@ class CoachingController extends BaseController
     }
 
     #[Route('/Course/update/{id}', name: 'updateC')]
-    public function updateC(\Doctrine\Persistence\ManagerRegistry $doctrine, Request $request, int $id, SluggerInterface $slugger): Response
+    public function updateC(\Doctrine\Persistence\ManagerRegistry $doctrine,  Filesystem $filesystem,Request $request, int $id, SluggerInterface $slugger): Response
     {
         $course = $doctrine->getRepository(Cours::class)->find($id);
         $coachId = $course->getIdCoach()->getId();
         $form = $this->createForm(UpdateCourseType::class, $course);
         $form->handleRequest($request);
+
+        $imageFileName = $course->getImage();
+        $vidFileName = $course->getVideo();
 
         if ($form->isSubmitted() && $form->isValid()) {
             // get the uploaded file
@@ -174,6 +177,10 @@ class CoachingController extends BaseController
             // this condition is needed because the 'brochure' field is not required
             // so the PDF file must be processed only when a file is uploaded
             if ($photoC ) {
+                // delete the image file from the filesystem
+                if ($imageFileName && $filesystem->exists($this->getParameter('img_directory').'/'.$imageFileName)) {
+                    $filesystem->remove($this->getParameter('img_directory').'/'.$imageFileName);
+                }
                 $originalImgName = pathinfo($photoC->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeImgname = $slugger->slug($originalImgName);
@@ -195,6 +202,9 @@ class CoachingController extends BaseController
             }
             if($videoC)
             {
+                if ($vidFileName && $filesystem->exists($this->getParameter('vid_directory').'/'.$vidFileName)) {
+                    $filesystem->remove($this->getParameter('vid_directory').'/'.$vidFileName);
+                }
                 $originalVidName = pathinfo($videoC->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeVidname = $slugger->slug($originalVidName);
                 $newVidename = $safeVidname.'-'.uniqid().'.'.$videoC->guessExtension();
