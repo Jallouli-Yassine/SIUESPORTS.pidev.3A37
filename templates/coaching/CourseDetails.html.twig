@@ -81,18 +81,29 @@
                 <div class="col-lg-4">
                     <div class="bg-dark_A-20 p-4 mb-4">
 
-                        <video id="video" width="320" height="240" controls muted>
-                            <source src="{{ asset('./uploads/videoCourses/'~course.video) }}" type="video/mp4">
-                        </video>
-                        {% if course.prix>0 %}
-                        <script>
-                            const video = document.getElementById("video");
-                            video.addEventListener("play", function(e) {
-                                video.src = "";
-                                alert("You must purchase this Course before you can play the video.");
-                            });
-                        </script>
+                        {% if app.session.has('Gamer_id') %}
+                            {% if isBuyed != false %}
+                                <video id="video" width="320" height="240" controls muted>
+                                    <source src="{{ asset('./uploads/videoCourses/'~course.video) }}" type="video/mp4">
+                                </video>
+                            {% else %}
+                                <video id="video" width="320" height="240" controls muted>
+                                    <source src="{{ asset('./uploads/videoCourses/'~course.video) }}" type="video/mp4">
+                                </video>
+                                <script>
+                                    const video = document.getElementById("video");
+                                    video.addEventListener("play", function(e) {
+                                        video.src = "";
+                                        alert("You must purchase this Course before you can play the video.");
+                                    });
+                                </script>
+                            {% endif %}
                         {% endif %}
+
+
+
+
+
                         <h6 class="mb-4 fw-400 ls-1 text-uppercase">niveau Courses : {{   course.niveau }}</h6>
 
                         <div class="price-wrapper">
@@ -113,15 +124,19 @@
                                  -->
 
                             </div>
+                            {% if app.session.has('Gamer_id') %}
                             <div class="price-box mb-4">
                                 {% if isBuyed is defined and isBuyed %}
                                 <center>
                                     <div class="alert alert-info"><span style="color: black!important;" class="flex-1 fw-600 text-uppercase text-warning">already Owned</span> </div>
                                 </center>
                                 {% else %}
+
                                 <div class="flex-1"><a href="{{ path('buy_course', {'id': course.id}) }}" class="btn btn-block btn-warning"><i class="fas fa-shopping-cart"></i>purshase</a></div>
                             {% endif %}
+
                             </div>
+
                         </div>
                         <div>
 
@@ -140,7 +155,7 @@
     {% endif %}
 
 </center>
-
+                            {% endif %}
 
 
                         </div>

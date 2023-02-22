@@ -255,17 +255,16 @@ class CoachingController extends BaseController
     public function oneCourse(int $id, ManagerRegistry $doctrine ,Request $request,CoursRepository $coursRepository)
     {
         $gamer= $this->managerRegistry->getRepository(Gamer::class)->findOneBy((['id' => $request->getSession()->get('Gamer_id')]));
-
         $em =$doctrine->getManager();
         $course = $doctrine->getRepository(Cours::class)->find($id);
 
         $isFavorite = $em->getRepository(UserCourses::class)->findOneBy(['idGamer' => $gamer, 'idCours' => $course, 'favori' => true]);
         $isBuyed = $em->getRepository(UserCourses::class)->findOneBy(['idGamer' => $gamer, 'idCours' => $course, 'acheter' => true]);
-
+        if(!$isBuyed) $isBuyed = false;
         return $this->render('coaching/CourseDetails.html.twig', [
             'course' => $course,
             'isFavorite'=>$isFavorite,
-            'isBuyed'=>$isBuyed
+            'isBuyed'=>$isBuyed,
         ]);
     }
 
