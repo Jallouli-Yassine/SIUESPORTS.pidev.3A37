@@ -101,6 +101,24 @@
                         {% endif %}
 
 
+                        {% if app.session.has('Coach_id') %}
+                            {% if isOwner %}
+                                <video id="video" width="320" height="240" controls muted>
+                                    <source src="{{ asset('./uploads/videoCourses/'~course.video) }}" type="video/mp4">
+                                </video>
+                            {% else %}
+                                <video id="video" width="320" height="240" controls muted>
+                                    <source src="{{ asset('./uploads/videoCourses/'~course.video) }}" type="video/mp4">
+                                </video>
+                                <script>
+                                    const video = document.getElementById("video");
+                                    video.addEventListener("play", function(e) {
+                                        video.src = "";
+                                        alert("this is not your course to see the video !");
+                                    });
+                                </script>
+                            {% endif %}
+                        {% endif %}
 
 
 
